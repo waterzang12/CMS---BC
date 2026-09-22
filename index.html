@@ -2,10 +2,10 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>泊川科技 CMS 运营中台 - 官方控制台</title>
   <style>
-    /* ================= 参考图纯白轻盈设计系统 ================= */
+    /* ================= 参考图纯白轻盈与跨端响应式设计系统 ================= */
     :root {
       --bg-body: #f6f8fb;
       --sidebar-bg: #ffffff;
@@ -24,17 +24,21 @@
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
       background: var(--bg-body);
       color: var(--text-main);
       display: flex;
       height: 100vh;
+      width: 100vw;
       overflow: hidden;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
     a, button { cursor: pointer; user-select: none; }
+    input, select, textarea { font-family: inherit; font-size: 13px; color: var(--text-title); }
     
     ::placeholder {
       color: var(--text-placeholder) !important;
@@ -46,7 +50,7 @@
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* 1. 左侧纯白极简侧边栏 */
+    /* 1. 左侧纯白极简侧边栏 (支持移动端抽屉自适应) */
     #sidebar {
       width: 220px;
       background: var(--sidebar-bg);
@@ -55,6 +59,8 @@
       flex-direction: column;
       flex-shrink: 0;
       padding: 24px 16px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      z-index: 100;
     }
 
     .brand-box {
@@ -73,6 +79,7 @@
       align-items: center;
       justify-content: center;
       position: relative;
+      flex-shrink: 0;
     }
     .brand-dot-logo::after {
       content: "";
@@ -86,11 +93,13 @@
       font-weight: 700;
       color: var(--text-title);
       letter-spacing: 0.2px;
+      line-height: 1.2;
     }
     .brand-sub {
       font-size: 10px;
       color: var(--text-placeholder);
-      margin-top: 1px;
+      margin-top: 2px;
+      line-height: 1;
     }
 
     .menu-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
@@ -132,6 +141,20 @@
       stroke-width: 1.8;
       stroke: currentColor;
       fill: none;
+      flex-shrink: 0;
+    }
+
+    /* 移动端侧边栏遮罩 */
+    .sidebar-mask {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.4);
+      z-index: 99;
+      backdrop-filter: blur(2px);
     }
 
     /* 2. 右侧主体视口 */
@@ -149,12 +172,26 @@
       align-items: center;
       justify-content: space-between;
       margin-bottom: 24px;
+      flex-shrink: 0;
     }
     .title-flex {
       display: flex;
       align-items: center;
       gap: 12px;
     }
+    .btn-mobile-menu {
+      display: none;
+      width: 36px;
+      height: 36px;
+      background: #ffffff;
+      border: 1px solid var(--border-control);
+      border-radius: 8px;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+    }
+    .btn-mobile-menu svg { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; }
+
     .title-icon-box {
       width: 36px;
       height: 36px;
@@ -164,12 +201,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
     .title-icon-box svg { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; }
     .main-page-title {
       font-size: 20px;
       font-weight: 700;
       color: var(--text-title);
+      letter-spacing: -0.2px;
     }
     .version-tag {
       background: #eff6ff;
@@ -180,7 +219,7 @@
       border-radius: 12px;
     }
 
-    /* 3. 卡片系统与全局统一头部规范 */
+    /* 3. 卡片系统与自适应规范 */
     .card-panel {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -190,28 +229,42 @@
       margin-bottom: 20px;
     }
 
-    /* 全局统一卡片头部布局规范 */
     .card-header-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 20px;
+      gap: 16px;
+    }
+    .card-header-title-box {
+      flex: 1;
+      min-width: 0;
+    }
+    .card-header-actions {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      white-space: nowrap;
     }
     .card-header-title {
       font-size: 15px;
       font-weight: 700;
       color: var(--text-title);
+      line-height: 1.4;
     }
     .card-header-desc {
       font-size: 12px;
       color: var(--text-label);
-      margin-top: 2px;
+      margin-top: 3px;
+      line-height: 1.5;
     }
 
     .welcome-card { padding: 22px 28px; }
     .welcome-title { font-size: 16px; font-weight: 700; color: var(--text-title); margin-bottom: 4px; }
     .welcome-desc { font-size: 12px; color: var(--text-label); }
 
+    /* 自适应指标网格 */
     .metric-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -244,6 +297,7 @@
     .metric-name { font-size: 14px; font-weight: 700; color: var(--text-title); }
     .metric-subtitle { font-size: 11px; color: var(--text-label); margin-top: 3px; }
 
+    /* 自适应快捷操作卡片 */
     .quick-actions-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -285,6 +339,8 @@
       border-bottom: 1px solid var(--border-control);
       padding-bottom: 12px;
       margin-bottom: 20px;
+      overflow-x: auto;
+      white-space: nowrap;
     }
     .tab-btn {
       font-size: 14px;
@@ -296,6 +352,7 @@
       padding-bottom: 12px;
       margin-bottom: -13px;
       transition: color 0.15s;
+      flex-shrink: 0;
     }
     .tab-btn:hover { color: var(--primary-blue); }
     .tab-btn.active { color: var(--primary-navy); font-weight: 700; }
@@ -323,6 +380,7 @@
       border: 1px solid transparent;
       transition: all 0.12s ease;
       white-space: nowrap;
+      flex-shrink: 0;
     }
     .btn:active { transform: scale(0.98); }
     
@@ -405,16 +463,23 @@
       align-items: center;
       justify-content: flex-end;
       gap: 6px;
+      white-space: nowrap;
     }
 
-    /* 5. 表格排版 */
-    table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
+    /* 5. 响应式表格保护容器 */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; min-width: 600px; }
     th {
       color: var(--text-label);
       padding: 14px 16px;
       font-weight: 600;
       font-size: 12px;
       border-bottom: 1px solid var(--border-control);
+      white-space: nowrap;
     }
     td {
       padding: 14px 16px;
@@ -441,6 +506,7 @@
       font-weight: 600;
       padding: 3px 9px;
       border-radius: 12px;
+      white-space: nowrap;
     }
     .status-capsule.orange { background: #fff7ed; color: #c2410c; }
     .status-capsule.blue { background: #eff6ff; color: #1d4ed8; }
@@ -451,6 +517,7 @@
       display: inline-block;
       width: 32px;
       height: 18px;
+      flex-shrink: 0;
     }
     .switch-ui input { opacity: 0; width: 0; height: 0; }
     .switch-slider {
@@ -484,6 +551,8 @@
       border-bottom: 1px solid #f8fafc;
       padding-bottom: 10px;
       margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
     }
     .widget-bar-title {
       font-size: 13px;
@@ -520,6 +589,7 @@
       align-items: center;
       justify-content: center;
       z-index: 1000;
+      padding: 16px;
     }
     .modal-mask.open { display: flex; }
     .modal-panel {
@@ -588,18 +658,19 @@
       height: 54px;
       background: #ffffff;
       border-bottom: 1px solid var(--border-control);
-      padding: 0 24px;
+      padding: 0 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-shrink: 0;
       z-index: 10;
+      gap: 12px;
     }
     .preview-viewport-box {
       flex: 1;
       background: #f1f5f9;
       overflow-y: auto;
-      padding: 24px;
+      padding: 20px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
@@ -631,9 +702,78 @@
       overflow-y: auto;
       flex: 1;
     }
+
+    /* ================= 6. 响应式与全端自适应断点（核心修复） ================= */
+    @media (max-width: 1200px) {
+      .metric-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .quick-actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 992px) {
+      #sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      #sidebar.drawer-open {
+        transform: translateX(0);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      }
+      .sidebar-mask.show {
+        display: block;
+      }
+      .btn-mobile-menu {
+        display: inline-flex;
+      }
+      #main-content {
+        padding: 16px 18px;
+      }
+      .card-panel {
+        padding: 18px;
+      }
+      /* 表单引擎由左右分栏转为上下自适应 */
+      .schema-grid-container {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .metric-row {
+        grid-template-columns: 1fr;
+      }
+      .quick-actions-grid {
+        grid-template-columns: 1fr;
+      }
+      .card-header-bar {
+        flex-direction: column;
+        align-items: flex-start !important;
+      }
+      .card-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+      .modal-panel {
+        padding: 20px;
+      }
+      .preview-modal-bar {
+        flex-direction: column;
+        height: auto;
+        padding: 12px;
+      }
+    }
   </style>
 </head>
 <body>
+
+  <!-- 移动端侧边栏遮罩 -->
+  <div class="sidebar-mask" id="sidebar-mask" onclick="toggleMobileSidebar(false)"></div>
 
   <!-- ================= 1. 侧边栏 ================= -->
   <aside id="sidebar">
@@ -722,6 +862,11 @@
     <!-- 顶部状态栏 -->
     <div class="top-header">
       <div class="title-flex">
+        <!-- 移动端汉堡包菜单切换按钮 -->
+        <button class="btn-mobile-menu" onclick="toggleMobileSidebar(true)">
+          <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+
         <div class="title-icon-box" id="header-icon-box">
           <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
         </div>
@@ -825,29 +970,33 @@
     <section id="panel-navigations" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">网页主导航设置</div>
             <div class="card-header-desc">配置前台菜单、绑定多组件装修页面与显示开关</div>
           </div>
-          <button class="btn btn-blue" onclick="openNavModal()">+ 添加导航</button>
+          <div class="card-header-actions">
+            <button class="btn btn-blue" onclick="openNavModal()">+ 添加导航</button>
+          </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th style="width:70px;">排序</th>
-              <th>导航名称</th>
-              <th>路由地址 (Path)</th>
-              <th>类型</th>
-              <th>关联独立装修页</th>
-              <th style="width:100px;">官网展示</th>
-              <th style="text-align:right; width:220px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="nav-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:70px;">排序</th>
+                <th>导航名称</th>
+                <th>路由地址 (Path)</th>
+                <th>类型</th>
+                <th>关联独立装修页</th>
+                <th style="width:100px;">官网展示</th>
+                <th style="text-align:right; width:220px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="nav-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -855,11 +1004,11 @@
     <section id="panel-page-builder" class="view-panel" style="display:none;">
       <div id="builder-subview-list" class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">官网独立装修页面管理</div>
             <div class="card-header-desc">支持单页面独立预览与前台整站全局联动预览</div>
           </div>
-          <div style="display:flex; gap:10px;">
+          <div class="card-header-actions">
             <button class="btn btn-light" onclick="openGlobalSitePreview()">
               <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
               全局整站预览
@@ -868,24 +1017,26 @@
           </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>页面名称</th>
-              <th>页面标识 Key (路由依据)</th>
-              <th>已挂载积木组件</th>
-              <th>更新日期</th>
-              <th style="text-align:right; width:240px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="page-list-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>页面名称</th>
+                <th>页面标识 Key (路由依据)</th>
+                <th>已挂载积木组件</th>
+                <th>更新日期</th>
+                <th style="text-align:right; width:240px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="page-list-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div id="builder-subview-editor" style="display:none;">
-        <div class="card-panel" style="display:flex; justify-content:space-between; align-items:center; padding:18px 24px;">
+        <div class="card-panel" style="display:flex; justify-content:space-between; align-items:center; padding:18px 24px; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap:16px;">
             <button class="btn btn-light btn-sm" onclick="exitPageEditor()">
               <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
@@ -906,11 +1057,11 @@
 
         <div class="card-panel">
           <div class="card-header-bar">
-            <div>
+            <div class="card-header-title-box">
               <div class="card-header-title">组件堆叠管理</div>
               <div class="card-header-desc">支持自由增删 Banner (图片/视频)、文字介绍、图文展示并调整展示排序</div>
             </div>
-            <div style="display:flex; gap:8px;">
+            <div class="card-header-actions">
               <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
               <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('text')">+ 添加 文字组件</button>
               <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('image_text')">+ 添加 图文展示</button>
@@ -928,28 +1079,32 @@
     <section id="panel-articles" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">企业资讯与官方公告</div>
             <div class="card-header-desc">支持图文编辑、外链文章跳转与置顶</div>
           </div>
-          <button class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
+          <div class="card-header-actions">
+            <button class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
+          </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th style="width:90px;">封面</th>
-              <th>标题</th>
-              <th>分类</th>
-              <th>状态</th>
-              <th>发布时间</th>
-              <th style="text-align:right; width:140px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="article-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:90px;">封面</th>
+                <th>标题</th>
+                <th>分类</th>
+                <th>状态</th>
+                <th>发布时间</th>
+                <th style="text-align:right; width:140px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="article-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -957,11 +1112,13 @@
     <section id="panel-media-library" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">素材资源库管理</div>
             <div class="card-header-desc">统一管理官网图片与 MP4 视频资源，避免重复上传</div>
           </div>
-          <button class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
+          <div class="card-header-actions">
+            <button class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
+          </div>
         </div>
 
         <div id="media-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:16px;">
@@ -974,28 +1131,30 @@
     <section id="panel-audits" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">内容合规审核中心</div>
             <div class="card-header-desc">草稿 → 待审核 → 已发布 / 已驳回，全流程操作留痕</div>
           </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>审核单号</th>
-              <th>待审内容标题</th>
-              <th>所属模块</th>
-              <th>提审人</th>
-              <th>当前状态</th>
-              <th>驳回原因说明</th>
-              <th style="text-align:right; width:160px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="audit-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>审核单号</th>
+                <th>待审内容标题</th>
+                <th>所属模块</th>
+                <th>提审人</th>
+                <th>当前状态</th>
+                <th>驳回原因说明</th>
+                <th style="text-align:right; width:160px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="audit-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -1008,22 +1167,24 @@
           <button class="tab-btn">已签约</button>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>申请企业 / 统一信用代码</th>
-              <th>联系人 / 手机</th>
-              <th>意向区域</th>
-              <th>合作诉求</th>
-              <th>状态</th>
-              <th>对接跟进备注</th>
-              <th style="text-align:right; width:100px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="partner-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>申请企业 / 统一信用代码</th>
+                <th>联系人 / 手机</th>
+                <th>意向区域</th>
+                <th>合作诉求</th>
+                <th>状态</th>
+                <th>对接跟进备注</th>
+                <th style="text-align:right; width:100px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="partner-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -1036,22 +1197,24 @@
           <button class="tab-btn">审核通过</button>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>供应企业 / 统一代码</th>
-              <th>法人与对接人</th>
-              <th>供应品类</th>
-              <th>供应能力说明</th>
-              <th>状态</th>
-              <th>对接备注</th>
-              <th style="text-align:right; width:100px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="supplier-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>供应企业 / 统一代码</th>
+                <th>法人与对接人</th>
+                <th>供应品类</th>
+                <th>供应能力说明</th>
+                <th>状态</th>
+                <th>对接备注</th>
+                <th style="text-align:right; width:100px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="supplier-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -1063,27 +1226,32 @@
             <button class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
             <button class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
           </div>
-          <button class="btn btn-blue" onclick="openFieldModal()">+ 新增收集字段</button>
+          <div class="card-header-actions">
+            <button class="btn btn-blue" onclick="openFieldModal()">+ 新增收集字段</button>
+          </div>
         </div>
 
-        <div style="display:grid; grid-template-columns: 7fr 5fr; gap:24px;">
+        <!-- 响应式断点容器 -->
+        <div class="schema-grid-container" style="display:grid; grid-template-columns: 7fr 5fr; gap:24px;">
           <div>
-            <table>
-              <thead>
-                <tr>
-                  <th style="width:72px;">调序</th>
-                  <th>字段名称</th>
-                  <th>字段 Key</th>
-                  <th>控件类型</th>
-                  <th style="width:75px; text-align:center;">必填</th>
-                  <th style="width:75px; text-align:center;">状态</th>
-                  <th style="text-align:right; width:140px;">操作</th>
-                </tr>
-              </thead>
-              <tbody id="field-tbody">
-                <!-- 动态渲染 -->
-              </tbody>
-            </table>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:72px;">调序</th>
+                    <th>字段名称</th>
+                    <th>字段 Key</th>
+                    <th>控件类型</th>
+                    <th style="width:75px; text-align:center;">必填</th>
+                    <th style="width:75px; text-align:center;">状态</th>
+                    <th style="text-align:right; width:140px;">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="field-tbody">
+                  <!-- 动态渲染 -->
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div style="background:#f8fafc; border:1px solid var(--border-control); border-radius:var(--radius-lg); padding:20px;">
@@ -1104,42 +1272,47 @@
     <section id="panel-feedback" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">在线留言与咨询互动</div>
             <div class="card-header-desc">接收官网访客留言与预约信息</div>
           </div>
-          <button class="btn btn-light" onclick="markAllFeedbackRead()">全部标记已读</button>
+          <div class="card-header-actions">
+            <button class="btn btn-light" onclick="markAllFeedbackRead()">全部标记已读</button>
+          </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th style="width:200px;">访客姓名 / 联系方式</th>
-              <th>咨询诉求内容</th>
-              <th>跟进答复记录</th>
-              <th style="text-align:right; width:140px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="feedback-tbody">
-            <!-- 动态渲染 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:200px;">访客姓名 / 联系方式</th>
+                <th>咨询诉求内容</th>
+                <th>跟进答复记录</th>
+                <th style="text-align:right; width:140px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="feedback-tbody">
+              <!-- 动态渲染 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
-    <!-- 视图 11: 系统全局设置 (彻底修复：头部规范与所有页面 100% 统一) -->
+    <!-- 视图 11: 系统全局设置 (自适应与统一样式修复) -->
     <section id="panel-system-settings" class="view-panel" style="display:none;">
       <div class="card-panel" style="max-width:860px;">
-        <!-- 核心修复区：左侧标题+副标，右侧水平对其保存按钮 -->
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">系统基础与 SEO 全局参数</div>
             <div class="card-header-desc">配置企业全称、ICP备案、联系电话与官网全局页脚声明</div>
           </div>
-          <button class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
+          <div class="card-header-actions">
+            <button class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
+          </div>
         </div>
         
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
           <div class="form-item">
             <label class="form-lbl">企业官网全称</label>
             <input type="text" id="sys-site-name" class="form-ctrl" value="泊川科技" />
@@ -1150,7 +1323,7 @@
           </div>
         </div>
 
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:16px;">
           <div class="form-item">
             <label class="form-lbl">客服咨询电话</label>
             <input type="text" id="sys-phone" class="form-ctrl" value="00000000" />
@@ -1182,26 +1355,30 @@
     <section id="panel-system-logs" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">操作日志安全审计</div>
             <div class="card-header-desc">全流程操作留痕，记录登录、修改、删除与审核行为</div>
           </div>
-          <button class="btn btn-light" onclick="clearLogs()">清空演示日志</button>
+          <div class="card-header-actions">
+            <button class="btn btn-light" onclick="clearLogs()">清空演示日志</button>
+          </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th style="width:170px;">时间戳</th>
-              <th style="width:140px;">操作人</th>
-              <th style="width:110px;">操作类型</th>
-              <th>行为明细</th>
-            </tr>
-          </thead>
-          <tbody id="logs-tbody">
-            <!-- 动态渲染日志 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:170px;">时间戳</th>
+                <th style="width:140px;">操作人</th>
+                <th style="width:110px;">操作类型</th>
+                <th>行为明细</th>
+              </tr>
+            </thead>
+            <tbody id="logs-tbody">
+              <!-- 动态渲染日志 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -1209,27 +1386,31 @@
     <section id="panel-backup" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="card-header-bar">
-          <div>
+          <div class="card-header-title-box">
             <div class="card-header-title">数据灾备与系统还原</div>
             <div class="card-header-desc">支持手动创建全量快照，防范数据丢失与意外篡改</div>
           </div>
-          <button class="btn btn-blue" onclick="createBackupSnapshot()">+ 立即创建全量快照</button>
+          <div class="card-header-actions">
+            <button class="btn btn-blue" onclick="createBackupSnapshot()">+ 立即创建全量快照</button>
+          </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>快照版本标识</th>
-              <th>快照说明</th>
-              <th>包体大小</th>
-              <th>生成时间</th>
-              <th style="text-align:right; width:120px;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="backup-tbody">
-            <!-- 动态渲染快照列表 -->
-          </tbody>
-        </table>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>快照版本标识</th>
+                <th>快照说明</th>
+                <th>包体大小</th>
+                <th>生成时间</th>
+                <th style="text-align:right; width:120px;">操作</th>
+              </tr>
+            </thead>
+            <tbody id="backup-tbody">
+              <!-- 动态渲染快照列表 -->
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
@@ -1253,7 +1434,7 @@
         <label class="form-lbl">路由路径 (Path) / 跳转链接</label>
         <input type="text" id="nav-path" class="form-ctrl" placeholder="如：/solutions 或 https://..." />
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
         <div class="form-item">
           <label class="form-lbl">排序权重</label>
           <input type="number" id="nav-sort" class="form-ctrl" value="10" />
@@ -1417,7 +1598,7 @@
         <label class="form-lbl">资讯标题</label>
         <input type="text" id="article-title" class="form-ctrl" placeholder="输入文章标题..." />
       </div>
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:16px;">
         <div class="form-item">
           <label class="form-lbl">所属分类</label>
           <select id="article-category" class="form-ctrl">
@@ -1478,23 +1659,23 @@
     </div>
   </div>
 
-  <!-- 弹窗 7: 预览沙盒模态框 (顺畅滚动版) -->
+  <!-- 弹窗 7: 预览沙盒模态框 -->
   <div class="modal-mask" id="modal-preview">
     <div class="preview-modal-panel">
       <div class="preview-modal-bar">
-        <div style="display:flex; align-items:center; gap:12px;">
-          <span style="font-weight:700; font-size:14px; color:var(--text-title);" id="preview-mode-title">官网全局整站模拟预览</span>
+        <div style="display:flex; align-items:center; gap:12px; min-width:0;">
+          <span style="font-weight:700; font-size:14px; color:var(--text-title); white-space:nowrap;" id="preview-mode-title">官网全局模拟预览</span>
           <span class="status-capsule" id="preview-active-slug">当前路由: /</span>
         </div>
         
         <div style="display:flex; align-items:center; gap:8px;">
           <button class="btn btn-light btn-sm" id="btn-vp-desktop" onclick="setPreviewDevice('desktop')">
-            🖥️ 桌面端视口 (Fluid)
+            🖥️ 桌面端
           </button>
           <button class="btn btn-light btn-sm" id="btn-vp-mobile" onclick="setPreviewDevice('mobile')">
-            📱 手机端 (375px)
+            📱 手机端
           </button>
-          <button class="btn btn-light btn-sm" onclick="closeModal('modal-preview')" style="margin-left:8px;">关闭预览</button>
+          <button class="btn btn-light btn-sm" onclick="closeModal('modal-preview')" style="margin-left:4px;">关闭</button>
         </div>
       </div>
 
@@ -1669,6 +1850,19 @@
       renderLogs();
     }
 
+    // 移动端汉堡包抽屉侧边栏控制
+    function toggleMobileSidebar(open) {
+      const sb = document.getElementById('sidebar');
+      const mask = document.getElementById('sidebar-mask');
+      if (open) {
+        sb.classList.add('drawer-open');
+        mask.classList.add('show');
+      } else {
+        sb.classList.remove('drawer-open');
+        mask.classList.remove('show');
+      }
+    }
+
     // 侧边栏驱动
     document.querySelectorAll('.menu-item').forEach(btn => {
       btn.addEventListener('click', function() {
@@ -1685,6 +1879,9 @@
 
         const titleText = this.getAttribute('data-title') || this.querySelector('span').innerText;
         document.getElementById('header-title').innerText = titleText;
+
+        // 移动端选择后自动收回抽屉
+        toggleMobileSidebar(false);
       });
     });
 
@@ -2563,7 +2760,7 @@
       }
     }
 
-    // ================= 8. 全局配置与运维审计 (PRD 3.8 补齐，已修复头部统一性) =================
+    // ================= 8. 全局配置与运维审计 =================
     function saveSystemSettings() {
       const siteName = document.getElementById('sys-site-name').value;
       document.querySelector('.brand-title').innerText = siteName + '控制台';
@@ -2656,7 +2853,7 @@
       previewState.activePageKey = 'home';
       previewState.isGlobalMode = true;
 
-      document.getElementById('preview-mode-title').innerText = `泊川科技官网全局整站模拟预览`;
+      document.getElementById('preview-mode-title').innerText = `泊川科技官网全局模拟预览`;
       document.getElementById('preview-site-header').style.display = 'flex';
       
       renderGlobalPreviewNav();
