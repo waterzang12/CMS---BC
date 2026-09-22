@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>企业官网 CMS 运营中台 - 终版全功能控制台</title>
+  <title>泊川科技 CMS 运营中台 - 官方控制台</title>
   <style>
     /* ================= 参考图纯白轻盈设计系统 ================= */
     :root {
@@ -622,8 +622,8 @@
     <div class="brand-box">
       <div class="brand-dot-logo"></div>
       <div class="brand-text-col">
-        <span class="brand-title">CMS管理工具</span>
-        <span class="brand-sub">Management Console</span>
+        <span class="brand-title">泊川科技控制台</span>
+        <span class="brand-sub">BoChuan Management</span>
       </div>
     </div>
 
@@ -712,15 +712,15 @@
       </div>
 
       <div style="display:flex; align-items:center; gap:12px;">
-        <span style="font-size:12px; color:var(--text-placeholder);">全系统就绪</span>
+        <span style="font-size:12px; color:var(--text-placeholder);">泊川科技控制台中枢</span>
       </div>
     </div>
 
     <!-- 视图 1: 首页大盘 -->
     <section id="panel-dashboard" class="view-panel">
       <div class="card-panel welcome-card">
-        <div class="welcome-title">欢迎回来！</div>
-        <div class="welcome-desc">使用左侧导航栏管理官网页面多组件、内容发布与合作申请线索。</div>
+        <div class="welcome-title">欢迎使用 泊川科技 运营管理中台！</div>
+        <div class="welcome-desc">覆盖开发、调试、仿真等部署全流程，轻松管理页面多组件、内容发布与合作申请。</div>
       </div>
 
       <div class="metric-row">
@@ -935,7 +935,7 @@
       </div>
     </section>
 
-    <!-- 视图 5: 素材资源图库 (PRD 3.3 补齐) -->
+    <!-- 视图 5: 素材资源图库 -->
     <section id="panel-media-library" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -1063,7 +1063,7 @@
                 </tr>
               </thead>
               <tbody id="field-tbody">
-                <!-- 纯净药丸与微胶囊渲染 -->
+                <!-- 动态渲染 -->
               </tbody>
             </table>
           </div>
@@ -1109,12 +1109,12 @@
       </div>
     </section>
 
-    <!-- 视图 11: 系统全局设置 (PRD 3.8.1 补齐) -->
+    <!-- 视图 11: 系统全局设置 (已更新为泊川科技专属参数) -->
     <section id="panel-system-settings" class="view-panel" style="display:none;">
       <div class="card-panel" style="max-width:800px;">
         <div class="card-top" style="border-bottom:1px solid var(--border-control); padding-bottom:14px; margin-bottom:18px;">
           <div>
-            <div class="card-title">系统基础与 SEO 全局参数</div>
+            <div class="card-title" style="font-size:15px; font-weight:700; color:var(--text-title);">系统基础与 SEO 全局参数</div>
             <div class="card-desc">配置企业全称、ICP备案、联系电话与官网全局页脚声明</div>
           </div>
           <button class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
@@ -1123,7 +1123,7 @@
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
           <div class="form-item">
             <label class="form-lbl">企业官网全称</label>
-            <input type="text" id="sys-site-name" class="form-ctrl" value="天枢数智未来科技企业官网" />
+            <input type="text" id="sys-site-name" class="form-ctrl" value="泊川科技" />
           </div>
           <div class="form-item">
             <label class="form-lbl">ICP 备案号</label>
@@ -1134,32 +1134,32 @@
         <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
           <div class="form-item">
             <label class="form-lbl">客服咨询电话</label>
-            <input type="text" id="sys-phone" class="form-ctrl" value="400-800-6688" />
+            <input type="text" id="sys-phone" class="form-ctrl" value="00000000" />
           </div>
           <div class="form-item">
             <label class="form-lbl">官方服务邮箱</label>
-            <input type="text" id="sys-email" class="form-ctrl" value="official@company.com" />
+            <input type="text" id="sys-email" class="form-ctrl" value="zouzuyi@bochuan.com" />
           </div>
         </div>
 
         <div class="form-item">
-          <label class="form-lbl">SEO 全局关键词 (Keywords，以逗号隔开)</label>
-          <input type="text" id="sys-keywords" class="form-ctrl" value="数字化转型, 企业中台, 招商协同, CMS管理后台" />
+          <label class="form-lbl">SEO 全局关键词 (Keywords)</label>
+          <input type="text" id="sys-keywords" class="form-ctrl" value="os 操作系统、机器人、航天航空" />
         </div>
 
         <div class="form-item">
           <label class="form-lbl">SEO 网站说明描述 (Description)</label>
-          <textarea id="sys-desc" class="form-ctrl" rows="2">专注为高成长型企业提供全场景内容治理、渠道商入驻与业务线索沉淀的数智中台方案。</textarea>
+          <textarea id="sys-desc" class="form-ctrl" rows="2">一站式智能集成开发平台，覆盖开发/调试/仿真等部署全流程</textarea>
         </div>
 
         <div class="form-item">
           <label class="form-lbl">页脚版权信息声明</label>
-          <input type="text" id="sys-copyright" class="form-ctrl" value="Copyright © 2026 TianShu Corp. All Rights Reserved." />
+          <input type="text" id="sys-copyright" class="form-ctrl" value="Copyright © 2026 泊川科技 (BoChuan). All Rights Reserved." />
         </div>
       </div>
     </section>
 
-    <!-- 视图 12: 操作日志审计 (PRD 3.8.2 补齐) -->
+    <!-- 视图 12: 操作日志审计 -->
     <section id="panel-system-logs" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -1186,7 +1186,7 @@
       </div>
     </section>
 
-    <!-- 视图 13: 数据灾备与恢复 (PRD 3.8.3 补齐) -->
+    <!-- 视图 13: 数据灾备与恢复 -->
     <section id="panel-backup" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
@@ -1439,7 +1439,7 @@
       </div>
       <div class="form-item">
         <label class="form-lbl">素材名称</label>
-        <input type="text" id="upload-media-title" class="form-ctrl" placeholder="如：官网2026战略配图" />
+        <input type="text" id="upload-media-title" class="form-ctrl" placeholder="如：泊川科技2026产品展示图" />
       </div>
       <div class="form-item">
         <label class="form-lbl">素材类型</label>
@@ -1459,7 +1459,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 7: 预览沙盒模态框 (深度顺畅滚动修复版) -->
+  <!-- 弹窗 7: 预览沙盒模态框 (顺畅滚动修复版) -->
   <div class="modal-mask" id="modal-preview">
     <div class="preview-modal-panel">
       <div class="preview-modal-bar">
@@ -1484,7 +1484,7 @@
           <div id="preview-site-header" style="height:54px; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:#fff; flex-shrink:0;">
             <div style="font-weight:800; font-size:15px; color:#1e3a8a; display:flex; align-items:center; gap:8px;">
               <span style="width:12px; height:12px; background:#1e3a8a; border-radius:50%;"></span>
-              企业官网
+              泊川科技官网
             </div>
             <div id="preview-nav-links" style="display:flex; gap:18px; font-size:13px; font-weight:600;">
               <!-- 动态前台导航 -->
@@ -1526,8 +1526,8 @@
               title: '品牌战略核心标语文字介绍',
               type: 'text',
               heading: '驱动企业数智化未来，轻量级高效协同管理',
-              sub: '从官网品牌展示到招商渠道线索沉淀，一站式赋能企业业务全流程数字化。',
-              body: '天枢数智致力于通过标准化与轻量化敏捷架构赋能企业，打通招商渠道流转与线索沉淀闭环。在面对多组织、大规模分布式体系时，保障系统吞吐量与数据安全性。',
+              sub: '一站式智能集成开发平台，覆盖开发/调试/仿真等部署全流程。',
+              body: '泊川科技致力于通过标准化与轻量化敏捷架构赋能企业，打通招商渠道流转与线索沉淀闭环。在面对多组织、大规模分布式体系时，保障系统高吞吐量与底层核心安全性。',
               enabled: true
             },
             {
@@ -1537,6 +1537,15 @@
               url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80',
               textTitle: '通过 CMMI5 软件能力成熟度最高级认证',
               desc: '经国际权威机构评定，公司正式通过 CMMI-DEV V2.0 五级成熟度认证，工程治理与产品交付能力达到国际先进水平。',
+              enabled: true
+            },
+            {
+              id: 'w_104',
+              title: '全球化多数据节点布局说明',
+              type: 'text',
+              heading: '全球 12 大高防节点与安全运维保障',
+              sub: '全链路加密与异地容灾备份机制',
+              body: '依托高可靠分布式服务集群，提供 99.99% 的全天候系统可用性保证，帮助企业在全球化出海进程中游刃有余。',
               enabled: true
             }
           ]
@@ -1575,7 +1584,6 @@
         { id: 4, sort: 4, title: '供应商加盟', path: '/suppliers', isExternal: false, pageKey: '', isVisible: true }
       ],
 
-      // 素材库 (PRD 3.3)
       mediaList: [
         { id: 'm_1', name: '首屏数字化 Banner', type: '图片', size: '1.2 MB', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80' },
         { id: 'm_2', name: '芯片硬件芯片图', type: '图片', size: '890 KB', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80' },
@@ -1620,24 +1628,21 @@
       ],
 
       feedbacks: [
-        { id: 1, name: '陈先生', contact: '13700001111', content: '请问私有化部署是否支持国产达梦数据库和麒麟信安操作系统？', reply: '', isRead: false },
-        { id: 2, name: '周总', contact: 'zhou@tech.cn', content: '希望预约一次下周三下午的产品远程系统演示。', reply: '已电话沟通确认', isRead: true }
+        { id: 1, name: '陈先生', contact: '13700001111', content: '请问私有化部署是否支持国产操作系统与特定指令架构？', reply: '', isRead: false },
+        { id: 2, name: '周总', contact: 'zhou@tech.cn', content: '希望预约一次下周三下午的产品远程仿真系统演示。', reply: '已电话沟通确认', isRead: true }
       ],
 
-      // 系统审计日志 (PRD 3.8.2)
       logs: [
         { time: '2026-09-22 14:30:12', user: '超级管理员 (AD)', type: 'LOGIN', detail: '系统会话安全签发，终端环境健康' },
         { time: '2026-09-22 14:15:00', user: '超级管理员 (AD)', type: 'PAGE_UPDATE', detail: '保存【官网首页】多积木组件配置' },
-        { time: '2026-09-22 13:50:22', user: '超级管理员 (AD)', type: 'SCHEMA_UPDATE', detail: '配置更新渠道商申请表单字段' }
+        { time: '2026-09-22 13:50:22', user: '超级管理员 (AD)', type: 'CONFIG_UPDATE', detail: '更新企业名称为泊川科技，更新SEO参数' }
       ],
 
-      // 备份历史 (PRD 3.8.3)
       backups: [
         { id: 'BAK_20260920_BASE', name: '系统里程碑稳定版全量快照', size: '14.8 MB', time: '2026-09-20 18:00:00' }
       ]
     };
 
-    // 记录日志公用方法
     function logEvent(type, detail) {
       const now = new Date();
       const timeStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
@@ -2132,7 +2137,7 @@
       }
     }
 
-    // ================= 3. 素材库管理 (PRD 3.3 补齐) =================
+    // ================= 3. 素材库管理 =================
     function renderMediaLibrary() {
       const grid = document.getElementById('media-grid');
       grid.innerHTML = '';
@@ -2541,8 +2546,10 @@
 
     // ================= 8. 全局配置与运维审计 (PRD 3.8 补齐) =================
     function saveSystemSettings() {
+      const siteName = document.getElementById('sys-site-name').value;
+      document.querySelector('.brand-title').innerText = siteName + '控制台';
       logEvent('SYSTEM_CONFIG', '保存官网全局基础参数与 SEO 设置');
-      alert('全局基础参数与 SEO 设置已成功保存并即时生效！');
+      alert(`【${siteName}】全局基础参数与 SEO 设置已成功保存并即时生效！`);
     }
 
     function renderLogs() {
@@ -2589,7 +2596,7 @@
       const id = 'BAK_' + now.getFullYear() + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '_' + String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
       store.backups.unshift({
         id,
-        name: '手动创建系统运行时全量快照',
+        name: '泊川科技系统运行时全量快照',
         size: '15.4 MB',
         time: now.toLocaleString()
       });
@@ -2630,7 +2637,7 @@
       previewState.activePageKey = 'home';
       previewState.isGlobalMode = true;
 
-      document.getElementById('preview-mode-title').innerText = `官网全局整站模拟预览`;
+      document.getElementById('preview-mode-title').innerText = `泊川科技官网全局整站模拟预览`;
       document.getElementById('preview-site-header').style.display = 'flex';
       
       renderGlobalPreviewNav();
@@ -2769,7 +2776,7 @@
     function openModal(id) { document.getElementById(id).classList.add('open'); }
     function closeModal(id) { document.getElementById(id).classList.remove('open'); }
 
-    // 初始化全局驱动
+    // 初始化运行
     window.addEventListener('DOMContentLoaded', () => {
       renderPageListTable();
       renderNavigations();
