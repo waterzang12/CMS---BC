@@ -180,7 +180,7 @@
       border-radius: 12px;
     }
 
-    /* 3. 卡片系统 */
+    /* 3. 卡片系统与全局统一头部规范 */
     .card-panel {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -188,6 +188,24 @@
       box-shadow: var(--shadow-subtle);
       padding: 24px;
       margin-bottom: 20px;
+    }
+
+    /* 全局统一卡片头部布局规范 */
+    .card-header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .card-header-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-title);
+    }
+    .card-header-desc {
+      font-size: 12px;
+      color: var(--text-label);
+      margin-top: 2px;
     }
 
     .welcome-card { padding: 22px 28px; }
@@ -806,10 +824,10 @@
     <!-- 视图 2: 网页主导航设置 -->
     <section id="panel-navigations" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">网页主导航设置</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">配置前台菜单、绑定多组件装修页面与显示开关</div>
+            <div class="card-header-title">网页主导航设置</div>
+            <div class="card-header-desc">配置前台菜单、绑定多组件装修页面与显示开关</div>
           </div>
           <button class="btn btn-blue" onclick="openNavModal()">+ 添加导航</button>
         </div>
@@ -836,10 +854,10 @@
     <!-- 视图 3: 页面装修 -->
     <section id="panel-page-builder" class="view-panel" style="display:none;">
       <div id="builder-subview-list" class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">官网独立装修页面管理</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持单页面独立预览与前台整站全局联动预览</div>
+            <div class="card-header-title">官网独立装修页面管理</div>
+            <div class="card-header-desc">支持单页面独立预览与前台整站全局联动预览</div>
           </div>
           <div style="display:flex; gap:10px;">
             <button class="btn btn-light" onclick="openGlobalSitePreview()">
@@ -887,10 +905,10 @@
         </div>
 
         <div class="card-panel">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div class="card-header-bar">
             <div>
-              <div style="font-size:14px; font-weight:700; color:var(--text-title);">组件堆叠管理</div>
-              <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持自由增删 Banner (图片/视频)、文字介绍、图文展示并调整展示排序</div>
+              <div class="card-header-title">组件堆叠管理</div>
+              <div class="card-header-desc">支持自由增删 Banner (图片/视频)、文字介绍、图文展示并调整展示排序</div>
             </div>
             <div style="display:flex; gap:8px;">
               <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
@@ -909,10 +927,10 @@
     <!-- 视图 4: 资讯与公告 -->
     <section id="panel-articles" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">企业资讯与官方公告</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持图文编辑、外链文章跳转与置顶</div>
+            <div class="card-header-title">企业资讯与官方公告</div>
+            <div class="card-header-desc">支持图文编辑、外链文章跳转与置顶</div>
           </div>
           <button class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
         </div>
@@ -938,10 +956,10 @@
     <!-- 视图 5: 素材资源图库 -->
     <section id="panel-media-library" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">素材资源库管理</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">统一管理官网图片与 MP4 视频资源，避免重复上传</div>
+            <div class="card-header-title">素材资源库管理</div>
+            <div class="card-header-desc">统一管理官网图片与 MP4 视频资源，避免重复上传</div>
           </div>
           <button class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
         </div>
@@ -955,10 +973,10 @@
     <!-- 视图 6: 审核中心 -->
     <section id="panel-audits" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">内容合规审核中心</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">草稿 → 待审核 → 已发布 / 已驳回，全流程操作留痕</div>
+            <div class="card-header-title">内容合规审核中心</div>
+            <div class="card-header-desc">草稿 → 待审核 → 已发布 / 已驳回，全流程操作留痕</div>
           </div>
         </div>
 
@@ -1040,7 +1058,7 @@
     <!-- 视图 9: 表单项配置引擎 -->
     <section id="panel-form-schema" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div class="card-header-bar" style="margin-bottom:16px;">
           <div class="tabs-bar" style="border:none; margin-bottom:0; padding-bottom:0;">
             <button class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
             <button class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
@@ -1085,10 +1103,10 @@
     <!-- 视图 10: 在线留言 -->
     <section id="panel-feedback" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">在线留言与咨询互动</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">接收官网访客留言与预约信息</div>
+            <div class="card-header-title">在线留言与咨询互动</div>
+            <div class="card-header-desc">接收官网访客留言与预约信息</div>
           </div>
           <button class="btn btn-light" onclick="markAllFeedbackRead()">全部标记已读</button>
         </div>
@@ -1109,13 +1127,14 @@
       </div>
     </section>
 
-    <!-- 视图 11: 系统全局设置 (已更新为泊川科技专属参数) -->
+    <!-- 视图 11: 系统全局设置 (彻底修复：头部规范与所有页面 100% 统一) -->
     <section id="panel-system-settings" class="view-panel" style="display:none;">
-      <div class="card-panel" style="max-width:800px;">
-        <div class="card-top" style="border-bottom:1px solid var(--border-control); padding-bottom:14px; margin-bottom:18px;">
+      <div class="card-panel" style="max-width:860px;">
+        <!-- 核心修复区：左侧标题+副标，右侧水平对其保存按钮 -->
+        <div class="card-header-bar">
           <div>
-            <div class="card-title" style="font-size:15px; font-weight:700; color:var(--text-title);">系统基础与 SEO 全局参数</div>
-            <div class="card-desc">配置企业全称、ICP备案、联系电话与官网全局页脚声明</div>
+            <div class="card-header-title">系统基础与 SEO 全局参数</div>
+            <div class="card-header-desc">配置企业全称、ICP备案、联系电话与官网全局页脚声明</div>
           </div>
           <button class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
         </div>
@@ -1162,10 +1181,10 @@
     <!-- 视图 12: 操作日志审计 -->
     <section id="panel-system-logs" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">操作日志安全审计</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">全流程操作留痕，记录登录、修改、删除与审核行为</div>
+            <div class="card-header-title">操作日志安全审计</div>
+            <div class="card-header-desc">全流程操作留痕，记录登录、修改、删除与审核行为</div>
           </div>
           <button class="btn btn-light" onclick="clearLogs()">清空演示日志</button>
         </div>
@@ -1189,10 +1208,10 @@
     <!-- 视图 13: 数据灾备与恢复 -->
     <section id="panel-backup" class="view-panel" style="display:none;">
       <div class="card-panel">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+        <div class="card-header-bar">
           <div>
-            <div style="font-size:15px; font-weight:700; color:var(--text-title);">数据灾备与系统还原</div>
-            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持手动创建全量快照，防范数据丢失与意外篡改</div>
+            <div class="card-header-title">数据灾备与系统还原</div>
+            <div class="card-header-desc">支持手动创建全量快照，防范数据丢失与意外篡改</div>
           </div>
           <button class="btn btn-blue" onclick="createBackupSnapshot()">+ 立即创建全量快照</button>
         </div>
@@ -1459,7 +1478,7 @@
     </div>
   </div>
 
-  <!-- 弹窗 7: 预览沙盒模态框 (顺畅滚动修复版) -->
+  <!-- 弹窗 7: 预览沙盒模态框 (顺畅滚动版) -->
   <div class="modal-mask" id="modal-preview">
     <div class="preview-modal-panel">
       <div class="preview-modal-bar">
@@ -2544,7 +2563,7 @@
       }
     }
 
-    // ================= 8. 全局配置与运维审计 (PRD 3.8 补齐) =================
+    // ================= 8. 全局配置与运维审计 (PRD 3.8 补齐，已修复头部统一性) =================
     function saveSystemSettings() {
       const siteName = document.getElementById('sys-site-name').value;
       document.querySelector('.brand-title').innerText = siteName + '控制台';
