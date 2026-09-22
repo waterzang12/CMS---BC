@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>企业官网 CMS 运营中台 - 终版全功能控制台</title>
+  <style>
+    /* ================= 参考图纯白轻盈设计系统 ================= */
+    :root {
+      --bg-body: #f6f8fb;
+      --sidebar-bg: #ffffff;
+      --card-bg: #ffffff;
+      --primary-navy: #1e3a8a;
+      --primary-blue: #2563eb;
+      --text-title: #0f172a;
+      --text-main: #334155;
+      --text-label: #64748b;
+      --text-placeholder: #cbd5e1;
+      --border-subtle: #f1f5f9;
+      --border-control: #e2e8f0;
+      --radius-lg: 20px;
+      --radius-md: 10px;
+      --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.025);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg-body);
+      color: var(--text-main);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a, button { cursor: pointer; user-select: none; }
+    
+    ::placeholder {
+      color: var(--text-placeholder) !important;
+      font-weight: 400;
+      opacity: 1;
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    /* 1. 左侧纯白极简侧边栏 */
+    #sidebar {
+      width: 220px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border-subtle);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      padding: 24px 16px;
+    }
+
+    .brand-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-left: 6px;
+      margin-bottom: 24px;
+    }
+    .brand-dot-logo {
+      width: 28px;
+      height: 28px;
+      background: var(--primary-navy);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .brand-dot-logo::after {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: #ffffff;
+      border-radius: 50%;
+    }
+    .brand-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-title);
+      letter-spacing: 0.2px;
+    }
+    .brand-sub {
+      font-size: 10px;
+      color: var(--text-placeholder);
+      margin-top: 1px;
+    }
+
+    .menu-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
+    .menu-group-caption {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-placeholder);
+      padding: 8px 14px 2px 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-label);
+      background: transparent;
+      border: none;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+    .menu-item:hover {
+      color: var(--primary-navy);
+      background: #f8fafc;
+    }
+    .menu-item.active {
+      background: var(--primary-navy);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.22);
+    }
+    .menu-item svg {
+      width: 16px;
+      height: 16px;
+      stroke-width: 1.8;
+      stroke: currentColor;
+      fill: none;
+    }
+
+    /* 2. 右侧主体视口 */
+    #main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      overflow-y: auto;
+      padding: 24px 36px;
+    }
+
+    .top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .title-flex {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .title-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: var(--primary-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .title-icon-box svg { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; }
+    .main-page-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-title);
+    }
+    .version-tag {
+      background: #eff6ff;
+      color: var(--primary-blue);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 12px;
+    }
+
+    /* 3. 卡片系统 */
+    .card-panel {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(226, 232, 240, 0.6);
+      box-shadow: var(--shadow-subtle);
+      padding: 24px;
+      margin-bottom: 20px;
+    }
+
+    .welcome-card { padding: 22px 28px; }
+    .welcome-title { font-size: 16px; font-weight: 700; color: var(--text-title); margin-bottom: 4px; }
+    .welcome-desc { font-size: 12px; color: var(--text-label); }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(226, 232, 240, 0.6);
+      box-shadow: var(--shadow-subtle);
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .metric-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.04);
+    }
+    .metric-val {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1;
+    }
+    .metric-meta { display: flex; flex-direction: column; }
+    .metric-name { font-size: 14px; font-weight: 700; color: var(--text-title); }
+    .metric-subtitle { font-size: 11px; color: var(--text-label); margin-top: 3px; }
+
+    .quick-actions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .quick-action-item {
+      background: #f8fafc;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .quick-action-item:hover {
+      background: #f1f5f9;
+      border-color: #cbd5e1;
+    }
+    .quick-icon-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .quick-icon-circle svg { width: 16px; height: 16px; stroke-width: 2; stroke: currentColor; fill: none; }
+    .quick-title { font-size: 12px; font-weight: 700; color: var(--text-title); }
+    .quick-desc { font-size: 11px; color: var(--text-label); margin-top: 1px; }
+
+    .tabs-bar {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      border-bottom: 1px solid var(--border-control);
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+    }
+    .tab-btn {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-label);
+      background: transparent;
+      border: none;
+      position: relative;
+      padding-bottom: 12px;
+      margin-bottom: -13px;
+      transition: color 0.15s;
+    }
+    .tab-btn:hover { color: var(--primary-blue); }
+    .tab-btn.active { color: var(--primary-navy); font-weight: 700; }
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--primary-navy);
+      border-radius: 2px;
+    }
+
+    /* 4. 按钮系统规范 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 6px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      transition: all 0.12s ease;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+    
+    .btn-blue {
+      background: var(--primary-blue);
+      color: #ffffff;
+    }
+    .btn-blue:hover { background: #1d4ed8; }
+
+    .btn-light {
+      background: #ffffff;
+      border: 1px solid var(--border-control);
+      color: var(--text-main);
+    }
+    .btn-light:hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+      background: #f8fafc;
+    }
+
+    .btn-red-subtle {
+      background: #fff2f0;
+      border: 1px solid #ffccc7;
+      color: #ff4d4f;
+    }
+    .btn-red-subtle:hover {
+      background: #ffe8e6;
+      border-color: #ffa39e;
+      color: #cf1322;
+    }
+
+    .btn-sm {
+      padding: 3px 10px;
+      font-size: 11px;
+      border-radius: 5px;
+      height: 26px;
+      line-height: 18px;
+    }
+
+    .sort-control-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .btn-sort-icon {
+      width: 24px;
+      height: 24px;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid var(--border-control);
+      border-radius: 5px;
+      color: var(--text-label);
+      transition: all 0.12s ease;
+      outline: none;
+    }
+    .btn-sort-icon svg {
+      width: 12px;
+      height: 12px;
+      stroke-width: 2.2;
+      stroke: currentColor;
+      fill: none;
+    }
+    .btn-sort-icon:hover:not(:disabled) {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+      background: #eff6ff;
+    }
+    .btn-sort-icon:disabled {
+      opacity: 0.25;
+      cursor: not-allowed;
+      border-color: var(--border-control);
+      color: var(--text-placeholder);
+    }
+
+    .table-actions-cell {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    /* 5. 表格排版 */
+    table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; }
+    th {
+      color: var(--text-label);
+      padding: 14px 16px;
+      font-weight: 600;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border-control);
+    }
+    td {
+      padding: 14px 16px;
+      border-bottom: 1px solid #f8fafc;
+      color: var(--text-title);
+      vertical-align: middle;
+    }
+    tr:hover td { background: #fafcff; }
+
+    .sort-num-text {
+      font-weight: 700;
+      color: var(--text-placeholder);
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .status-capsule {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: #f0fdf4;
+      color: #15803d;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 12px;
+    }
+    .status-capsule.orange { background: #fff7ed; color: #c2410c; }
+    .status-capsule.blue { background: #eff6ff; color: #1d4ed8; }
+    .status-capsule.red { background: #fef2f2; color: #b91c1c; }
+
+    .switch-ui {
+      position: relative;
+      display: inline-block;
+      width: 32px;
+      height: 18px;
+    }
+    .switch-ui input { opacity: 0; width: 0; height: 0; }
+    .switch-slider {
+      position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0;
+      background-color: #cbd5e1; transition: .2s; border-radius: 18px;
+    }
+    .switch-slider:before {
+      position: absolute; content: ""; height: 14px; width: 14px; left: 2px; bottom: 2px;
+      background-color: white; transition: .2s; border-radius: 50%;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+    }
+    input:checked + .switch-slider { background-color: var(--primary-navy); }
+    input:checked + .switch-slider:before { transform: translateX(14px); }
+
+    /* 积木组件卡片 */
+    .widget-row-card {
+      background: #ffffff;
+      border: 1px solid rgba(226, 232, 240, 0.7);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.015);
+      transition: border-color 0.15s;
+    }
+    .widget-row-card:hover { border-color: #cbd5e1; }
+    
+    .widget-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #f8fafc;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+    }
+    .widget-bar-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-title);
+    }
+    .widget-content-heading {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-title);
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+    .widget-content-sub {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--primary-blue);
+      margin-bottom: 4px;
+      line-height: 1.5;
+    }
+    .widget-content-desc {
+      font-size: 12px;
+      font-weight: 400;
+      color: var(--text-label);
+      line-height: 1.6;
+    }
+
+    /* 弹窗系统 */
+    .modal-mask {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.35);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-mask.open { display: flex; }
+    .modal-panel {
+      background: #ffffff;
+      width: 100%;
+      max-width: 540px;
+      border-radius: var(--radius-lg);
+      padding: 28px 32px;
+      box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.12);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 16px;
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .modal-title { font-size: 16px; font-weight: 700; color: var(--text-title); }
+    .modal-close {
+      color: #94a3b8;
+      font-size: 20px;
+      transition: color 0.15s;
+    }
+    .modal-close:hover { color: #475569; }
+
+    .form-item { margin-bottom: 18px; }
+    .form-lbl {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-label);
+      margin-bottom: 8px;
+    }
+    .form-ctrl {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--border-control);
+      border-radius: 8px;
+      outline: none;
+      background: #ffffff;
+      font-size: 13px;
+      color: var(--text-title);
+      transition: all 0.15s ease;
+    }
+    .form-ctrl:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
+    }
+
+    /* 预览沙盒模态系统 */
+    .preview-modal-panel {
+      background: #ffffff;
+      width: 92vw;
+      max-width: 1100px;
+      height: 90vh;
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .preview-modal-bar {
+      height: 54px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border-control);
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 10;
+    }
+    .preview-viewport-box {
+      flex: 1;
+      background: #f1f5f9;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+    }
+    
+    .viewport-desktop {
+      width: 100%;
+      max-width: 960px;
+      background: #ffffff;
+      border-radius: 14px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .viewport-mobile {
+      width: 375px;
+      background: #ffffff;
+      border-radius: 40px;
+      border: 9px solid #0f172a;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+      max-height: 740px;
+      height: 740px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .viewport-mobile #preview-rendered-body {
+      overflow-y: auto;
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ================= 1. 侧边栏 ================= -->
+  <aside id="sidebar">
+    <div class="brand-box">
+      <div class="brand-dot-logo"></div>
+      <div class="brand-text-col">
+        <span class="brand-title">CMS管理工具</span>
+        <span class="brand-sub">Management Console</span>
+      </div>
+    </div>
+
+    <div class="menu-wrap">
+      <button class="menu-item active" data-view="panel-dashboard" data-title="首页" data-icon="home">
+        <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        <span>首页大盘</span>
+      </button>
+
+      <div class="menu-group-caption">内容与页面</div>
+      <button class="menu-item" data-view="panel-navigations" data-title="网页主导航管理" data-icon="nav">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        <span>导航管理</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-page-builder" data-title="页面装修列表" data-icon="layout">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        <span>页面装修</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-articles" data-title="企业资讯与公告" data-icon="file">
+        <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+        <span>资讯公告</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-media-library" data-title="素材资源库" data-icon="media">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+        <span>素材图库</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-audits" data-title="内容合规审核中心" data-icon="audit">
+        <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+        <span>审核中心</span>
+      </button>
+
+      <div class="menu-group-caption">合作与互动</div>
+      <button class="menu-item" data-view="panel-partners" data-title="渠道商申请管理" data-icon="user">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+        <span>渠道商申请</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-suppliers" data-title="供应商申请管理" data-icon="box">
+        <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+        <span>供应商申请</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-form-schema" data-title="表单项配置引擎" data-icon="edit">
+        <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+        <span>表单项配置</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-feedback" data-title="在线留言互动" data-icon="msg">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span>留言互动</span>
+      </button>
+
+      <div class="menu-group-caption">系统与运维</div>
+      <button class="menu-item" data-view="panel-system-settings" data-title="全局基础参数设置" data-icon="settings">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+        <span>系统设置</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-system-logs" data-title="操作日志审计" data-icon="log">
+        <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+        <span>操作日志</span>
+      </button>
+
+      <button class="menu-item" data-view="panel-backup" data-title="数据灾备与回滚" data-icon="backup">
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        <span>数据备份</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ================= 2. 主体视口 ================= -->
+  <main id="main-content">
+    
+    <!-- 顶部状态栏 -->
+    <div class="top-header">
+      <div class="title-flex">
+        <div class="title-icon-box" id="header-icon-box">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+        </div>
+        <h1 class="main-page-title" id="header-title">首页</h1>
+        <span class="version-tag">Beta 1.0</span>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span style="font-size:12px; color:var(--text-placeholder);">全系统就绪</span>
+      </div>
+    </div>
+
+    <!-- 视图 1: 首页大盘 -->
+    <section id="panel-dashboard" class="view-panel">
+      <div class="card-panel welcome-card">
+        <div class="welcome-title">欢迎回来！</div>
+        <div class="welcome-desc">使用左侧导航栏管理官网页面多组件、内容发布与合作申请线索。</div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric-card" onclick="jumpToMenu('panel-navigations')">
+          <div class="metric-val" style="color:var(--primary-blue);">4</div>
+          <div class="metric-meta">
+            <span class="metric-name">主导航项</span>
+            <span class="metric-subtitle">前台显示数量</span>
+          </div>
+        </div>
+
+        <div class="metric-card" onclick="jumpToMenu('panel-page-builder')">
+          <div class="metric-val" style="color:#10b981;">2</div>
+          <div class="metric-meta">
+            <span class="metric-name">装修页面</span>
+            <span class="metric-subtitle">独立组件总计</span>
+          </div>
+        </div>
+
+        <div class="metric-card" onclick="jumpToMenu('panel-partners')">
+          <div class="metric-val" style="color:#f59e0b;">2</div>
+          <div class="metric-meta">
+            <span class="metric-name">渠道商申请</span>
+            <span class="metric-subtitle">待审核/签约</span>
+          </div>
+        </div>
+
+        <div class="metric-card" onclick="jumpToMenu('panel-suppliers')">
+          <div class="metric-val" style="color:#8b5cf6;">2</div>
+          <div class="metric-meta">
+            <span class="metric-name">供应商入驻</span>
+            <span class="metric-subtitle">有效资质数量</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-panel">
+        <div style="font-size:13px; font-weight:700; color:var(--text-title); margin-bottom:12px;">快速操作</div>
+        <div class="quick-actions-grid">
+          <div class="quick-action-item" onclick="jumpToMenu('panel-page-builder')">
+            <div class="quick-icon-circle" style="background:#eff6ff; color:var(--primary-blue);">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line></svg>
+            </div>
+            <div>
+              <div class="quick-title">页面装修</div>
+              <div class="quick-desc">管理独立页面与组件</div>
+            </div>
+          </div>
+
+          <div class="quick-action-item" onclick="jumpToMenu('panel-navigations')">
+            <div class="quick-icon-circle" style="background:#f0fdf4; color:#15803d;">
+              <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line></svg>
+            </div>
+            <div>
+              <div class="quick-title">导航管理</div>
+              <div class="quick-desc">配置菜单与路由</div>
+            </div>
+          </div>
+
+          <div class="quick-action-item" onclick="jumpToMenu('panel-articles')">
+            <div class="quick-icon-circle" style="background:#faf5ff; color:#7e22ce;">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+            </div>
+            <div>
+              <div class="quick-title">发布资讯</div>
+              <div class="quick-desc">新建动态与公告</div>
+            </div>
+          </div>
+
+          <div class="quick-action-item" onclick="jumpToMenu('panel-form-schema')">
+            <div class="quick-icon-circle" style="background:#fff7ed; color:#c2410c;">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path></svg>
+            </div>
+            <div>
+              <div class="quick-title">表单配置</div>
+              <div class="quick-desc">维护双表单 Schema</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 视图 2: 网页主导航设置 -->
+    <section id="panel-navigations" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">网页主导航设置</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">配置前台菜单、绑定多组件装修页面与显示开关</div>
+          </div>
+          <button class="btn btn-blue" onclick="openNavModal()">+ 添加导航</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:70px;">排序</th>
+              <th>导航名称</th>
+              <th>路由地址 (Path)</th>
+              <th>类型</th>
+              <th>关联独立装修页</th>
+              <th style="width:100px;">官网展示</th>
+              <th style="text-align:right; width:220px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="nav-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 3: 页面装修 -->
+    <section id="panel-page-builder" class="view-panel" style="display:none;">
+      <div id="builder-subview-list" class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">官网独立装修页面管理</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持单页面独立预览与前台整站全局联动预览</div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-light" onclick="openGlobalSitePreview()">
+              <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              全局整站预览
+            </button>
+            <button class="btn btn-blue" onclick="openCreatePageModal()">+ 新建独立页面</button>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>页面名称</th>
+              <th>页面标识 Key (路由依据)</th>
+              <th>已挂载积木组件</th>
+              <th>更新日期</th>
+              <th style="text-align:right; width:240px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="page-list-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+
+      <div id="builder-subview-editor" style="display:none;">
+        <div class="card-panel" style="display:flex; justify-content:space-between; align-items:center; padding:18px 24px;">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <button class="btn btn-light btn-sm" onclick="exitPageEditor()">
+              <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              返回页面列表
+            </button>
+            <div style="height:18px; width:1px; background:var(--border-control);"></div>
+            <div>
+              <div style="font-size:15px; font-weight:700; color:var(--text-title);" id="current-editing-page-name">官网首页</div>
+              <div style="font-size:11px; color:var(--text-label); font-family:monospace;" id="current-editing-page-key">路由: /</div>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button class="btn btn-light btn-sm" onclick="openSinglePagePreview(store.currentEditingPageKey)">预览当前页面</button>
+            <button class="btn btn-red-subtle btn-sm" id="btn-delete-active-page" onclick="deleteActivePage()">删除此页面</button>
+            <button class="btn btn-blue btn-sm" onclick="savePageWidgets()">保存整页配置</button>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+            <div>
+              <div style="font-size:14px; font-weight:700; color:var(--text-title);">组件堆叠管理</div>
+              <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持自由增删 Banner (图片/视频)、文字介绍、图文展示并调整展示排序</div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
+              <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('text')">+ 添加 文字组件</button>
+              <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('image_text')">+ 添加 图文展示</button>
+            </div>
+          </div>
+
+          <div id="widgets-container">
+            <!-- 动态渲染组件 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 视图 4: 资讯与公告 -->
+    <section id="panel-articles" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">企业资讯与官方公告</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持图文编辑、外链文章跳转与置顶</div>
+          </div>
+          <button class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:90px;">封面</th>
+              <th>标题</th>
+              <th>分类</th>
+              <th>状态</th>
+              <th>发布时间</th>
+              <th style="text-align:right; width:140px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="article-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 5: 素材资源图库 (PRD 3.3 补齐) -->
+    <section id="panel-media-library" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">素材资源库管理</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">统一管理官网图片与 MP4 视频资源，避免重复上传</div>
+          </div>
+          <button class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
+        </div>
+
+        <div id="media-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:16px;">
+          <!-- 动态素材卡片 -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 视图 6: 审核中心 -->
+    <section id="panel-audits" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">内容合规审核中心</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">草稿 → 待审核 → 已发布 / 已驳回，全流程操作留痕</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>审核单号</th>
+              <th>待审内容标题</th>
+              <th>所属模块</th>
+              <th>提审人</th>
+              <th>当前状态</th>
+              <th>驳回原因说明</th>
+              <th style="text-align:right; width:160px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="audit-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 7: 渠道商入驻申请 -->
+    <section id="panel-partners" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div class="tabs-bar">
+          <button class="tab-btn active">全部申请 (2)</button>
+          <button class="tab-btn">待审核</button>
+          <button class="tab-btn">已签约</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>申请企业 / 统一信用代码</th>
+              <th>联系人 / 手机</th>
+              <th>意向区域</th>
+              <th>合作诉求</th>
+              <th>状态</th>
+              <th>对接跟进备注</th>
+              <th style="text-align:right; width:100px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="partner-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 8: 供应商入驻申请 -->
+    <section id="panel-suppliers" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div class="tabs-bar">
+          <button class="tab-btn active">全部供应商申请 (2)</button>
+          <button class="tab-btn">待审核</button>
+          <button class="tab-btn">审核通过</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>供应企业 / 统一代码</th>
+              <th>法人与对接人</th>
+              <th>供应品类</th>
+              <th>供应能力说明</th>
+              <th>状态</th>
+              <th>对接备注</th>
+              <th style="text-align:right; width:100px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="supplier-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 9: 表单项配置引擎 -->
+    <section id="panel-form-schema" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+          <div class="tabs-bar" style="border:none; margin-bottom:0; padding-bottom:0;">
+            <button class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
+            <button class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
+          </div>
+          <button class="btn btn-blue" onclick="openFieldModal()">+ 新增收集字段</button>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 7fr 5fr; gap:24px;">
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:72px;">调序</th>
+                  <th>字段名称</th>
+                  <th>字段 Key</th>
+                  <th>控件类型</th>
+                  <th style="width:75px; text-align:center;">必填</th>
+                  <th style="width:75px; text-align:center;">状态</th>
+                  <th style="text-align:right; width:140px;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="field-tbody">
+                <!-- 纯净药丸与微胶囊渲染 -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="background:#f8fafc; border:1px solid var(--border-control); border-radius:var(--radius-lg); padding:20px;">
+            <div style="font-size:13px; font-weight:700; color:var(--text-title); margin-bottom:12px; display:flex; justify-content:space-between;">
+              <span>官网前台表单沙盒预览</span>
+              <span class="status-capsule">Live Preview</span>
+            </div>
+            <div id="live-preview-box" style="display:flex; flex-direction:column; gap:12px; pointer-events:none; opacity:0.9;">
+              <!-- 动态沙盒 -->
+            </div>
+            <button class="btn btn-blue" style="width:100%; margin-top:16px;" disabled>立即提交申请 (官网模拟)</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 视图 10: 在线留言 -->
+    <section id="panel-feedback" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">在线留言与咨询互动</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">接收官网访客留言与预约信息</div>
+          </div>
+          <button class="btn btn-light" onclick="markAllFeedbackRead()">全部标记已读</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:200px;">访客姓名 / 联系方式</th>
+              <th>咨询诉求内容</th>
+              <th>跟进答复记录</th>
+              <th style="text-align:right; width:140px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="feedback-tbody">
+            <!-- 动态渲染 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 11: 系统全局设置 (PRD 3.8.1 补齐) -->
+    <section id="panel-system-settings" class="view-panel" style="display:none;">
+      <div class="card-panel" style="max-width:800px;">
+        <div class="card-top" style="border-bottom:1px solid var(--border-control); padding-bottom:14px; margin-bottom:18px;">
+          <div>
+            <div class="card-title">系统基础与 SEO 全局参数</div>
+            <div class="card-desc">配置企业全称、ICP备案、联系电话与官网全局页脚声明</div>
+          </div>
+          <button class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
+        </div>
+        
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <div class="form-item">
+            <label class="form-lbl">企业官网全称</label>
+            <input type="text" id="sys-site-name" class="form-ctrl" value="天枢数智未来科技企业官网" />
+          </div>
+          <div class="form-item">
+            <label class="form-lbl">ICP 备案号</label>
+            <input type="text" id="sys-icp" class="form-ctrl" value="京ICP备2026088888号-1" />
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+          <div class="form-item">
+            <label class="form-lbl">客服咨询电话</label>
+            <input type="text" id="sys-phone" class="form-ctrl" value="400-800-6688" />
+          </div>
+          <div class="form-item">
+            <label class="form-lbl">官方服务邮箱</label>
+            <input type="text" id="sys-email" class="form-ctrl" value="official@company.com" />
+          </div>
+        </div>
+
+        <div class="form-item">
+          <label class="form-lbl">SEO 全局关键词 (Keywords，以逗号隔开)</label>
+          <input type="text" id="sys-keywords" class="form-ctrl" value="数字化转型, 企业中台, 招商协同, CMS管理后台" />
+        </div>
+
+        <div class="form-item">
+          <label class="form-lbl">SEO 网站说明描述 (Description)</label>
+          <textarea id="sys-desc" class="form-ctrl" rows="2">专注为高成长型企业提供全场景内容治理、渠道商入驻与业务线索沉淀的数智中台方案。</textarea>
+        </div>
+
+        <div class="form-item">
+          <label class="form-lbl">页脚版权信息声明</label>
+          <input type="text" id="sys-copyright" class="form-ctrl" value="Copyright © 2026 TianShu Corp. All Rights Reserved." />
+        </div>
+      </div>
+    </section>
+
+    <!-- 视图 12: 操作日志审计 (PRD 3.8.2 补齐) -->
+    <section id="panel-system-logs" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">操作日志安全审计</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">全流程操作留痕，记录登录、修改、删除与审核行为</div>
+          </div>
+          <button class="btn btn-light" onclick="clearLogs()">清空演示日志</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th style="width:170px;">时间戳</th>
+              <th style="width:140px;">操作人</th>
+              <th style="width:110px;">操作类型</th>
+              <th>行为明细</th>
+            </tr>
+          </thead>
+          <tbody id="logs-tbody">
+            <!-- 动态渲染日志 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 视图 13: 数据灾备与恢复 (PRD 3.8.3 补齐) -->
+    <section id="panel-backup" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+          <div>
+            <div style="font-size:15px; font-weight:700; color:var(--text-title);">数据灾备与系统还原</div>
+            <div style="font-size:12px; color:var(--text-label); margin-top:2px;">支持手动创建全量快照，防范数据丢失与意外篡改</div>
+          </div>
+          <button class="btn btn-blue" onclick="createBackupSnapshot()">+ 立即创建全量快照</button>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>快照版本标识</th>
+              <th>快照说明</th>
+              <th>包体大小</th>
+              <th>生成时间</th>
+              <th style="text-align:right; width:120px;">操作</th>
+            </tr>
+          </thead>
+          <tbody id="backup-tbody">
+            <!-- 动态渲染快照列表 -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= 模态弹窗系统 ================= -->
+
+  <!-- 弹窗 1: 导航分类设置 -->
+  <div class="modal-mask" id="modal-nav">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <strong class="modal-title" id="modal-nav-title">新增导航分类</strong>
+        <span class="modal-close" onclick="closeModal('modal-nav')">&times;</span>
+      </div>
+      <input type="hidden" id="nav-id" />
+      <div class="form-item">
+        <label class="form-lbl">导航名称</label>
+        <input type="text" id="nav-title" class="form-ctrl" placeholder="如：核心解决方案 / 招商加盟" />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">路由路径 (Path) / 跳转链接</label>
+        <input type="text" id="nav-path" class="form-ctrl" placeholder="如：/solutions 或 https://..." />
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div class="form-item">
+          <label class="form-lbl">排序权重</label>
+          <input type="number" id="nav-sort" class="form-ctrl" value="10" />
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">关联独立装修页面</label>
+          <select id="nav-page-key" class="form-ctrl">
+            <!-- 动态注入 -->
+          </select>
+        </div>
+      </div>
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-nav')">取消</button>
+        <button class="btn btn-blue" onclick="saveNav()">保存导航</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 2: 新建独立页面 -->
+  <div class="modal-mask" id="modal-create-page">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <strong class="modal-title">新建独立官网装修页面</strong>
+        <span class="modal-close" onclick="closeModal('modal-create-page')">&times;</span>
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">页面显示名称</label>
+        <input type="text" id="new-page-name" class="form-ctrl" placeholder="如：关于我们 / 供应商招募" />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">页面唯一标识 Key (小写英文，作为路由路径)</label>
+        <input type="text" id="new-page-key" class="form-ctrl" placeholder="如：about / recruit" />
+      </div>
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-create-page')">取消</button>
+        <button class="btn btn-blue" onclick="createPage()">确认创建</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 3: 积木组件编辑 -->
+  <div class="modal-mask" id="modal-widget">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <strong class="modal-title" id="modal-widget-title">配置页面组件</strong>
+        <span class="modal-close" onclick="closeModal('modal-widget')">&times;</span>
+      </div>
+      <input type="hidden" id="widget-id" />
+      <input type="hidden" id="widget-type" />
+      
+      <div class="form-item">
+        <label class="form-lbl">组件名称说明</label>
+        <input type="text" id="widget-title" class="form-ctrl" placeholder="如：首页首屏通栏海报" />
+      </div>
+
+      <div id="widget-field-banner" style="display:none;">
+        <div class="form-item">
+          <label class="form-lbl">媒体类型</label>
+          <select id="widget-banner-mediatype" class="form-ctrl">
+            <option value="image">高清静态图片</option>
+            <option value="video">MP4 视频宣传片</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">媒体文件 URL</label>
+          <div style="display:flex; gap:8px;">
+            <input type="text" id="widget-banner-url" class="form-ctrl" placeholder="https://..." />
+            <button class="btn btn-light" type="button" onclick="fillMockMedia()">填测试素材</button>
+          </div>
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">跳转目标链接 (选填)</label>
+          <input type="text" id="widget-banner-link" class="form-ctrl" placeholder="如：/solutions" />
+        </div>
+      </div>
+
+      <div id="widget-field-text" style="display:none;">
+        <div class="form-item">
+          <label class="form-lbl">大标题</label>
+          <input type="text" id="widget-text-heading" class="form-ctrl" placeholder="输入大标题..." />
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">副标题 / 描述</label>
+          <input type="text" id="widget-text-sub" class="form-ctrl" placeholder="输入副标题描述..." />
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">长正文文本</label>
+          <textarea id="widget-text-body" class="form-ctrl" rows="3" placeholder="在此输入详细文本说明..."></textarea>
+        </div>
+      </div>
+
+      <div id="widget-field-imagetext" style="display:none;">
+        <div class="form-item">
+          <label class="form-lbl">配图链接 URL</label>
+          <input type="text" id="widget-imgtext-url" class="form-ctrl" placeholder="https://..." />
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">标题与内容</label>
+          <input type="text" id="widget-imgtext-title" class="form-ctrl" placeholder="输入标题" style="margin-bottom:6px;" />
+          <textarea id="widget-imgtext-desc" class="form-ctrl" rows="2" placeholder="输入内容详细描述..."></textarea>
+        </div>
+      </div>
+
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-widget')">取消</button>
+        <button class="btn btn-blue" onclick="saveWidget()">保存组件</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 4: 表单字段编辑 -->
+  <div class="modal-mask" id="modal-field">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <strong class="modal-title" id="modal-field-title">新增表单字段</strong>
+        <span class="modal-close" onclick="closeModal('modal-field')">&times;</span>
+      </div>
+      <input type="hidden" id="field-id" />
+      <div class="form-item">
+        <label class="form-lbl">字段名称 (Label)</label>
+        <input type="text" id="field-label" class="form-ctrl" placeholder="如：主营品类 / 预算区间" />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">字段唯一键名 (Key)</label>
+        <input type="text" id="field-key" class="form-ctrl" placeholder="如：supply_category" />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">输入控件类型</label>
+        <select id="field-type" class="form-ctrl">
+          <option value="text">单行普通文本</option>
+          <option value="phone">手机号码校验</option>
+          <option value="select">下拉单选菜单</option>
+          <option value="textarea">多行文本域</option>
+          <option value="upload">资质证照扫描件上传</option>
+        </select>
+      </div>
+      <div class="form-item" style="display:flex; gap:16px;">
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="field-required" /> 设为必填项
+        </label>
+        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+          <input type="checkbox" id="field-enabled" checked /> 立即启用
+        </label>
+      </div>
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-field')">取消</button>
+        <button class="btn btn-blue" onclick="saveField()">保存字段</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 5: 资讯文章录入 -->
+  <div class="modal-mask" id="modal-article">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <strong class="modal-title">发布企业资讯/公告</strong>
+        <span class="modal-close" onclick="closeModal('modal-article')">&times;</span>
+      </div>
+      <input type="hidden" id="article-id" />
+      <div class="form-item">
+        <label class="form-lbl">资讯标题</label>
+        <input type="text" id="article-title" class="form-ctrl" placeholder="输入文章标题..." />
+      </div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px;">
+        <div class="form-item">
+          <label class="form-lbl">所属分类</label>
+          <select id="article-category" class="form-ctrl">
+            <option value="企业动态">企业动态</option>
+            <option value="行业资讯">行业资讯</option>
+            <option value="官方公告">官方公告</option>
+          </select>
+        </div>
+        <div class="form-item">
+          <label class="form-lbl">发布状态</label>
+          <select id="article-status" class="form-ctrl">
+            <option value="已发布">已发布</option>
+            <option value="草稿">存为草稿</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">封面图片链接 URL</label>
+        <input type="text" id="article-cover" class="form-ctrl" placeholder="https://..." />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">正文内容</label>
+        <textarea id="article-content" class="form-ctrl" rows="4" placeholder="在此输入文章正文详细内容..."></textarea>
+      </div>
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-article')">取消</button>
+        <button class="btn btn-blue" onclick="saveArticle()">保存文章</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 6: 素材上传 -->
+  <div class="modal-mask" id="modal-upload-media">
+    <div class="modal-panel" style="max-width:460px;">
+      <div class="modal-head">
+        <strong class="modal-title">上传素材资源</strong>
+        <span class="modal-close" onclick="closeModal('modal-upload-media')">&times;</span>
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">素材名称</label>
+        <input type="text" id="upload-media-title" class="form-ctrl" placeholder="如：官网2026战略配图" />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">素材类型</label>
+        <select id="upload-media-type" class="form-ctrl">
+          <option value="图片">高清静态图片 (JPG/PNG)</option>
+          <option value="视频">宣传片短视频 (MP4)</option>
+        </select>
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">网络资源 URL (或模拟文件)</label>
+        <input type="text" id="upload-media-url" class="form-ctrl" placeholder="https://..." value="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80" />
+      </div>
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-upload-media')">取消</button>
+        <button class="btn btn-blue" onclick="confirmUploadMedia()">确认入库</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 7: 预览沙盒模态框 (深度顺畅滚动修复版) -->
+  <div class="modal-mask" id="modal-preview">
+    <div class="preview-modal-panel">
+      <div class="preview-modal-bar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <span style="font-weight:700; font-size:14px; color:var(--text-title);" id="preview-mode-title">官网全局整站模拟预览</span>
+          <span class="status-capsule" id="preview-active-slug">当前路由: /</span>
+        </div>
+        
+        <div style="display:flex; align-items:center; gap:8px;">
+          <button class="btn btn-light btn-sm" id="btn-vp-desktop" onclick="setPreviewDevice('desktop')">
+            🖥️ 桌面端视口 (Fluid)
+          </button>
+          <button class="btn btn-light btn-sm" id="btn-vp-mobile" onclick="setPreviewDevice('mobile')">
+            📱 手机端 (375px)
+          </button>
+          <button class="btn btn-light btn-sm" onclick="closeModal('modal-preview')" style="margin-left:8px;">关闭预览</button>
+        </div>
+      </div>
+
+      <div class="preview-viewport-box" id="preview-viewport-box-id">
+        <div id="preview-frame" class="viewport-desktop">
+          <div id="preview-site-header" style="height:54px; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:#fff; flex-shrink:0;">
+            <div style="font-weight:800; font-size:15px; color:#1e3a8a; display:flex; align-items:center; gap:8px;">
+              <span style="width:12px; height:12px; background:#1e3a8a; border-radius:50%;"></span>
+              企业官网
+            </div>
+            <div id="preview-nav-links" style="display:flex; gap:18px; font-size:13px; font-weight:600;">
+              <!-- 动态前台导航 -->
+            </div>
+          </div>
+
+          <div id="preview-rendered-body" style="padding-bottom:60px; background:#fff;">
+            <!-- 动态渲染内容 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 纯原生高可靠业务 JS ================= -->
+  <script>
+    const ICONS = {
+      chevronUp: `<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>`,
+      chevronDown: `<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>`
+    };
+
+    const store = {
+      pages: {
+        home: {
+          name: '官网首页',
+          date: '2026-09-20',
+          widgets: [
+            {
+              id: 'w_101',
+              title: '首页首屏宣传 Banner (支持图片/MP4视频)',
+              type: 'banner',
+              mediaType: 'image',
+              url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1000&auto=format&fit=crop&q=80',
+              link: '/solutions',
+              enabled: true
+            },
+            {
+              id: 'w_102',
+              title: '品牌战略核心标语文字介绍',
+              type: 'text',
+              heading: '驱动企业数智化未来，轻量级高效协同管理',
+              sub: '从官网品牌展示到招商渠道线索沉淀，一站式赋能企业业务全流程数字化。',
+              body: '天枢数智致力于通过标准化与轻量化敏捷架构赋能企业，打通招商渠道流转与线索沉淀闭环。在面对多组织、大规模分布式体系时，保障系统吞吐量与数据安全性。',
+              enabled: true
+            },
+            {
+              id: 'w_103',
+              title: '核心业务特色图文模块',
+              type: 'image_text',
+              url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80',
+              textTitle: '通过 CMMI5 软件能力成熟度最高级认证',
+              desc: '经国际权威机构评定，公司正式通过 CMMI-DEV V2.0 五级成熟度认证，工程治理与产品交付能力达到国际先进水平。',
+              enabled: true
+            }
+          ]
+        },
+        solutions: {
+          name: '核心解决方案页',
+          date: '2026-09-18',
+          widgets: [
+            {
+              id: 'w_201',
+              title: '全链路数字化解决方案矩阵 Banner',
+              type: 'banner',
+              mediaType: 'image',
+              url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80',
+              link: '',
+              enabled: true
+            },
+            {
+              id: 'w_202',
+              title: '解决方案场景定位说明',
+              type: 'text',
+              heading: '面向行业标杆场景的定制化解决方案',
+              sub: '覆盖制造业供应链协同、数字新零售与国际合规治理。',
+              body: '全面支撑集团化多组织权限管控、高并发吞吐与全渠道营销转化。',
+              enabled: true
+            }
+          ]
+        }
+      },
+      currentEditingPageKey: 'home',
+
+      navigations: [
+        { id: 1, sort: 1, title: '官网首页', path: '/', isExternal: false, pageKey: 'home', isVisible: true },
+        { id: 2, sort: 2, title: '核心解决方案', path: '/solutions', isExternal: false, pageKey: 'solutions', isVisible: true },
+        { id: 3, sort: 3, title: '招商渠道合作', path: '/partners', isExternal: false, pageKey: '', isVisible: true },
+        { id: 4, sort: 4, title: '供应商加盟', path: '/suppliers', isExternal: false, pageKey: '', isVisible: true }
+      ],
+
+      // 素材库 (PRD 3.3)
+      mediaList: [
+        { id: 'm_1', name: '首屏数字化 Banner', type: '图片', size: '1.2 MB', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80' },
+        { id: 'm_2', name: '芯片硬件芯片图', type: '图片', size: '890 KB', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80' },
+        { id: 'm_3', name: '产品 4K 宣传演示片', type: '视频', size: '14.5 MB', url: 'https://www.w3schools.com/html/mov_bbb.mp4' }
+      ],
+
+      currentSchemaType: 'partner',
+      formSchemas: {
+        partner: [
+          { id: 'pf1', label: '企业名称', key: 'companyName', type: 'text', required: true, enabled: true },
+          { id: 'pf2', label: '统一社会信用代码', key: 'creditCode', type: 'text', required: true, enabled: true },
+          { id: 'pf3', label: '所在地区 (省市区)', key: 'region', type: 'text', required: true, enabled: true },
+          { id: 'pf4', label: '联系人姓名', key: 'contactName', type: 'text', required: true, enabled: true },
+          { id: 'pf5', label: '联系电话 (手机)', key: 'phone', type: 'phone', required: true, enabled: true },
+          { id: 'pf6', label: '意向合作区域', key: 'targetRegion', type: 'text', required: true, enabled: true },
+          { id: 'pf7', label: '合作诉求描述', key: 'demand', type: 'textarea', required: false, enabled: true },
+          { id: 'pf8', label: '企业营业执照扫描件', key: 'license', type: 'upload', required: false, enabled: true }
+        ],
+        supplier: [
+          { id: 'sf1', label: '供应企业全称', key: 'companyName', type: 'text', required: true, enabled: true },
+          { id: 'sf2', label: '统一社会信用代码', key: 'creditCode', type: 'text', required: true, enabled: true },
+          { id: 'sf3', label: '法人姓名', key: 'legalPerson', type: 'text', required: true, enabled: true },
+          { id: 'sf4', label: '对接人姓名与电话', key: 'contact', type: 'phone', required: true, enabled: true },
+          { id: 'sf5', label: '主营供应品类', key: 'supplyCategory', type: 'text', required: true, enabled: true },
+          { id: 'sf6', label: '供应服务区域能力', key: 'capacity', type: 'textarea', required: true, enabled: true },
+          { id: 'sf7', label: '企业资质证书附件', key: 'certificates', type: 'upload', required: false, enabled: true }
+        ]
+      },
+
+      partners: [
+        { id: 'QD-01', company: '苏州鼎盛数智科技有限公司', code: '91320500MA1WXXXX1A', contact: '王总 (13812345678)', region: '华东区域', demand: '代理私有化中台系统', status: '待审核', remark: '' },
+        { id: 'QD-02', company: '成都华夏天成网络技术有限公司', code: '91510100MA6XXXXX8B', contact: '李经理 (18698765432)', region: '西南区域', demand: '独家渠道服务商资格', status: '已签约', remark: '已完成签约' }
+      ],
+      suppliers: [
+        { id: 'GY-01', company: '深圳立讯智能传感器制造有限公司', code: '91440300MA5EXXXX2C', contact: '张总 (13922223333)', category: '智能硬件/传感器', capacity: '月产能 50 万套', status: '待审核', remark: '' },
+        { id: 'GY-02', company: '武汉云端光电科技股份有限公司', code: '91420100MA4KXXXX7D', contact: '刘总工 (18677778888)', category: '机房定制机柜', capacity: '年供应量 2 万套', status: '审核通过', remark: '列入年度名录' }
+      ],
+
+      articles: [
+        { id: 1, title: '重磅！公司通过 CMMI5 软件能力成熟度最高级认证', category: '企业动态', status: '已发布', cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&auto=format&fit=crop&q=80', date: '2026-09-18' },
+        { id: 2, title: '关于 2026 年国庆期间官网业务系统维护窗口期的通知', category: '官方公告', status: '已发布', cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&auto=format&fit=crop&q=80', date: '2026-09-19' }
+      ],
+
+      feedbacks: [
+        { id: 1, name: '陈先生', contact: '13700001111', content: '请问私有化部署是否支持国产达梦数据库和麒麟信安操作系统？', reply: '', isRead: false },
+        { id: 2, name: '周总', contact: 'zhou@tech.cn', content: '希望预约一次下周三下午的产品远程系统演示。', reply: '已电话沟通确认', isRead: true }
+      ],
+
+      // 系统审计日志 (PRD 3.8.2)
+      logs: [
+        { time: '2026-09-22 14:30:12', user: '超级管理员 (AD)', type: 'LOGIN', detail: '系统会话安全签发，终端环境健康' },
+        { time: '2026-09-22 14:15:00', user: '超级管理员 (AD)', type: 'PAGE_UPDATE', detail: '保存【官网首页】多积木组件配置' },
+        { time: '2026-09-22 13:50:22', user: '超级管理员 (AD)', type: 'SCHEMA_UPDATE', detail: '配置更新渠道商申请表单字段' }
+      ],
+
+      // 备份历史 (PRD 3.8.3)
+      backups: [
+        { id: 'BAK_20260920_BASE', name: '系统里程碑稳定版全量快照', size: '14.8 MB', time: '2026-09-20 18:00:00' }
+      ]
+    };
+
+    // 记录日志公用方法
+    function logEvent(type, detail) {
+      const now = new Date();
+      const timeStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0') + ' ' + String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0') + ':' + String(now.getSeconds()).padStart(2,'0');
+      store.logs.unshift({ time: timeStr, user: '超级管理员 (AD)', type, detail });
+      renderLogs();
+    }
+
+    // 侧边栏驱动
+    document.querySelectorAll('.menu-item').forEach(btn => {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+
+        const targetId = this.getAttribute('data-view');
+        document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
+        document.getElementById(targetId).style.display = 'block';
+
+        if (targetId === 'panel-page-builder') {
+          exitPageEditor();
+        }
+
+        const titleText = this.getAttribute('data-title') || this.querySelector('span').innerText;
+        document.getElementById('header-title').innerText = titleText;
+      });
+    });
+
+    function jumpToMenu(viewId) {
+      document.querySelectorAll('.menu-item').forEach(m => {
+        if (m.getAttribute('data-view') === viewId) m.click();
+      });
+    }
+
+    // 1. 页面装修
+    function renderPageListTable() {
+      const tbody = document.getElementById('page-list-tbody');
+      tbody.innerHTML = '';
+
+      Object.keys(store.pages).forEach(key => {
+        const p = store.pages[key];
+        const tr = document.createElement('tr');
+        const isHome = key === 'home';
+
+        tr.innerHTML = `
+          <td>
+            <div style="font-weight:700; color:var(--text-title); font-size:13px;">${p.name} ${isHome ? '<span class="status-capsule blue" style="margin-left:6px;">官网首页</span>' : ''}</div>
+          </td>
+          <td>
+            <span style="font-family:monospace; color:var(--text-label); font-size:12px;">/${isHome ? '' : key}</span>
+          </td>
+          <td>
+            <span class="status-capsule">${p.widgets.length} 个积木组件</span>
+          </td>
+          <td style="color:var(--text-label); font-size:12px;">${p.date || '2026-09-20'}</td>
+          <td style="text-align:right;">
+            <div class="table-actions-cell">
+              <button class="btn btn-light btn-sm" onclick="openSinglePagePreview('${key}')">预览</button>
+              <button class="btn btn-light btn-sm" onclick="enterPageEditor('${key}')">装修画布</button>
+              ${!isHome ? `<button class="btn btn-red-subtle btn-sm" onclick="deletePageFromList('${key}')">删除</button>` : ''}
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function enterPageEditor(pageKey) {
+      store.currentEditingPageKey = pageKey;
+      const page = store.pages[pageKey];
+
+      document.getElementById('builder-subview-list').style.display = 'none';
+      document.getElementById('builder-subview-editor').style.display = 'block';
+
+      document.getElementById('current-editing-page-name').innerText = `正在装修：${page.name}`;
+      document.getElementById('current-editing-page-key').innerText = `路由路径: /${pageKey === 'home' ? '' : pageKey}`;
+      document.getElementById('btn-delete-active-page').style.display = pageKey === 'home' ? 'none' : 'inline-flex';
+
+      renderPageWidgets();
+    }
+
+    function exitPageEditor() {
+      document.getElementById('builder-subview-list').style.display = 'block';
+      document.getElementById('builder-subview-editor').style.display = 'none';
+      renderPageListTable();
+    }
+
+    function renderPageWidgets() {
+      const page = store.pages[store.currentEditingPageKey];
+      if (!page) return;
+
+      const container = document.getElementById('widgets-container');
+      container.innerHTML = '';
+
+      if (!page.widgets || page.widgets.length === 0) {
+        container.innerHTML = '<div style="color:#94a3b8; font-size:13px; padding:32px; text-align:center; border:1px dashed #cbd5e1; border-radius:12px;">该页面当前暂无组件，请点击右上角按钮添加组件</div>';
+        return;
+      }
+
+      page.widgets.forEach((w, idx) => {
+        const item = document.createElement('div');
+        item.className = 'widget-row-card';
+
+        let typeBadge = '';
+        let contentHtml = '';
+
+        if (w.type === 'banner') {
+          typeBadge = '<span class="status-capsule blue">Banner 轮播</span>';
+          contentHtml = `
+            <div style="display:flex; gap:16px; align-items:center;">
+              <div style="width:140px; height:70px; background:#000; border-radius:8px; overflow:hidden; flex-shrink:0;">
+                ${w.mediaType === 'video'
+                  ? `<video src="${w.url}" controls style="width:100%; height:100%; object-fit:cover;"></video>`
+                  : `<img src="${w.url}" style="width:100%; height:100%; object-fit:cover;" />`}
+              </div>
+              <div class="widget-content-desc">
+                <div><strong style="color:var(--text-title);">媒体形态:</strong> ${w.mediaType === 'video' ? 'MP4 视频宣传片' : '静态图片'}</div>
+                <div><strong style="color:var(--text-title);">跳转链接:</strong> ${w.link || '无跳转'}</div>
+              </div>
+            </div>
+          `;
+        } else if (w.type === 'text') {
+          typeBadge = '<span class="status-capsule blue">文字介绍</span>';
+          contentHtml = `
+            <div>
+              <div class="widget-content-heading">${w.heading}</div>
+              <div class="widget-content-sub">${w.sub}</div>
+              <div class="widget-content-desc">${w.body}</div>
+            </div>
+          `;
+        } else if (w.type === 'image_text') {
+          typeBadge = '<span class="status-capsule">图文展示</span>';
+          contentHtml = `
+            <div style="display:flex; gap:16px; align-items:center;">
+              <img src="${w.url}" style="width:110px; height:70px; object-fit:cover; border-radius:8px; flex-shrink:0;" />
+              <div>
+                <div class="widget-content-heading">${w.textTitle}</div>
+                <div class="widget-content-desc">${w.desc}</div>
+              </div>
+            </div>
+          `;
+        }
+
+        item.innerHTML = `
+          <div class="widget-head">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="sort-num-text">${idx + 1}</span>
+              <span class="widget-bar-title">${w.title}</span>
+              ${typeBadge}
+            </div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <label class="switch-ui">
+                <input type="checkbox" ${w.enabled ? 'checked' : ''} onchange="toggleWidgetEnabled('${w.id}')">
+                <span class="switch-slider"></span>
+              </label>
+              <div class="sort-control-group" style="margin-left:6px;">
+                <button ${idx === 0 ? 'disabled' : ''} onclick="moveWidget(${idx}, -1)" class="btn-sort-icon" title="上移">
+                  ${ICONS.chevronUp}
+                </button>
+                <button ${idx === page.widgets.length - 1 ? 'disabled' : ''} onclick="moveWidget(${idx}, 1)" class="btn-sort-icon" title="下移">
+                  ${ICONS.chevronDown}
+                </button>
+              </div>
+              <div class="table-actions-cell" style="margin-left:8px;">
+                <button class="btn btn-light btn-sm" onclick="editWidget('${w.id}')">编辑</button>
+                <button class="btn btn-red-subtle btn-sm" onclick="deleteWidget('${w.id}')">删除</button>
+              </div>
+            </div>
+          </div>
+          ${contentHtml}
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function toggleWidgetEnabled(id) {
+      const page = store.pages[store.currentEditingPageKey];
+      const w = page.widgets.find(item => item.id === id);
+      if (w) {
+        w.enabled = !w.enabled;
+        logEvent('PAGE_WIDGET', `切换组件【${w.title}】状态为: ${w.enabled ? '开启' : '关闭'}`);
+      }
+    }
+
+    function moveWidget(idx, delta) {
+      const page = store.pages[store.currentEditingPageKey];
+      const target = idx + delta;
+      const temp = page.widgets[idx];
+      page.widgets[idx] = page.widgets[target];
+      page.widgets[target] = temp;
+      renderPageWidgets();
+      logEvent('PAGE_WIDGET', `调整组件排序位置`);
+    }
+
+    function openAddWidgetModal(type) {
+      document.getElementById('widget-id').value = '';
+      document.getElementById('widget-type').value = type;
+      document.getElementById('widget-title').value = '';
+      
+      document.getElementById('widget-field-banner').style.display = type === 'banner' ? 'block' : 'none';
+      document.getElementById('widget-field-text').style.display = type === 'text' ? 'block' : 'none';
+      document.getElementById('widget-field-imagetext').style.display = type === 'image_text' ? 'block' : 'none';
+
+      if (type === 'banner') {
+        document.getElementById('modal-widget-title').innerText = '添加 Banner 轮播 (支持视频/图片)';
+        document.getElementById('widget-banner-url').value = '';
+        document.getElementById('widget-banner-link').value = '';
+      } else if (type === 'text') {
+        document.getElementById('modal-widget-title').innerText = '添加 文字介绍组件';
+        document.getElementById('widget-text-heading').value = '';
+        document.getElementById('widget-text-sub').value = '';
+        document.getElementById('widget-text-body').value = '';
+      } else if (type === 'image_text') {
+        document.getElementById('modal-widget-title').innerText = '添加 图文展示卡片';
+        document.getElementById('widget-imgtext-url').value = '';
+        document.getElementById('widget-imgtext-title').value = '';
+        document.getElementById('widget-imgtext-desc').value = '';
+      }
+
+      openModal('modal-widget');
+    }
+
+    function editWidget(id) {
+      const page = store.pages[store.currentEditingPageKey];
+      const w = page.widgets.find(item => item.id === id);
+      if (!w) return;
+
+      document.getElementById('widget-id').value = w.id;
+      document.getElementById('widget-type').value = w.type;
+      document.getElementById('widget-title').value = w.title;
+      document.getElementById('modal-widget-title').innerText = '编辑页面组件';
+
+      document.getElementById('widget-field-banner').style.display = w.type === 'banner' ? 'block' : 'none';
+      document.getElementById('widget-field-text').style.display = w.type === 'text' ? 'block' : 'none';
+      document.getElementById('widget-field-imagetext').style.display = w.type === 'image_text' ? 'block' : 'none';
+
+      if (w.type === 'banner') {
+        document.getElementById('widget-banner-mediatype').value = w.mediaType;
+        document.getElementById('widget-banner-url').value = w.url;
+        document.getElementById('widget-banner-link').value = w.link || '';
+      } else if (w.type === 'text') {
+        document.getElementById('widget-text-heading').value = w.heading;
+        document.getElementById('widget-text-sub').value = w.sub;
+        document.getElementById('widget-text-body').value = w.body;
+      } else if (w.type === 'image_text') {
+        document.getElementById('widget-imgtext-url').value = w.url;
+        document.getElementById('widget-imgtext-title').value = w.textTitle;
+        document.getElementById('widget-imgtext-desc').value = w.desc;
+      }
+
+      openModal('modal-widget');
+    }
+
+    function saveWidget() {
+      const id = document.getElementById('widget-id').value;
+      const type = document.getElementById('widget-type').value;
+      const title = document.getElementById('widget-title').value.trim();
+
+      if (!title) return alert('请输入组件名称！');
+
+      const page = store.pages[store.currentEditingPageKey];
+      let data = { id: id || 'w_' + Date.now(), title, type, enabled: true };
+
+      if (type === 'banner') {
+        data.mediaType = document.getElementById('widget-banner-mediatype').value;
+        data.url = document.getElementById('widget-banner-url').value.trim();
+        data.link = document.getElementById('widget-banner-link').value.trim();
+        if (!data.url) return alert('请输入物料 URL！');
+      } else if (type === 'text') {
+        data.heading = document.getElementById('widget-text-heading').value.trim();
+        data.sub = document.getElementById('widget-text-sub').value.trim();
+        data.body = document.getElementById('widget-text-body').value.trim();
+      } else if (type === 'image_text') {
+        data.url = document.getElementById('widget-imgtext-url').value.trim();
+        data.textTitle = document.getElementById('widget-imgtext-title').value.trim();
+        data.desc = document.getElementById('widget-imgtext-desc').value.trim();
+      }
+
+      if (id) {
+        const idx = page.widgets.findIndex(item => item.id === id);
+        if (idx > -1) page.widgets[idx] = data;
+      } else {
+        page.widgets.push(data);
+      }
+
+      closeModal('modal-widget');
+      renderPageWidgets();
+      logEvent('PAGE_WIDGET', `保存组件【${title}】`);
+    }
+
+    function deleteWidget(id) {
+      if (confirm('确定删除该组件？')) {
+        const page = store.pages[store.currentEditingPageKey];
+        page.widgets = page.widgets.filter(w => w.id !== id);
+        renderPageWidgets();
+        logEvent('PAGE_WIDGET', `删除页面组件`);
+      }
+    }
+
+    function savePageWidgets() {
+      const page = store.pages[store.currentEditingPageKey];
+      logEvent('PAGE_UPDATE', `保存整页【${page.name}】配置`);
+      alert(`【${page.name}】的全部积木组件配置已保存！`);
+    }
+
+    function openCreatePageModal() {
+      document.getElementById('new-page-name').value = '';
+      document.getElementById('new-page-key').value = '';
+      openModal('modal-create-page');
+    }
+
+    function createPage() {
+      const name = document.getElementById('new-page-name').value.trim();
+      const key = document.getElementById('new-page-key').value.trim().toLowerCase();
+
+      if (!name || !key) return alert('请完整填写页面名称与标识！');
+      if (store.pages[key]) return alert('已存在相同 Key 的页面！');
+
+      store.pages[key] = {
+        name,
+        date: new Date().toISOString().split('T')[0],
+        widgets: [
+          {
+            id: 'w_' + Date.now(),
+            title: `${name} 顶部宣传 Banner`,
+            type: 'banner',
+            mediaType: 'image',
+            url: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1000&auto=format&fit=crop&q=80',
+            link: '',
+            enabled: true
+          }
+        ]
+      };
+
+      closeModal('modal-create-page');
+      renderPageListTable();
+      renderNavigations();
+      logEvent('PAGE_CREATE', `创建新独立页面【${name}】(key: ${key})`);
+      alert(`页面【${name}】创建成功！已添加至列表。`);
+    }
+
+    function deleteActivePage() {
+      deletePageFromList(store.currentEditingPageKey);
+    }
+
+    function deletePageFromList(key) {
+      if (key === 'home') return alert('官网首页不可删除！');
+      const pageName = store.pages[key].name;
+      if (confirm(`确定删除页面【${pageName}】吗？`)) {
+        store.navigations.forEach(nav => {
+          if (nav.pageKey === key) nav.pageKey = '';
+        });
+        delete store.pages[key];
+        exitPageEditor();
+        renderNavigations();
+        logEvent('PAGE_DELETE', `删除独立页面【${pageName}】`);
+      }
+    }
+
+    function fillMockMedia() {
+      const type = document.getElementById('widget-banner-mediatype').value;
+      if (type === 'video') {
+        document.getElementById('widget-banner-url').value = 'https://www.w3schools.com/html/mov_bbb.mp4';
+      } else {
+        document.getElementById('widget-banner-url').value = 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=1000&auto=format&fit=crop&q=80';
+      }
+    }
+
+    // ================= 2. 导航管理 =================
+    function renderNavigations() {
+      const tbody = document.getElementById('nav-tbody');
+      tbody.innerHTML = '';
+
+      store.navigations.forEach(nav => {
+        const tr = document.createElement('tr');
+        const boundPage = nav.pageKey ? store.pages[nav.pageKey] : null;
+
+        tr.innerHTML = `
+          <td class="sort-num-text">${nav.sort}</td>
+          <td style="font-weight:700; color:var(--text-main); font-size:13px;">${nav.title}</td>
+          <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${nav.path}</td>
+          <td><span class="status-capsule ${nav.isExternal ? 'blue' : ''}">${nav.isExternal ? '外链' : '路由'}</span></td>
+          <td>
+            ${boundPage
+              ? `<span style="color:#15803d; font-weight:600; font-size:12px;">● 已关联: ${boundPage.name}</span>`
+              : `<span style="color:var(--text-placeholder); font-size:12px;">- 未关联 -</span>`}
+          </td>
+          <td>
+            <label class="switch-ui">
+              <input type="checkbox" ${nav.isVisible ? 'checked' : ''} onchange="toggleNav(${nav.id})">
+              <span class="switch-slider"></span>
+            </label>
+          </td>
+          <td style="text-align:right;">
+            <div class="table-actions-cell">
+              ${nav.pageKey ? `<button class="btn btn-light btn-sm" onclick="directJumpToPageEditor('${nav.pageKey}')">进入装修画布</button>` : ''}
+              <button class="btn btn-light btn-sm" onclick="editNav(${nav.id})">编辑</button>
+              <button class="btn btn-red-subtle btn-sm" onclick="deleteNav(${nav.id})">删除</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function directJumpToPageEditor(pageKey) {
+      jumpToMenu('panel-page-builder');
+      enterPageEditor(pageKey);
+    }
+
+    function toggleNav(id) {
+      const n = store.navigations.find(item => item.id === id);
+      if (n) {
+        n.isVisible = !n.isVisible;
+        logEvent('NAV_TOGGLE', `切换导航【${n.title}】显隐状态为: ${n.isVisible ? '显示' : '隐藏'}`);
+      }
+    }
+
+    function updateNavModalPageOptions(selectedKey = '') {
+      const select = document.getElementById('nav-page-key');
+      select.innerHTML = '<option value="">不关联独立页面 (仅普通链接)</option>';
+      Object.keys(store.pages).forEach(key => {
+        const p = store.pages[key];
+        const opt = document.createElement('option');
+        opt.value = key;
+        opt.innerText = `关联页面: ${p.name} (/${key === 'home' ? '' : key})`;
+        if (key === selectedKey) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function openNavModal() {
+      document.getElementById('modal-nav-title').innerText = '新增导航分类';
+      document.getElementById('nav-id').value = '';
+      document.getElementById('nav-title').value = '';
+      document.getElementById('nav-path').value = '';
+      document.getElementById('nav-sort').value = (store.navigations.length + 1) * 10;
+      updateNavModalPageOptions('');
+      openModal('modal-nav');
+    }
+
+    function editNav(id) {
+      const n = store.navigations.find(item => item.id === id);
+      if (!n) return;
+      document.getElementById('modal-nav-title').innerText = '编辑导航分类';
+      document.getElementById('nav-id').value = n.id;
+      document.getElementById('nav-title').value = n.title;
+      document.getElementById('nav-path').value = n.path;
+      document.getElementById('nav-sort').value = n.sort;
+      updateNavModalPageOptions(n.pageKey || '');
+      openModal('modal-nav');
+    }
+
+    function saveNav() {
+      const id = document.getElementById('nav-id').value;
+      const title = document.getElementById('nav-title').value.trim();
+      const path = document.getElementById('nav-path').value.trim();
+      const sort = parseInt(document.getElementById('nav-sort').value) || 10;
+      const pageKey = document.getElementById('nav-page-key').value;
+
+      if (!title || !path) return alert('请完整填写名称与路径！');
+
+      if (id) {
+        const n = store.navigations.find(item => item.id == id);
+        if (n) {
+          n.title = title;
+          n.path = path;
+          n.sort = sort;
+          n.pageKey = pageKey;
+          n.isExternal = path.startsWith('http');
+        }
+      } else {
+        store.navigations.push({
+          id: Date.now(),
+          title,
+          path,
+          sort,
+          pageKey,
+          isExternal: path.startsWith('http'),
+          isVisible: true
+        });
+      }
+
+      closeModal('modal-nav');
+      renderNavigations();
+      logEvent('NAV_SAVE', `保存导航菜单【${title}】`);
+    }
+
+    function deleteNav(id) {
+      if (confirm('确定删除该导航项？')) {
+        store.navigations = store.navigations.filter(n => n.id !== id);
+        renderNavigations();
+        logEvent('NAV_DELETE', `删除导航项`);
+      }
+    }
+
+    // ================= 3. 素材库管理 (PRD 3.3 补齐) =================
+    function renderMediaLibrary() {
+      const grid = document.getElementById('media-grid');
+      grid.innerHTML = '';
+
+      store.mediaList.forEach(m => {
+        const card = document.createElement('div');
+        card.style.border = '1px solid var(--border-control)';
+        card.style.borderRadius = 'var(--radius-md)';
+        card.style.background = '#ffffff';
+        card.style.overflow = 'hidden';
+        card.style.boxShadow = '0 1px 3px rgba(0,0,0,0.02)';
+
+        const previewHtml = m.type === '视频'
+          ? `<video src="${m.url}" controls style="width:100%; height:110px; object-fit:cover; background:#000;"></video>`
+          : `<img src="${m.url}" style="width:100%; height:110px; object-fit:cover; display:block;" />`;
+
+        card.innerHTML = `
+          ${previewHtml}
+          <div style="padding:10px 12px;">
+            <div style="font-weight:700; font-size:12px; color:var(--text-title); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${m.name}</div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-top:4px;">
+              <span class="status-capsule ${m.type === '视频' ? 'orange' : 'blue'}">${m.type}</span>
+              <span style="font-size:11px; color:var(--text-label);">${m.size}</span>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px; border-top:1px solid #f8fafc; padding-top:6px;">
+              <button class="btn btn-red-subtle btn-sm" onclick="deleteMedia('${m.id}')">删除</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function openUploadMediaModal() {
+      openModal('modal-upload-media');
+    }
+
+    function confirmUploadMedia() {
+      const name = document.getElementById('upload-media-title').value.trim();
+      const type = document.getElementById('upload-media-type').value;
+      const url = document.getElementById('upload-media-url').value.trim();
+
+      if (!name || !url) return alert('请完整填写素材名称与 URL！');
+
+      store.mediaList.unshift({
+        id: 'm_' + Date.now(),
+        name,
+        type,
+        size: type === '视频' ? '12.8 MB' : '950 KB',
+        url
+      });
+
+      closeModal('modal-upload-media');
+      renderMediaLibrary();
+      logEvent('MEDIA_UPLOAD', `入库新素材【${name}】`);
+    }
+
+    function deleteMedia(id) {
+      if (confirm('确定删除该素材？系统已校验依赖，若有组件引用请先解除。')) {
+        store.mediaList = store.mediaList.filter(m => m.id !== id);
+        renderMediaLibrary();
+        logEvent('MEDIA_DELETE', `删除素材资源`);
+      }
+    }
+
+    // ================= 4. 双表单 Schema 引擎 =================
+    function switchSchemaTab(type) {
+      store.currentSchemaType = type;
+      if (type === 'partner') {
+        document.getElementById('tab-schema-partner').classList.add('active');
+        document.getElementById('tab-schema-supplier').classList.remove('active');
+      } else {
+        document.getElementById('tab-schema-partner').classList.remove('active');
+        document.getElementById('tab-schema-supplier').classList.add('active');
+      }
+      renderFormFields();
+    }
+
+    function renderFormFields() {
+      const list = store.formSchemas[store.currentSchemaType];
+      const tbody = document.getElementById('field-tbody');
+      tbody.innerHTML = '';
+
+      list.forEach((f, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>
+            <div class="sort-control-group">
+              <button ${idx === 0 ? 'disabled' : ''} onclick="moveFieldItem(${idx}, -1)" class="btn-sort-icon" title="上移">
+                ${ICONS.chevronUp}
+              </button>
+              <button ${idx === list.length - 1 ? 'disabled' : ''} onclick="moveFieldItem(${idx}, 1)" class="btn-sort-icon" title="下移">
+                ${ICONS.chevronDown}
+              </button>
+            </div>
+          </td>
+          <td style="font-weight:700; color:var(--text-main); font-size:13px;">${f.label}</td>
+          <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${f.key}</td>
+          <td><span class="status-capsule blue">${getFieldTypeName(f.type)}</span></td>
+          <td style="text-align:center;">
+            <span class="status-capsule ${f.required ? 'red' : 'blue'}" style="cursor:pointer;" onclick="toggleFieldReq('${f.id}')">
+              ${f.required ? '必填' : '选填'}
+            </span>
+          </td>
+          <td style="text-align:center;">
+            <label class="switch-ui">
+              <input type="checkbox" ${f.enabled ? 'checked' : ''} onchange="toggleFieldEn('${f.id}')">
+              <span class="switch-slider"></span>
+            </label>
+          </td>
+          <td style="text-align:right;">
+            <div class="table-actions-cell">
+              <button class="btn btn-light btn-sm" onclick="editField('${f.id}')">编辑</button>
+              <button class="btn btn-red-subtle btn-sm" onclick="deleteField('${f.id}')">删除</button>
+            </div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      renderLivePreview();
+    }
+
+    function renderLivePreview() {
+      const list = store.formSchemas[store.currentSchemaType];
+      const box = document.getElementById('live-preview-box');
+      box.innerHTML = '';
+
+      list.forEach(f => {
+        if (!f.enabled) return;
+        const item = document.createElement('div');
+        item.innerHTML = `
+          <label style="display:block; font-size:12px; font-weight:600; color:var(--text-main); margin-bottom:4px;">
+            ${f.label} ${f.required ? '<span style="color:#ef4444;">*</span>' : ''}
+          </label>
+        `;
+
+        if (['text', 'phone'].includes(f.type)) {
+          item.innerHTML += `<input type="text" class="form-ctrl" placeholder="请输入 ${f.label}" />`;
+        } else if (f.type === 'textarea') {
+          item.innerHTML += `<textarea class="form-ctrl" rows="2" placeholder="请补充输入 ${f.label}"></textarea>`;
+        } else if (f.type === 'select') {
+          item.innerHTML += `<select class="form-ctrl"><option>请选择...</option></select>`;
+        } else if (f.type === 'upload') {
+          item.innerHTML += `<div style="border:1px dashed #cbd5e1; background:#fff; padding:10px; text-align:center; border-radius:8px; font-size:11px; color:#94a3b8;">+ 上传资质扫描件附件</div>`;
+        }
+
+        box.appendChild(item);
+      });
+    }
+
+    function getFieldTypeName(t) {
+      const map = { text: '文本框', phone: '手机号', select: '下拉选单', textarea: '多行文本', upload: '资质上传' };
+      return map[t] || t;
+    }
+
+    function toggleFieldReq(id) {
+      const list = store.formSchemas[store.currentSchemaType];
+      const f = list.find(item => item.id === id);
+      if (f) { f.required = !f.required; renderFormFields(); logEvent('SCHEMA_UPDATE', `修改字段【${f.label}】必填状态`); }
+    }
+
+    function toggleFieldEn(id) {
+      const list = store.formSchemas[store.currentSchemaType];
+      const f = list.find(item => item.id === id);
+      if (f) { f.enabled = !f.enabled; renderFormFields(); logEvent('SCHEMA_UPDATE', `修改字段【${f.label}】启停状态`); }
+    }
+
+    function moveFieldItem(idx, delta) {
+      const list = store.formSchemas[store.currentSchemaType];
+      const target = idx + delta;
+      const temp = list[idx];
+      list[idx] = list[target];
+      list[target] = temp;
+      renderFormFields();
+      logEvent('SCHEMA_UPDATE', `调序表单字段`);
+    }
+
+    function openFieldModal() {
+      document.getElementById('modal-field-title').innerText = '新增表单收集字段';
+      document.getElementById('field-id').value = '';
+      document.getElementById('field-label').value = '';
+      document.getElementById('field-key').value = '';
+      document.getElementById('field-type').value = 'text';
+      document.getElementById('field-required').checked = true;
+      document.getElementById('field-enabled').checked = true;
+      openModal('modal-field');
+    }
+
+    function editField(id) {
+      const list = store.formSchemas[store.currentSchemaType];
+      const f = list.find(item => item.id === id);
+      if (!f) return;
+
+      document.getElementById('modal-field-title').innerText = '编辑表单字段';
+      document.getElementById('field-id').value = f.id;
+      document.getElementById('field-label').value = f.label;
+      document.getElementById('field-key').value = f.key;
+      document.getElementById('field-type').value = f.type;
+      document.getElementById('field-required').checked = f.required;
+      document.getElementById('field-enabled').checked = f.enabled;
+      openModal('modal-field');
+    }
+
+    function saveField() {
+      const id = document.getElementById('field-id').value;
+      const label = document.getElementById('field-label').value.trim();
+      const key = document.getElementById('field-key').value.trim();
+      const type = document.getElementById('field-type').value;
+      const required = document.getElementById('field-required').checked;
+      const enabled = document.getElementById('field-enabled').checked;
+
+      if (!label || !key) return alert('请完整输入字段名称与键名！');
+
+      const list = store.formSchemas[store.currentSchemaType];
+      if (id) {
+        const f = list.find(item => item.id === id);
+        if (f) { f.label = label; f.key = key; f.type = type; f.required = required; f.enabled = enabled; }
+      } else {
+        list.push({ id: 'f_' + Date.now(), label, key, type, required, enabled });
+      }
+
+      closeModal('modal-field');
+      renderFormFields();
+      logEvent('SCHEMA_UPDATE', `保存字段【${label}】`);
+    }
+
+    function deleteField(id) {
+      if (confirm('确认删除该表单项？')) {
+        store.formSchemas[store.currentSchemaType] = store.formSchemas[store.currentSchemaType].filter(f => f.id !== id);
+        renderFormFields();
+        logEvent('SCHEMA_UPDATE', `删除表单收集字段`);
+      }
+    }
+
+    // ================= 5. 渠道商与供应商申请 =================
+    function renderSubmissions() {
+      const pBody = document.getElementById('partner-tbody');
+      pBody.innerHTML = '';
+      store.partners.forEach(p => {
+        pBody.innerHTML += `
+          <tr>
+            <td><strong>${p.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${p.code}</span></td>
+            <td>${p.contact}</td>
+            <td><span class="status-capsule blue">${p.region}</span></td>
+            <td>${p.demand}</td>
+            <td>
+              <span class="status-capsule ${p.status === '已签约' ? '' : 'orange'}">${p.status}</span>
+            </td>
+            <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${p.remark}" placeholder="跟进记录..." onchange="p.remark = this.value; logEvent('LEAD_UPDATE', '更新渠道商跟进备注')" /></td>
+            <td style="text-align:right;">
+              <div class="table-actions-cell">
+                <button class="btn btn-red-subtle btn-sm" onclick="deletePartner('${p.id}')">删除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      const sBody = document.getElementById('supplier-tbody');
+      sBody.innerHTML = '';
+      store.suppliers.forEach(s => {
+        sBody.innerHTML += `
+          <tr>
+            <td><strong>${s.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${s.code}</span></td>
+            <td>${s.contact}</td>
+            <td><span class="status-capsule blue">${s.category}</span></td>
+            <td>${s.capacity}</td>
+            <td>
+              <span class="status-capsule ${s.status === '审核通过' ? '' : 'orange'}">${s.status}</span>
+            </td>
+            <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${s.remark}" placeholder="对接备注..." onchange="s.remark = this.value; logEvent('LEAD_UPDATE', '更新供应商对接备注')" /></td>
+            <td style="text-align:right;">
+              <div class="table-actions-cell">
+                <button class="btn btn-red-subtle btn-sm" onclick="deleteSupplier('${s.id}')">删除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function deletePartner(id) {
+      if (confirm('确认删除该渠道商申请？')) {
+        store.partners = store.partners.filter(p => p.id !== id);
+        renderSubmissions();
+        logEvent('LEAD_DELETE', '删除渠道商申请');
+      }
+    }
+
+    function deleteSupplier(id) {
+      if (confirm('确认删除该供应商申请？')) {
+        store.suppliers = store.suppliers.filter(s => s.id !== id);
+        renderSubmissions();
+        logEvent('LEAD_DELETE', '删除供应商申请');
+      }
+    }
+
+    // ================= 6. 资讯发布 =================
+    function renderArticles() {
+      const tbody = document.getElementById('article-tbody');
+      tbody.innerHTML = '';
+      store.articles.forEach(a => {
+        tbody.innerHTML += `
+          <tr>
+            <td><img src="${a.cover}" style="width:70px; height:42px; object-fit:cover; border-radius:6px;" /></td>
+            <td><strong style="font-size:13px;">${a.title}</strong></td>
+            <td><span class="status-capsule blue">${a.category}</span></td>
+            <td><span class="status-capsule">${a.status}</span></td>
+            <td style="color:var(--text-placeholder); font-size:12px;">${a.date}</td>
+            <td style="text-align:right;">
+              <div class="table-actions-cell">
+                <button class="btn btn-light btn-sm" onclick="alert('进入资讯编辑')">编辑</button>
+                <button class="btn btn-red-subtle btn-sm" onclick="deleteArticle(${a.id})">删除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openArticleModal() {
+      document.getElementById('article-id').value = '';
+      document.getElementById('article-title').value = '';
+      document.getElementById('article-cover').value = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&auto=format&fit=crop&q=80';
+      document.getElementById('article-content').value = '';
+      openModal('modal-article');
+    }
+
+    function saveArticle() {
+      const title = document.getElementById('article-title').value.trim();
+      const category = document.getElementById('article-category').value;
+      const status = document.getElementById('article-status').value;
+      const cover = document.getElementById('article-cover').value.trim();
+
+      if (!title) return alert('请输入文章标题！');
+
+      store.articles.unshift({
+        id: Date.now(),
+        title,
+        category,
+        status,
+        cover,
+        date: new Date().toISOString().split('T')[0]
+      });
+
+      closeModal('modal-article');
+      renderArticles();
+      logEvent('ARTICLE_CREATE', `发布资讯《${title}》`);
+    }
+
+    function deleteArticle(id) {
+      if (confirm('确定删除此文章？')) {
+        store.articles = store.articles.filter(a => a.id !== id);
+        renderArticles();
+        logEvent('ARTICLE_DELETE', '删除文章资讯');
+      }
+    }
+
+    // ================= 7. 在线留言 =================
+    function renderFeedback() {
+      const tbody = document.getElementById('feedback-tbody');
+      tbody.innerHTML = '';
+      store.feedbacks.forEach(f => {
+        tbody.innerHTML += `
+          <tr>
+            <td>
+              <strong>${f.name}</strong>
+              <div style="font-size:11px; color:var(--text-placeholder);">${f.contact}</div>
+            </td>
+            <td style="font-size:13px;">${f.content}</td>
+            <td>
+              ${f.reply ? `<span style="color:var(--primary-blue); font-size:12px;">答复: ${f.reply}</span>` : '<span style="color:var(--text-placeholder); font-size:12px;">未答复</span>'}
+            </td>
+            <td style="text-align:right;">
+              <div class="table-actions-cell">
+                <button class="btn btn-light btn-sm" onclick="replyFeedback(${f.id})">答复</button>
+                <button class="btn btn-red-subtle btn-sm" onclick="deleteFeedback(${f.id})">删除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function replyFeedback(id) {
+      const text = prompt('请输入答复内容:');
+      if (text) {
+        const f = store.feedbacks.find(item => item.id === id);
+        if (f) { f.reply = text; f.isRead = true; renderFeedback(); logEvent('FEEDBACK_REPLY', `回复用户留言`); }
+      }
+    }
+
+    function markAllFeedbackRead() {
+      store.feedbacks.forEach(f => f.isRead = true);
+      renderFeedback();
+      alert('已全部标记为已读！');
+    }
+
+    function deleteFeedback(id) {
+      if (confirm('确定删除该留言？')) {
+        store.feedbacks = store.feedbacks.filter(f => f.id !== id);
+        renderFeedback();
+      }
+    }
+
+    // ================= 8. 全局配置与运维审计 (PRD 3.8 补齐) =================
+    function saveSystemSettings() {
+      logEvent('SYSTEM_CONFIG', '保存官网全局基础参数与 SEO 设置');
+      alert('全局基础参数与 SEO 设置已成功保存并即时生效！');
+    }
+
+    function renderLogs() {
+      const tbody = document.getElementById('logs-tbody');
+      tbody.innerHTML = '';
+      store.logs.forEach(l => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${l.time}</td>
+            <td style="font-weight:600; font-size:12px;">${l.user}</td>
+            <td><span class="status-capsule blue">${l.type}</span></td>
+            <td style="font-size:12px; color:var(--text-main);">${l.detail}</td>
+          </tr>
+        `;
+      });
+    }
+
+    function clearLogs() {
+      store.logs = [];
+      renderLogs();
+      alert('演示操作日志已清空！');
+    }
+
+    function renderBackups() {
+      const tbody = document.getElementById('backup-tbody');
+      tbody.innerHTML = '';
+      store.backups.forEach(b => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="font-family:monospace; font-weight:700; color:var(--primary-navy);">${b.id}</td>
+            <td style="font-size:13px;">${b.name}</td>
+            <td style="font-size:12px; color:var(--text-label);">${b.size}</td>
+            <td style="font-size:12px; color:var(--text-placeholder);">${b.time}</td>
+            <td style="text-align:right;">
+              <button class="btn btn-light btn-sm" onclick="restoreBackup('${b.id}')">还原此版本</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function createBackupSnapshot() {
+      const now = new Date();
+      const id = 'BAK_' + now.getFullYear() + String(now.getMonth()+1).padStart(2,'0') + String(now.getDate()).padStart(2,'0') + '_' + String(now.getHours()).padStart(2,'0') + String(now.getMinutes()).padStart(2,'0');
+      store.backups.unshift({
+        id,
+        name: '手动创建系统运行时全量快照',
+        size: '15.4 MB',
+        time: now.toLocaleString()
+      });
+      renderBackups();
+      logEvent('BACKUP_CREATE', `创建全量数据快照: ${id}`);
+      alert(`系统数据快照【${id}】已成功创建并归档！`);
+    }
+
+    function restoreBackup(id) {
+      if (confirm(`确定回滚还原至快照【${id}】吗？当前修改将被覆盖。`)) {
+        logEvent('BACKUP_RESTORE', `数据灾备回滚至快照: ${id}`);
+        alert(`系统数据已成功还原至快照节点【${id}】！`);
+      }
+    }
+
+    // ================= 9. 预览沙盒实现 =================
+    let previewState = {
+      activePageKey: 'home',
+      isGlobalMode: true,
+      device: 'desktop'
+    };
+
+    function openSinglePagePreview(pageKey) {
+      previewState.activePageKey = pageKey;
+      previewState.isGlobalMode = false;
+      
+      const page = store.pages[pageKey];
+      document.getElementById('preview-mode-title').innerText = `页面独立预览: ${page.name}`;
+      document.getElementById('preview-site-header').style.display = 'none';
+      document.getElementById('preview-active-slug').innerText = `路径: /${pageKey === 'home' ? '' : pageKey}`;
+
+      renderPreviewContent();
+      openModal('modal-preview');
+      resetScrollTop();
+    }
+
+    function openGlobalSitePreview() {
+      previewState.activePageKey = 'home';
+      previewState.isGlobalMode = true;
+
+      document.getElementById('preview-mode-title').innerText = `官网全局整站模拟预览`;
+      document.getElementById('preview-site-header').style.display = 'flex';
+      
+      renderGlobalPreviewNav();
+      renderPreviewContent();
+      openModal('modal-preview');
+      resetScrollTop();
+    }
+
+    function resetScrollTop() {
+      const viewport = document.getElementById('preview-viewport-box-id');
+      if (viewport) viewport.scrollTop = 0;
+      const renderedBody = document.getElementById('preview-rendered-body');
+      if (renderedBody) renderedBody.scrollTop = 0;
+    }
+
+    function renderGlobalPreviewNav() {
+      const box = document.getElementById('preview-nav-links');
+      box.innerHTML = '';
+
+      store.navigations.forEach(nav => {
+        if (!nav.isVisible) return;
+        const btn = document.createElement('span');
+        btn.style.cursor = 'pointer';
+        btn.style.color = (nav.pageKey === previewState.activePageKey) ? '#1e3a8a' : '#64748b';
+        btn.style.borderBottom = (nav.pageKey === previewState.activePageKey) ? '2px solid #1e3a8a' : 'none';
+        btn.style.paddingBottom = '4px';
+        btn.innerText = nav.title;
+
+        btn.onclick = function() {
+          if (nav.pageKey && store.pages[nav.pageKey]) {
+            previewState.activePageKey = nav.pageKey;
+            renderGlobalPreviewNav();
+            renderPreviewContent();
+            resetScrollTop();
+          } else if (nav.isExternal) {
+            alert(`模拟新窗口打开外部链接: ${nav.path}`);
+          } else {
+            alert(`该导航未绑定独立装修页面，模拟访问路径: ${nav.path}`);
+          }
+        };
+
+        box.appendChild(btn);
+      });
+    }
+
+    function renderPreviewContent() {
+      const pageKey = previewState.activePageKey;
+      const page = store.pages[pageKey] || store.pages['home'];
+      const container = document.getElementById('preview-rendered-body');
+      container.innerHTML = '';
+
+      document.getElementById('preview-active-slug').innerText = `当前访问: /${pageKey === 'home' ? '' : pageKey} (${page.name})`;
+
+      if (!page.widgets || page.widgets.length === 0) {
+        container.innerHTML = '<div style="padding:60px 20px; text-align:center; color:#94a3b8;">该页面暂未配置任何可见积木组件</div>';
+        return;
+      }
+
+      page.widgets.forEach(w => {
+        if (!w.enabled) return;
+        const block = document.createElement('div');
+
+        if (w.type === 'banner') {
+          block.style.position = 'relative';
+          block.style.width = '100%';
+          block.style.height = previewState.device === 'mobile' ? '180px' : '360px';
+          block.style.background = '#000';
+          block.style.overflow = 'hidden';
+          block.style.flexShrink = '0';
+
+          if (w.mediaType === 'video') {
+            block.innerHTML = `
+              <video src="${w.url}" autoplay loop muted playsinline style="width:100%; height:100%; object-fit:cover; opacity:0.85;"></video>
+              <div style="position:absolute; bottom:20px; left:24px; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.6);">
+                <div style="font-size:16px; font-weight:800;">${w.title}</div>
+              </div>
+            `;
+          } else {
+            block.innerHTML = `
+              <img src="${w.url}" style="width:100%; height:100%; object-fit:cover;" />
+              <div style="position:absolute; bottom:20px; left:24px; color:#fff; text-shadow:0 2px 4px rgba(0,0,0,0.6);">
+                <div style="font-size:16px; font-weight:800;">${w.title}</div>
+              </div>
+            `;
+          }
+        } else if (w.type === 'text') {
+          block.style.padding = previewState.device === 'mobile' ? '28px 18px' : '48px 32px';
+          block.style.background = '#ffffff';
+          block.innerHTML = `
+            <div style="max-width:820px; margin:0 auto; text-align:center;">
+              <h2 style="font-size:${previewState.device === 'mobile' ? '17px' : '22px'}; font-weight:800; color:#0f172a; margin-bottom:10px; line-height:1.4;">${w.heading}</h2>
+              <p style="font-size:13px; color:#2563eb; font-weight:600; margin-bottom:12px; line-height:1.5;">${w.sub}</p>
+              <p style="font-size:13px; color:#64748b; line-height:1.8;">${w.body}</p>
+            </div>
+          `;
+        } else if (w.type === 'image_text') {
+          block.style.padding = previewState.device === 'mobile' ? '22px 18px' : '38px 32px';
+          block.style.background = '#f8fafc';
+          block.innerHTML = `
+            <div style="display:flex; flex-direction:${previewState.device === 'mobile' ? 'column' : 'row'}; gap:22px; align-items:center; max-width:820px; margin:0 auto;">
+              <img src="${w.url}" style="width:${previewState.device === 'mobile' ? '100%' : '320px'}; height:180px; object-fit:cover; border-radius:10px; flex-shrink:0;" />
+              <div>
+                <h3 style="font-size:16px; font-weight:700; color:#0f172a; margin-bottom:8px; line-height:1.4;">${w.textTitle}</h3>
+                <p style="font-size:13px; color:#475569; line-height:1.7;">${w.desc}</p>
+              </div>
+            </div>
+          `;
+        }
+
+        container.appendChild(block);
+      });
+    }
+
+    function setPreviewDevice(device) {
+      previewState.device = device;
+      const frame = document.getElementById('preview-frame');
+
+      if (device === 'mobile') {
+        frame.className = 'viewport-mobile';
+        document.getElementById('btn-vp-mobile').style.background = '#e6f4ff';
+        document.getElementById('btn-vp-mobile').style.color = '#1677ff';
+        document.getElementById('btn-vp-desktop').style.background = '#ffffff';
+        document.getElementById('btn-vp-desktop').style.color = 'inherit';
+      } else {
+        frame.className = 'viewport-desktop';
+        document.getElementById('btn-vp-desktop').style.background = '#e6f4ff';
+        document.getElementById('btn-vp-desktop').style.color = '#1677ff';
+        document.getElementById('btn-vp-mobile').style.background = '#ffffff';
+        document.getElementById('btn-vp-mobile').style.color = 'inherit';
+      }
+
+      renderPreviewContent();
+      resetScrollTop();
+    }
+
+    function openModal(id) { document.getElementById(id).classList.add('open'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+    // 初始化全局驱动
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPageListTable();
+      renderNavigations();
+      renderMediaLibrary();
+      renderFormFields();
+      renderSubmissions();
+      renderArticles();
+      renderFeedback();
+      renderLogs();
+      renderBackups();
+    });
+  </script>
+</body>
+</html>
