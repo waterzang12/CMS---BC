@@ -50,7 +50,7 @@
     ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    /* 1. 左侧纯白极简侧边栏 (支持移动端抽屉自适应) */
+    /* 1. 左侧侧边栏 (支持自由折叠只透出 Icon) */
     #sidebar {
       width: 220px;
       background: var(--sidebar-bg);
@@ -59,8 +59,14 @@
       flex-direction: column;
       flex-shrink: 0;
       padding: 24px 16px;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      transition: width 0.22s cubic-bezier(0.4, 0, 0.2, 1), padding 0.22s ease, transform 0.25s ease;
       z-index: 100;
+      position: relative;
+    }
+
+    #sidebar.collapsed {
+      width: 68px;
+      padding: 24px 10px;
     }
 
     .brand-box {
@@ -69,6 +75,11 @@
       gap: 12px;
       padding-left: 6px;
       margin-bottom: 24px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    #sidebar.collapsed .brand-box {
+      padding-left: 8px;
     }
     .brand-dot-logo {
       width: 28px;
@@ -94,12 +105,16 @@
       color: var(--text-title);
       letter-spacing: 0.2px;
       line-height: 1.2;
+      transition: opacity 0.15s;
     }
     .brand-sub {
       font-size: 10px;
       color: var(--text-placeholder);
       margin-top: 2px;
       line-height: 1;
+    }
+    #sidebar.collapsed .brand-text-col {
+      display: none;
     }
 
     .menu-wrap { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 4px; }
@@ -110,7 +125,13 @@
       padding: 8px 14px 2px 14px;
       text-transform: uppercase;
       letter-spacing: 0.6px;
+      white-space: nowrap;
+      transition: opacity 0.15s;
     }
+    #sidebar.collapsed .menu-group-caption {
+      display: none;
+    }
+
     .menu-item {
       display: flex;
       align-items: center;
@@ -124,6 +145,12 @@
       border: none;
       text-align: left;
       transition: all 0.15s ease;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    #sidebar.collapsed .menu-item {
+      justify-content: center;
+      padding: 10px 0;
     }
     .menu-item:hover {
       color: var(--primary-navy);
@@ -143,8 +170,50 @@
       fill: none;
       flex-shrink: 0;
     }
+    #sidebar.collapsed .menu-item span {
+      display: none;
+    }
 
-    /* 移动端侧边栏遮罩 */
+    /* 侧边栏折叠按键 */
+    .sidebar-collapse-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-label);
+      background: #f8fafc;
+      border: 1px solid var(--border-control);
+      margin-top: 10px;
+      width: 100%;
+      transition: all 0.15s;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    #sidebar.collapsed .sidebar-collapse-btn {
+      justify-content: center;
+      padding: 10px 0;
+    }
+    #sidebar.collapsed .sidebar-collapse-btn span {
+      display: none;
+    }
+    .sidebar-collapse-btn:hover {
+      background: #eff6ff;
+      color: var(--primary-blue);
+      border-color: var(--primary-blue);
+    }
+    .sidebar-collapse-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
     .sidebar-mask {
       display: none;
       position: fixed;
@@ -219,7 +288,7 @@
       border-radius: 12px;
     }
 
-    /* 3. 卡片系统与自适应规范 */
+    /* 3. 卡片系统规范 */
     .card-panel {
       background: var(--card-bg);
       border-radius: var(--radius-lg);
@@ -264,7 +333,6 @@
     .welcome-title { font-size: 16px; font-weight: 700; color: var(--text-title); margin-bottom: 4px; }
     .welcome-desc { font-size: 12px; color: var(--text-label); }
 
-    /* 自适应指标网格 */
     .metric-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -297,7 +365,6 @@
     .metric-name { font-size: 14px; font-weight: 700; color: var(--text-title); }
     .metric-subtitle { font-size: 11px; color: var(--text-label); margin-top: 3px; }
 
-    /* 自适应快捷操作卡片 */
     .quick-actions-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -367,29 +434,33 @@
       border-radius: 2px;
     }
 
-    /* 4. 按钮系统规范 */
+    /* ================= 4. 全局一二级按钮规格严格统一 (高度与字阶一致) ================= */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
-      padding: 6px 14px;
-      font-size: 12px;
+      gap: 6px;
+      height: 32px; /* 全局一二级主次按钮高度统一为 32px */
+      padding: 0 14px;
+      font-size: 13px;
       font-weight: 600;
-      border-radius: 6px;
+      border-radius: 7px;
       border: 1px solid transparent;
       transition: all 0.12s ease;
       white-space: nowrap;
       flex-shrink: 0;
+      line-height: 30px;
     }
     .btn:active { transform: scale(0.98); }
     
+    /* 一级主操作按钮 (实色高亮蓝) */
     .btn-blue {
       background: var(--primary-blue);
       color: #ffffff;
     }
     .btn-blue:hover { background: #1d4ed8; }
 
+    /* 二级次要操作按钮 (白底灰边) */
     .btn-light {
       background: #ffffff;
       border: 1px solid var(--border-control);
@@ -401,6 +472,7 @@
       background: #f8fafc;
     }
 
+    /* 二级危险操作按钮 (柔和淡红) */
     .btn-red-subtle {
       background: #fff2f0;
       border: 1px solid #ffccc7;
@@ -412,12 +484,13 @@
       color: #cf1322;
     }
 
+    /* 保持按钮一致高度的快捷类 */
     .btn-sm {
-      padding: 3px 10px;
-      font-size: 11px;
-      border-radius: 5px;
-      height: 26px;
-      line-height: 18px;
+      height: 32px;
+      padding: 0 12px;
+      font-size: 13px;
+      border-radius: 7px;
+      line-height: 30px;
     }
 
     .sort-control-group {
@@ -426,22 +499,22 @@
       gap: 4px;
     }
     .btn-sort-icon {
-      width: 24px;
-      height: 24px;
+      width: 28px;
+      height: 28px;
       padding: 0;
       display: inline-flex;
       align-items: center;
       justify-content: center;
       background: #ffffff;
       border: 1px solid var(--border-control);
-      border-radius: 5px;
+      border-radius: 6px;
       color: var(--text-label);
       transition: all 0.12s ease;
       outline: none;
     }
     .btn-sort-icon svg {
-      width: 12px;
-      height: 12px;
+      width: 13px;
+      height: 13px;
       stroke-width: 2.2;
       stroke: currentColor;
       fill: none;
@@ -462,11 +535,10 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      gap: 6px;
+      gap: 8px;
       white-space: nowrap;
     }
 
-    /* 5. 响应式表格保护容器 */
     .table-responsive {
       width: 100%;
       overflow-x: auto;
@@ -642,6 +714,92 @@
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
     }
 
+    /* 资讯详情专有样式 */
+    .article-detail-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 8px 0;
+    }
+    .article-detail-cover {
+      width: 100%;
+      max-height: 380px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin: 20px 0;
+      border: 1px solid var(--border-control);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+    .article-detail-body {
+      font-size: 14px;
+      line-height: 2;
+      color: var(--text-main);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    /* 前台右侧悬浮快捷导航真实仿真 */
+    .preview-floating-quicknav {
+      position: absolute;
+      right: 18px;
+      top: 100px;
+      width: 52px;
+      background: #ffffff;
+      border-radius: 26px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(226, 232, 240, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 14px 6px 12px 6px;
+      z-index: 50;
+      gap: 8px;
+    }
+    .quicknav-badge-caption {
+      font-size: 9px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.2px;
+      text-align: center;
+      margin-bottom: 4px;
+      transform: scale(0.9);
+      white-space: nowrap;
+    }
+    .quicknav-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #475569;
+      background: transparent;
+      border: none;
+      transition: all 0.15s ease;
+      position: relative;
+    }
+    .quicknav-btn:hover {
+      background: #f1f5f9;
+      color: var(--primary-blue);
+    }
+    .quicknav-btn.active {
+      background: var(--primary-navy);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
+    }
+    .quicknav-btn svg {
+      width: 17px;
+      height: 17px;
+      stroke-width: 1.8;
+      stroke: currentColor;
+      fill: none;
+    }
+    .quicknav-divider {
+      width: 24px;
+      height: 1px;
+      background: #e2e8f0;
+      margin: 4px 0;
+    }
+
     /* 预览沙盒模态系统 */
     .preview-modal-panel {
       background: #ffffff;
@@ -674,6 +832,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
+      position: relative;
     }
     
     .viewport-desktop {
@@ -685,6 +844,7 @@
       min-height: 100%;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
     .viewport-mobile {
       width: 375px;
@@ -697,28 +857,22 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
+      position: relative;
     }
     .viewport-mobile #preview-rendered-body {
       overflow-y: auto;
       flex: 1;
     }
 
-    /* ================= 6. 响应式与全端自适应断点（核心修复） ================= */
+    /* 响应式断点 */
     @media (max-width: 1200px) {
-      .metric-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .quick-actions-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+      .metric-row { grid-template-columns: repeat(2, 1fr); }
+      .quick-actions-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media (max-width: 992px) {
       #sidebar {
         position: fixed;
-        left: 0;
-        top: 0;
-        bottom: 0;
+        left: 0; top: 0; bottom: 0;
         transform: translateX(-100%);
         box-shadow: none;
       }
@@ -726,42 +880,21 @@
         transform: translateX(0);
         box-shadow: 0 10px 30px rgba(0,0,0,0.15);
       }
-      .sidebar-mask.show {
-        display: block;
-      }
-      .btn-mobile-menu {
-        display: inline-flex;
-      }
-      #main-content {
-        padding: 16px 18px;
-      }
-      .card-panel {
-        padding: 18px;
-      }
-      /* 表单引擎由左右分栏转为上下自适应 */
-      .schema-grid-container {
-        grid-template-columns: 1fr !important;
-      }
+      .sidebar-mask.show { display: block; }
+      .btn-mobile-menu { display: inline-flex; }
+      #main-content { padding: 16px 18px; }
+      .card-panel { padding: 18px; }
+      .schema-grid-container { grid-template-columns: 1fr !important; }
     }
-
     @media (max-width: 640px) {
-      .metric-row {
-        grid-template-columns: 1fr;
-      }
-      .quick-actions-grid {
-        grid-template-columns: 1fr;
-      }
+      .metric-row { grid-template-columns: 1fr; }
+      .quick-actions-grid { grid-template-columns: 1fr; }
       .card-header-bar {
         flex-direction: column;
         align-items: flex-start !important;
       }
-      .card-header-actions {
-        width: 100%;
-        justify-content: flex-start;
-      }
-      .modal-panel {
-        padding: 20px;
-      }
+      .card-header-actions { width: 100%; justify-content: flex-start; }
+      .modal-panel { padding: 20px; }
       .preview-modal-bar {
         flex-direction: column;
         height: auto;
@@ -786,74 +919,80 @@
     </div>
 
     <div class="menu-wrap">
-      <button class="menu-item active" data-view="panel-dashboard" data-title="首页" data-icon="home">
+      <button class="menu-item active" data-view="panel-dashboard" data-title="首页" title="首页大盘">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         <span>首页大盘</span>
       </button>
 
       <div class="menu-group-caption">内容与页面</div>
-      <button class="menu-item" data-view="panel-navigations" data-title="网页主导航管理" data-icon="nav">
+      <button class="menu-item" data-view="panel-navigations" data-title="网页主导航管理" title="导航管理">
         <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         <span>导航管理</span>
       </button>
 
-      <button class="menu-item" data-view="panel-page-builder" data-title="页面装修列表" data-icon="layout">
+      <button class="menu-item" data-view="panel-page-builder" data-title="页面装修列表" title="页面装修">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
         <span>页面装修</span>
       </button>
 
-      <button class="menu-item" data-view="panel-articles" data-title="企业资讯与公告" data-icon="file">
+      <button class="menu-item" data-view="panel-articles" data-title="企业资讯与公告" title="资讯公告">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         <span>资讯公告</span>
       </button>
 
-      <button class="menu-item" data-view="panel-media-library" data-title="素材资源库" data-icon="media">
+      <button class="menu-item" data-view="panel-media-library" data-title="素材资源库" title="素材图库">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
         <span>素材图库</span>
       </button>
 
-      <button class="menu-item" data-view="panel-audits" data-title="内容合规审核中心" data-icon="audit">
+      <button class="menu-item" data-view="panel-audits" data-title="内容合规审核中心" title="审核中心">
         <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
         <span>审核中心</span>
       </button>
 
       <div class="menu-group-caption">合作与互动</div>
-      <button class="menu-item" data-view="panel-partners" data-title="渠道商申请管理" data-icon="user">
+      <button class="menu-item" data-view="panel-partners" data-title="渠道商申请管理" title="渠道商申请">
         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
         <span>渠道商申请</span>
       </button>
 
-      <button class="menu-item" data-view="panel-suppliers" data-title="供应商申请管理" data-icon="box">
+      <button class="menu-item" data-view="panel-suppliers" data-title="供应商申请管理" title="供应商申请">
         <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
         <span>供应商申请</span>
       </button>
 
-      <button class="menu-item" data-view="panel-form-schema" data-title="表单项配置引擎" data-icon="edit">
+      <button class="menu-item" data-view="panel-form-schema" data-title="表单项配置引擎" title="表单项配置">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
         <span>表单项配置</span>
       </button>
 
-      <button class="menu-item" data-view="panel-feedback" data-title="在线留言互动" data-icon="msg">
+      <button class="menu-item" data-view="panel-feedback" data-title="在线留言互动" title="留言互动">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span>留言互动</span>
       </button>
 
       <div class="menu-group-caption">系统与运维</div>
-      <button class="menu-item" data-view="panel-system-settings" data-title="全局基础参数设置" data-icon="settings">
+      <button class="menu-item" data-view="panel-system-settings" data-title="全局基础参数设置" title="系统设置">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <span>系统设置</span>
       </button>
 
-      <button class="menu-item" data-view="panel-system-logs" data-title="操作日志审计" data-icon="log">
+      <button class="menu-item" data-view="panel-system-logs" data-title="操作日志审计" title="操作日志">
         <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
         <span>操作日志</span>
       </button>
 
-      <button class="menu-item" data-view="panel-backup" data-title="数据灾备与回滚" data-icon="backup">
+      <button class="menu-item" data-view="panel-backup" data-title="数据灾备与回滚" title="数据备份">
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         <span>数据备份</span>
       </button>
     </div>
+
+    <!-- 侧边栏折叠按键 -->
+    <button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="收起 / 展开侧边栏">
+      <svg id="collapse-icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      <span>收起导航 (只透Icon)</span>
+    </button>
   </aside>
 
   <!-- ================= 2. 主体视口 ================= -->
@@ -862,7 +1001,6 @@
     <!-- 顶部状态栏 -->
     <div class="top-header">
       <div class="title-flex">
-        <!-- 移动端汉堡包菜单切换按钮 -->
         <button class="btn-mobile-menu" onclick="toggleMobileSidebar(true)">
           <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
@@ -1024,6 +1162,7 @@
                 <th>页面名称</th>
                 <th>页面标识 Key (路由依据)</th>
                 <th>已挂载积木组件</th>
+                <th>悬浮快捷导航</th>
                 <th>更新日期</th>
                 <th style="text-align:right; width:240px;">操作</th>
               </tr>
@@ -1038,7 +1177,7 @@
       <div id="builder-subview-editor" style="display:none;">
         <div class="card-panel" style="display:flex; justify-content:space-between; align-items:center; padding:18px 24px; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap:16px;">
-            <button class="btn btn-light btn-sm" onclick="exitPageEditor()">
+            <button class="btn btn-light" onclick="exitPageEditor()">
               <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
               返回页面列表
             </button>
@@ -1049,12 +1188,59 @@
             </div>
           </div>
           <div style="display:flex; gap:10px;">
-            <button class="btn btn-light btn-sm" onclick="openSinglePagePreview(store.currentEditingPageKey)">预览当前页面</button>
-            <button class="btn btn-red-subtle btn-sm" id="btn-delete-active-page" onclick="deleteActivePage()">删除此页面</button>
-            <button class="btn btn-blue btn-sm" onclick="savePageWidgets()">保存整页配置</button>
+            <button class="btn btn-light" onclick="openSinglePagePreview(store.currentEditingPageKey)">预览当前页面</button>
+            <button class="btn btn-red-subtle" id="btn-delete-active-page" onclick="deleteActivePage()">删除此页面</button>
+            <button class="btn btn-blue" onclick="savePageWidgets()">保存整页配置</button>
           </div>
         </div>
 
+        <!-- 重点优化点 2: 快捷悬浮导航配置（开关控制整体展开/隐藏与交互闭环） -->
+        <div class="card-panel">
+          <div class="card-header-bar">
+            <div class="card-header-title-box">
+              <div class="card-header-title">侧边悬浮快捷导航配置 (方案直达)</div>
+              <div class="card-header-desc">为当前页面开启右侧竖向快捷导航栏，支持网络链接或本地选择上传 Icon</div>
+            </div>
+            <div class="card-header-actions">
+              <label style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; cursor:pointer;">
+                <span>启用悬浮导航栏</span>
+                <label class="switch-ui">
+                  <input type="checkbox" id="page-quicknav-toggle" onchange="togglePageQuickNav(this.checked)">
+                  <span class="switch-slider"></span>
+                </label>
+              </label>
+              <!-- 联动按钮：关闭时隐藏 -->
+              <button class="btn btn-light" id="btn-add-quicknav-item" onclick="openQuickNavModal()">+ 添加快捷导航项</button>
+            </div>
+          </div>
+
+          <!-- 联动内容容器：当开关关闭时自动隐藏下部表格并给出贴心状态提示 -->
+          <div id="quicknav-active-content-container">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:70px;">Icon</th>
+                    <th>导航名称</th>
+                    <th>跳转链接 / 锚点</th>
+                    <th style="text-align:right; width:140px;">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="page-quicknav-tbody">
+                  <!-- 动态渲染当前页面的快捷导航项 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 关闭悬浮导航时的友好提示占位 -->
+          <div id="quicknav-disabled-hint-box" style="display:none; padding:28px 20px; text-align:center; background:#f8fafc; border-radius:10px; border:1px dashed var(--border-control);">
+            <div style="font-size:13px; font-weight:600; color:var(--text-label);">侧边悬浮快捷导航栏处于【停用】状态</div>
+            <div style="font-size:12px; color:var(--text-placeholder); margin-top:4px;">开启右上角开关后，前台将展示右侧快捷直达悬浮胶囊栏并允许配置项目</div>
+          </div>
+        </div>
+
+        <!-- 组件堆叠管理卡片 -->
         <div class="card-panel">
           <div class="card-header-bar">
             <div class="card-header-title-box">
@@ -1062,9 +1248,9 @@
               <div class="card-header-desc">支持自由增删 Banner (图片/视频)、文字介绍、图文展示并调整展示排序</div>
             </div>
             <div class="card-header-actions">
-              <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
-              <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('text')">+ 添加 文字组件</button>
-              <button class="btn btn-light btn-sm" onclick="openAddWidgetModal('image_text')">+ 添加 图文展示</button>
+              <button class="btn btn-light" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
+              <button class="btn btn-light" onclick="openAddWidgetModal('text')">+ 添加 文字组件</button>
+              <button class="btn btn-light" onclick="openAddWidgetModal('image_text')">+ 添加 图文展示</button>
             </div>
           </div>
 
@@ -1077,11 +1263,11 @@
 
     <!-- 视图 4: 资讯与公告 -->
     <section id="panel-articles" class="view-panel" style="display:none;">
-      <div class="card-panel">
+      <div id="article-subview-list" class="card-panel">
         <div class="card-header-bar">
           <div class="card-header-title-box">
             <div class="card-header-title">企业资讯与官方公告</div>
-            <div class="card-header-desc">支持图文编辑、外链文章跳转与置顶</div>
+            <div class="card-header-desc">支持本地主图上传、点击跳转详情页查看与完整内容编辑</div>
           </div>
           <div class="card-header-actions">
             <button class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
@@ -1092,18 +1278,46 @@
           <table>
             <thead>
               <tr>
-                <th style="width:90px;">封面</th>
-                <th>标题</th>
-                <th>分类</th>
-                <th>状态</th>
-                <th>发布时间</th>
-                <th style="text-align:right; width:140px;">操作</th>
+                <th style="width:100px;">新闻主图</th>
+                <th>资讯标题</th>
+                <th>所属分类</th>
+                <th>发布状态</th>
+                <th>更新时间</th>
+                <th style="text-align:right; width:200px;">操作</th>
               </tr>
             </thead>
             <tbody id="article-tbody">
               <!-- 动态渲染 -->
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div id="article-subview-detail" class="card-panel" style="display:none;">
+        <div class="card-header-bar" style="border-bottom:1px solid var(--border-control); padding-bottom:14px;">
+          <div class="card-header-title-box">
+            <button class="btn btn-light" onclick="exitArticleDetail()">
+              <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+              返回资讯列表
+            </button>
+          </div>
+          <div class="card-header-actions">
+            <button class="btn btn-light" id="btn-edit-from-detail" onclick="editFromCurrentDetail()">编辑此篇资讯</button>
+          </div>
+        </div>
+
+        <div class="article-detail-wrap">
+          <div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;">
+            <span class="status-capsule blue" id="detail-category">企业动态</span>
+            <span style="font-size:12px; color:var(--text-placeholder);" id="detail-date">2026-09-22</span>
+          </div>
+          <h1 style="font-size:22px; font-weight:800; color:var(--text-title); line-height:1.4;" id="detail-title">标题加载中...</h1>
+          
+          <img id="detail-cover" class="article-detail-cover" src="" alt="新闻主图" />
+          
+          <div class="article-detail-body" id="detail-content">
+            正文内容加载中...
+          </div>
         </div>
       </div>
     </section>
@@ -1114,7 +1328,7 @@
         <div class="card-header-bar">
           <div class="card-header-title-box">
             <div class="card-header-title">素材资源库管理</div>
-            <div class="card-header-desc">统一管理官网图片与 MP4 视频资源，避免重复上传</div>
+            <div class="card-header-desc">统一管理官网图片与 MP4 视频资源，支持输入外链或选择本地文件直接上传</div>
           </div>
           <div class="card-header-actions">
             <button class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
@@ -1231,7 +1445,6 @@
           </div>
         </div>
 
-        <!-- 响应式断点容器 -->
         <div class="schema-grid-container" style="display:grid; grid-template-columns: 7fr 5fr; gap:24px;">
           <div>
             <div class="table-responsive">
@@ -1299,7 +1512,7 @@
       </div>
     </section>
 
-    <!-- 视图 11: 系统全局设置 (自适应与统一样式修复) -->
+    <!-- 视图 11: 系统全局设置 -->
     <section id="panel-system-settings" class="view-panel" style="display:none;">
       <div class="card-panel" style="max-width:860px;">
         <div class="card-header-bar">
@@ -1529,7 +1742,7 @@
       <div id="widget-field-imagetext" style="display:none;">
         <div class="form-item">
           <label class="form-lbl">配图链接 URL</label>
-          <input type="text" id="widget-imgtext-url" class="form-ctrl" placeholder="https://..." />
+          <input type="text" id="widget-imgtext-url" class="form-ctrl" />
         </div>
         <div class="form-item">
           <label class="form-lbl">标题与内容</label>
@@ -1586,11 +1799,11 @@
     </div>
   </div>
 
-  <!-- 弹窗 5: 资讯文章录入 -->
+  <!-- 弹窗 5: 资讯文章录入与编辑 -->
   <div class="modal-mask" id="modal-article">
     <div class="modal-panel">
       <div class="modal-head">
-        <strong class="modal-title">发布企业资讯/公告</strong>
+        <strong class="modal-title" id="modal-article-title">发布企业资讯/公告</strong>
         <span class="modal-close" onclick="closeModal('modal-article')">&times;</span>
       </div>
       <input type="hidden" id="article-id" />
@@ -1615,13 +1828,23 @@
           </select>
         </div>
       </div>
+
       <div class="form-item">
-        <label class="form-lbl">封面图片链接 URL</label>
-        <input type="text" id="article-cover" class="form-ctrl" placeholder="https://..." />
+        <label class="form-lbl">新闻主图 (支持输入链接或本地上传)</label>
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <input type="text" id="article-cover" class="form-ctrl" placeholder="https://..." />
+          <button class="btn btn-light" type="button" onclick="document.getElementById('article-cover-file').click()">本地上传主图</button>
+          <input type="file" id="article-cover-file" accept="image/*" style="display:none;" onchange="handleArticleImageUpload(event)" />
+        </div>
+        <div id="article-cover-preview-box" style="display:none; align-items:center; gap:10px; background:#f8fafc; padding:8px 12px; border-radius:8px; border:1px solid var(--border-control);">
+          <img id="article-cover-preview-img" src="" style="width:70px; height:42px; object-fit:cover; border-radius:4px;" />
+          <span style="font-size:12px; color:var(--text-label);" id="article-cover-preview-name">已选择主图</span>
+        </div>
       </div>
+
       <div class="form-item">
         <label class="form-lbl">正文内容</label>
-        <textarea id="article-content" class="form-ctrl" rows="4" placeholder="在此输入文章正文详细内容..."></textarea>
+        <textarea id="article-content" class="form-ctrl" rows="5" placeholder="在此输入文章正文详细内容..."></textarea>
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
         <button class="btn btn-light" onclick="closeModal('modal-article')">取消</button>
@@ -1632,7 +1855,7 @@
 
   <!-- 弹窗 6: 素材上传 -->
   <div class="modal-mask" id="modal-upload-media">
-    <div class="modal-panel" style="max-width:460px;">
+    <div class="modal-panel" style="max-width:480px;">
       <div class="modal-head">
         <strong class="modal-title">上传素材资源</strong>
         <span class="modal-close" onclick="closeModal('modal-upload-media')">&times;</span>
@@ -1643,18 +1866,75 @@
       </div>
       <div class="form-item">
         <label class="form-lbl">素材类型</label>
-        <select id="upload-media-type" class="form-ctrl">
-          <option value="图片">高清静态图片 (JPG/PNG)</option>
+        <select id="upload-media-type" class="form-ctrl" onchange="toggleMediaUploadAccept(this.value)">
+          <option value="图片">高清静态图片 (JPG/PNG/WEBP)</option>
           <option value="视频">宣传片短视频 (MP4)</option>
         </select>
       </div>
       <div class="form-item">
-        <label class="form-lbl">网络资源 URL (或模拟文件)</label>
-        <input type="text" id="upload-media-url" class="form-ctrl" placeholder="https://..." value="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=800&auto=format&fit=crop&q=80" />
+        <label class="form-lbl">资源方式 (支持直接输入链接或本地选择上传)</label>
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <input type="text" id="upload-media-url" class="form-ctrl" placeholder="https://..." />
+          <button class="btn btn-light" type="button" onclick="document.getElementById('upload-media-file-input').click()">选择本地文件</button>
+          <input type="file" id="upload-media-file-input" accept="image/*" style="display:none;" onchange="handleMediaLocalUpload(event)" />
+        </div>
+        <div id="upload-media-preview-box" style="display:none; align-items:center; gap:10px; background:#f8fafc; padding:8px 12px; border-radius:8px; border:1px solid var(--border-control);">
+          <div id="upload-media-preview-thumb"></div>
+          <span style="font-size:12px; color:var(--text-label);" id="upload-media-preview-text">已选择本地文件</span>
+        </div>
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
         <button class="btn btn-light" onclick="closeModal('modal-upload-media')">取消</button>
         <button class="btn btn-blue" onclick="confirmUploadMedia()">确认入库</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹窗 8: 快捷悬浮导航项配置模态框 -->
+  <div class="modal-mask" id="modal-quicknav">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <strong class="modal-title" id="modal-quicknav-title">配置侧边快捷导航项</strong>
+        <span class="modal-close" onclick="closeModal('modal-quicknav')">&times;</span>
+      </div>
+      <input type="hidden" id="quicknav-id" />
+      <div class="form-item">
+        <label class="form-lbl">导航项名称 (Tooltip 浮层提示)</label>
+        <input type="text" id="quicknav-name" class="form-ctrl" placeholder="如：机器人解决方案 / 航天航空" />
+      </div>
+      <div class="form-item">
+        <label class="form-lbl">预设内置线性矢量 Icon</label>
+        <select id="quicknav-icon-type" class="form-ctrl">
+          <option value="gear">⚙️ 齿轮工控 (工业控制/系统)</option>
+          <option value="lightning">⚡ 闪电极速 (实时/高算力)</option>
+          <option value="chip">🖲️ 芯片主板 (硬件/OS平台)</option>
+          <option value="robot">🤖 智能机器人 (自动化/具身)</option>
+          <option value="plane">✈️ 航天航空 (飞行器/特种)</option>
+          <option value="branch">🔀 流程分支 (全链路/多节点)</option>
+          <option value="chat">💬 咨询洽谈 (客户服务)</option>
+        </select>
+      </div>
+
+      <div class="form-item">
+        <label class="form-lbl">自定义 Icon 图片 (选填，支持输入外链或本地上传，优先展示)</label>
+        <div style="display:flex; gap:8px; margin-bottom:8px;">
+          <input type="text" id="quicknav-custom-img" class="form-ctrl" placeholder="https://... 或留空使用内置矢量Icon" />
+          <button class="btn btn-light" type="button" onclick="document.getElementById('quicknav-local-icon-file').click()">选择本地Icon</button>
+          <input type="file" id="quicknav-local-icon-file" accept="image/*" style="display:none;" onchange="handleQuickNavIconUpload(event)" />
+        </div>
+        <div id="quicknav-icon-preview-box" style="display:none; align-items:center; gap:10px; background:#f8fafc; padding:6px 12px; border-radius:8px; border:1px solid var(--border-control);">
+          <img id="quicknav-icon-preview-img" src="" style="width:24px; height:24px; object-fit:contain; border-radius:4px;" />
+          <span style="font-size:12px; color:var(--text-label);" id="quicknav-icon-preview-name">已载入自定义Icon</span>
+        </div>
+      </div>
+
+      <div class="form-item">
+        <label class="form-lbl">跳转目标链接 / 页面锚点</label>
+        <input type="text" id="quicknav-link" class="form-ctrl" placeholder="如：#solution-1 或 /solutions 或 https://..." />
+      </div>
+      <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
+        <button class="btn btn-light" onclick="closeModal('modal-quicknav')">取消</button>
+        <button class="btn btn-blue" onclick="saveQuickNavItem()">保存导航项</button>
       </div>
     </div>
   </div>
@@ -1669,13 +1949,13 @@
         </div>
         
         <div style="display:flex; align-items:center; gap:8px;">
-          <button class="btn btn-light btn-sm" id="btn-vp-desktop" onclick="setPreviewDevice('desktop')">
+          <button class="btn btn-light" id="btn-vp-desktop" onclick="setPreviewDevice('desktop')">
             🖥️ 桌面端
           </button>
-          <button class="btn btn-light btn-sm" id="btn-vp-mobile" onclick="setPreviewDevice('mobile')">
+          <button class="btn btn-light" id="btn-vp-mobile" onclick="setPreviewDevice('mobile')">
             📱 手机端
           </button>
-          <button class="btn btn-light btn-sm" onclick="closeModal('modal-preview')" style="margin-left:4px;">关闭</button>
+          <button class="btn btn-light" onclick="closeModal('modal-preview')" style="margin-left:4px;">关闭</button>
         </div>
       </div>
 
@@ -1691,6 +1971,19 @@
             </div>
           </div>
 
+          <!-- 前台右侧悬浮快捷直达导航栏 -->
+          <div id="preview-floating-nav" class="preview-floating-quicknav" style="display:none;">
+            <div class="quicknav-badge-caption">方案直达</div>
+            <div id="preview-floating-nav-items" style="display:flex; flex-direction:column; gap:6px; align-items:center; width:100%;">
+              <!-- 动态渲染快捷导航按键 -->
+            </div>
+            <div class="quicknav-divider"></div>
+            <button class="quicknav-btn" onclick="document.getElementById('preview-viewport-box-id').scrollTop = 0" title="返回顶部">
+              <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+            </button>
+          </div>
+
+          <!-- 页面积木组件真实渲染画布 -->
           <div id="preview-rendered-body" style="padding-bottom:60px; background:#fff;">
             <!-- 动态渲染内容 -->
           </div>
@@ -1706,11 +1999,29 @@
       chevronDown: `<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>`
     };
 
+    const QUICK_NAV_ICONS = {
+      gear: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>`,
+      lightning: `<svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>`,
+      chip: `<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>`,
+      robot: `<svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="10" rx="2"></rect><circle cx="12" cy="5" r="2"></circle><path d="M12 7v4"></path><line x1="8" y1="16" x2="8" y2="16"></line><line x1="16" y1="16" x2="16" y2="16"></line></svg>`,
+      plane: `<svg viewBox="0 0 24 24"><path d="M22 2L11 13"></path><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>`,
+      branch: `<svg viewBox="0 0 24 24"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="6" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg>`,
+      chat: `<svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>`
+    };
+
     const store = {
       pages: {
         home: {
           name: '官网首页',
           date: '2026-09-20',
+          quickNavEnabled: true,
+          quickNavItems: [
+            { id: 'qn_1', name: '系统级工控方案', iconType: 'gear', customImg: '', link: '#solution-1' },
+            { id: 'qn_2', name: '极速实时响应', iconType: 'lightning', customImg: '', link: '#solution-2' },
+            { id: 'qn_3', name: 'OS 底层硬件架构', iconType: 'chip', customImg: '', link: '#solution-3' },
+            { id: 'qn_4', name: '机器人行业解决方案', iconType: 'robot', customImg: '', link: '/solutions' },
+            { id: 'qn_5', name: '航天航空行业方案', iconType: 'plane', customImg: '', link: '/solutions' }
+          ],
           widgets: [
             {
               id: 'w_101',
@@ -1738,21 +2049,17 @@
               textTitle: '通过 CMMI5 软件能力成熟度最高级认证',
               desc: '经国际权威机构评定，公司正式通过 CMMI-DEV V2.0 五级成熟度认证，工程治理与产品交付能力达到国际先进水平。',
               enabled: true
-            },
-            {
-              id: 'w_104',
-              title: '全球化多数据节点布局说明',
-              type: 'text',
-              heading: '全球 12 大高防节点与安全运维保障',
-              sub: '全链路加密与异地容灾备份机制',
-              body: '依托高可靠分布式服务集群，提供 99.99% 的全天候系统可用性保证，帮助企业在全球化出海进程中游刃有余。',
-              enabled: true
             }
           ]
         },
         solutions: {
           name: '核心解决方案页',
           date: '2026-09-18',
+          quickNavEnabled: true,
+          quickNavItems: [
+            { id: 'qn_s1', name: '航天航空专区', iconType: 'plane', customImg: '', link: '#aerospace' },
+            { id: 'qn_s2', name: '机器人专区', iconType: 'robot', customImg: '', link: '#robotics' }
+          ],
           widgets: [
             {
               id: 'w_201',
@@ -1823,9 +2130,26 @@
       ],
 
       articles: [
-        { id: 1, title: '重磅！公司通过 CMMI5 软件能力成熟度最高级认证', category: '企业动态', status: '已发布', cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&auto=format&fit=crop&q=80', date: '2026-09-18' },
-        { id: 2, title: '关于 2026 年国庆期间官网业务系统维护窗口期的通知', category: '官方公告', status: '已发布', cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&auto=format&fit=crop&q=80', date: '2026-09-19' }
+        { 
+          id: 1, 
+          title: '重磅！公司通过 CMMI5 软件能力成熟度最高级认证', 
+          category: '企业动态', 
+          status: '已发布', 
+          cover: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80', 
+          date: '2026-09-18',
+          content: '近日，经国际权威评估机构全面审核评定，泊川科技正式通过全球软件领域能力成熟度最高级别——CMMI-DEV V2.0 5级认证。\n\n这标志着泊川科技在软件工程化研发、流程成熟度控制、质量管控及项目精益交付全链条 governance 治理能力达到国际先进水平，能够为国内外客户提供更具确定性与高质量的中台交付服务。'
+        },
+        { 
+          id: 2, 
+          title: '关于 2026 年国庆期间官网业务系统维护窗口期的通知', 
+          category: '官方公告', 
+          status: '已发布', 
+          cover: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&auto=format&fit=crop&q=80', 
+          date: '2026-09-19',
+          content: '为持续向广大企业用户提供更加平稳高效的数智化服务，泊川科技定于国庆假期前夕对底层分布式数据集群实施例行升级与性能扩容维护。\n\n维护窗口期为 2026 年 9 月 30 日 23:00 至 10 月 1 日 04:00，期间前台部分接口可能出现短暂延迟，请相关业务团队提前做好生产安排。'
+        }
       ],
+      currentViewingArticleId: null,
 
       feedbacks: [
         { id: 1, name: '陈先生', contact: '13700001111', content: '请问私有化部署是否支持国产操作系统与特定指令架构？', reply: '', isRead: false },
@@ -1850,7 +2174,16 @@
       renderLogs();
     }
 
-    // 移动端汉堡包抽屉侧边栏控制
+    function toggleSidebarCollapse() {
+      const sb = document.getElementById('sidebar');
+      sb.classList.toggle('collapsed');
+      const isCollapsed = sb.classList.contains('collapsed');
+      document.getElementById('collapse-icon').innerHTML = isCollapsed 
+        ? `<polyline points="9 18 15 12 9 6"></polyline>`
+        : `<polyline points="15 18 9 12 15 6"></polyline>`;
+      logEvent('SIDEBAR_TOGGLE', `切换导航栏显示模式: ${isCollapsed ? '只透出Icon' : '完整展开'}`);
+    }
+
     function toggleMobileSidebar(open) {
       const sb = document.getElementById('sidebar');
       const mask = document.getElementById('sidebar-mask');
@@ -1875,12 +2208,13 @@
 
         if (targetId === 'panel-page-builder') {
           exitPageEditor();
+        } else if (targetId === 'panel-articles') {
+          exitArticleDetail();
         }
 
         const titleText = this.getAttribute('data-title') || this.querySelector('span').innerText;
         document.getElementById('header-title').innerText = titleText;
 
-        // 移动端选择后自动收回抽屉
         toggleMobileSidebar(false);
       });
     });
@@ -1891,7 +2225,7 @@
       });
     }
 
-    // 1. 页面装修
+    // ================= 1. 页面装修与侧边悬浮快捷直达导航 =================
     function renderPageListTable() {
       const tbody = document.getElementById('page-list-tbody');
       tbody.innerHTML = '';
@@ -1911,12 +2245,15 @@
           <td>
             <span class="status-capsule">${p.widgets.length} 个积木组件</span>
           </td>
+          <td>
+            <span class="status-capsule ${p.quickNavEnabled ? 'blue' : 'orange'}">${p.quickNavEnabled ? '已启用 (' + (p.quickNavItems?.length || 0) + '项)' : '已停用'}</span>
+          </td>
           <td style="color:var(--text-label); font-size:12px;">${p.date || '2026-09-20'}</td>
           <td style="text-align:right;">
             <div class="table-actions-cell">
-              <button class="btn btn-light btn-sm" onclick="openSinglePagePreview('${key}')">预览</button>
-              <button class="btn btn-light btn-sm" onclick="enterPageEditor('${key}')">装修画布</button>
-              ${!isHome ? `<button class="btn btn-red-subtle btn-sm" onclick="deletePageFromList('${key}')">删除</button>` : ''}
+              <button class="btn btn-light" onclick="openSinglePagePreview('${key}')">预览</button>
+              <button class="btn btn-light" onclick="enterPageEditor('${key}')">装修画布</button>
+              ${!isHome ? `<button class="btn btn-red-subtle" onclick="deletePageFromList('${key}')">删除</button>` : ''}
             </div>
           </td>
         `;
@@ -1935,6 +2272,11 @@
       document.getElementById('current-editing-page-key').innerText = `路由路径: /${pageKey === 'home' ? '' : pageKey}`;
       document.getElementById('btn-delete-active-page').style.display = pageKey === 'home' ? 'none' : 'inline-flex';
 
+      // 载入快捷直达导航开关状态，并联动更新界面显示/隐藏
+      document.getElementById('page-quicknav-toggle').checked = !!page.quickNavEnabled;
+      syncQuickNavUIState(!!page.quickNavEnabled);
+
+      renderPageQuickNavTable();
       renderPageWidgets();
     }
 
@@ -1942,6 +2284,162 @@
       document.getElementById('builder-subview-list').style.display = 'block';
       document.getElementById('builder-subview-editor').style.display = 'none';
       renderPageListTable();
+    }
+
+    // 重点交互联动：同步快捷导航启闭状态，关闭时隐藏添加按钮与表格，显示占位提示
+    function syncQuickNavUIState(enabled) {
+      const btnAdd = document.getElementById('btn-add-quicknav-item');
+      const tableBox = document.getElementById('quicknav-active-content-container');
+      const hintBox = document.getElementById('quicknav-disabled-hint-box');
+
+      if (enabled) {
+        btnAdd.style.display = 'inline-flex';
+        tableBox.style.display = 'block';
+        hintBox.style.display = 'none';
+      } else {
+        btnAdd.style.display = 'none';
+        tableBox.style.display = 'none';
+        hintBox.style.display = 'block';
+      }
+    }
+
+    // 快捷悬浮直达导航启闭开关驱动
+    function togglePageQuickNav(enabled) {
+      const page = store.pages[store.currentEditingPageKey];
+      page.quickNavEnabled = enabled;
+      syncQuickNavUIState(enabled);
+      logEvent('PAGE_QUICKNAV', `切换页面【${page.name}】侧边悬浮直达导航为: ${enabled ? '开启' : '关闭'}`);
+    }
+
+    function renderPageQuickNavTable() {
+      const page = store.pages[store.currentEditingPageKey];
+      const tbody = document.getElementById('page-quicknav-tbody');
+      tbody.innerHTML = '';
+
+      if (!page.quickNavItems || page.quickNavItems.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#94a3b8; padding:20px;">暂无快捷导航项，点击右上角 "+ 添加快捷导航项" 进行配置</td></tr>';
+        return;
+      }
+
+      page.quickNavItems.forEach((item, idx) => {
+        const iconPreview = item.customImg 
+          ? `<img src="${item.customImg}" style="width:20px; height:20px; object-fit:contain; border-radius:4px;" />`
+          : `<div style="width:24px; height:24px; display:flex; align-items:center; justify-content:center; color:#1e3a8a;">${QUICK_NAV_ICONS[item.iconType] || QUICK_NAV_ICONS.gear}</div>`;
+
+        tbody.innerHTML += `
+          <tr>
+            <td>${iconPreview}</td>
+            <td style="font-weight:600; color:var(--text-title);">${item.name}</td>
+            <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${item.link}</td>
+            <td style="text-align:right;">
+              <div class="table-actions-cell">
+                <button class="btn btn-light" onclick="editQuickNavItem('${item.id}')">编辑</button>
+                <button class="btn btn-red-subtle" onclick="deleteQuickNavItem('${item.id}')">删除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openQuickNavModal() {
+      document.getElementById('modal-quicknav-title').innerText = '配置侧边快捷导航项';
+      document.getElementById('quicknav-id').value = '';
+      document.getElementById('quicknav-name').value = '';
+      document.getElementById('quicknav-icon-type').value = 'gear';
+      document.getElementById('quicknav-custom-img').value = '';
+      document.getElementById('quicknav-link').value = '';
+      document.getElementById('quicknav-local-icon-file').value = '';
+      document.getElementById('quicknav-icon-preview-box').style.display = 'none';
+      openModal('modal-quicknav');
+    }
+
+    function editQuickNavItem(id) {
+      const page = store.pages[store.currentEditingPageKey];
+      const item = page.quickNavItems.find(qn => qn.id === id);
+      if (!item) return;
+
+      document.getElementById('modal-quicknav-title').innerText = '编辑侧边快捷导航项';
+      document.getElementById('quicknav-id').value = item.id;
+      document.getElementById('quicknav-name').value = item.name;
+      document.getElementById('quicknav-icon-type').value = item.iconType || 'gear';
+      document.getElementById('quicknav-custom-img').value = item.customImg || '';
+      document.getElementById('quicknav-link').value = item.link || '';
+      document.getElementById('quicknav-local-icon-file').value = '';
+
+      const previewBox = document.getElementById('quicknav-icon-preview-box');
+      if (item.customImg) {
+        document.getElementById('quicknav-icon-preview-img').src = item.customImg;
+        document.getElementById('quicknav-icon-preview-name').innerText = '当前自定义Icon已载入';
+        previewBox.style.display = 'flex';
+      } else {
+        previewBox.style.display = 'none';
+      }
+
+      openModal('modal-quicknav');
+    }
+
+    function handleQuickNavIconUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Url = e.target.result;
+        document.getElementById('quicknav-custom-img').value = base64Url;
+        
+        const previewBox = document.getElementById('quicknav-icon-preview-box');
+        const previewImg = document.getElementById('quicknav-icon-preview-img');
+        const previewName = document.getElementById('quicknav-icon-preview-name');
+        
+        previewImg.src = base64Url;
+        previewName.innerText = `已载入本地Icon: ${file.name}`;
+        previewBox.style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function saveQuickNavItem() {
+      const id = document.getElementById('quicknav-id').value;
+      const name = document.getElementById('quicknav-name').value.trim();
+      const iconType = document.getElementById('quicknav-icon-type').value;
+      const customImg = document.getElementById('quicknav-custom-img').value.trim();
+      const link = document.getElementById('quicknav-link').value.trim();
+
+      if (!name || !link) return alert('请完整填写导航项名称与跳转链接！');
+
+      const page = store.pages[store.currentEditingPageKey];
+      if (!page.quickNavItems) page.quickNavItems = [];
+
+      if (id) {
+        const item = page.quickNavItems.find(qn => qn.id === id);
+        if (item) {
+          item.name = name;
+          item.iconType = iconType;
+          item.customImg = customImg;
+          item.link = link;
+        }
+      } else {
+        page.quickNavItems.push({
+          id: 'qn_' + Date.now(),
+          name,
+          iconType,
+          customImg,
+          link
+        });
+      }
+
+      closeModal('modal-quicknav');
+      renderPageQuickNavTable();
+      logEvent('PAGE_QUICKNAV', `保存侧边快捷导航项【${name}】`);
+    }
+
+    function deleteQuickNavItem(id) {
+      if (confirm('确定删除该侧边快捷导航项？')) {
+        const page = store.pages[store.currentEditingPageKey];
+        page.quickNavItems = page.quickNavItems.filter(qn => qn.id !== id);
+        renderPageQuickNavTable();
+      }
     }
 
     function renderPageWidgets() {
@@ -2021,8 +2519,8 @@
                 </button>
               </div>
               <div class="table-actions-cell" style="margin-left:8px;">
-                <button class="btn btn-light btn-sm" onclick="editWidget('${w.id}')">编辑</button>
-                <button class="btn btn-red-subtle btn-sm" onclick="deleteWidget('${w.id}')">删除</button>
+                <button class="btn btn-light" onclick="editWidget('${w.id}')">编辑</button>
+                <button class="btn btn-red-subtle" onclick="deleteWidget('${w.id}')">删除</button>
               </div>
             </div>
           </div>
@@ -2103,7 +2601,7 @@
         document.getElementById('widget-text-body').value = w.body;
       } else if (w.type === 'image_text') {
         document.getElementById('widget-imgtext-url').value = w.url;
-        document.getElementById('widget-imgtext-title').value = w.textTitle;
+        document.getElementById('widget-text-title').value = w.textTitle;
         document.getElementById('widget-imgtext-desc').value = w.desc;
       }
 
@@ -2158,8 +2656,8 @@
 
     function savePageWidgets() {
       const page = store.pages[store.currentEditingPageKey];
-      logEvent('PAGE_UPDATE', `保存整页【${page.name}】配置`);
-      alert(`【${page.name}】的全部积木组件配置已保存！`);
+      logEvent('PAGE_UPDATE', `保存整页【${page.name}】配置 (含组件与侧边悬浮导航)`);
+      alert(`【${page.name}】的全部积木组件与侧边悬浮导航配置已保存！`);
     }
 
     function openCreatePageModal() {
@@ -2178,6 +2676,8 @@
       store.pages[key] = {
         name,
         date: new Date().toISOString().split('T')[0],
+        quickNavEnabled: false,
+        quickNavItems: [],
         widgets: [
           {
             id: 'w_' + Date.now(),
@@ -2252,9 +2752,9 @@
           </td>
           <td style="text-align:right;">
             <div class="table-actions-cell">
-              ${nav.pageKey ? `<button class="btn btn-light btn-sm" onclick="directJumpToPageEditor('${nav.pageKey}')">进入装修画布</button>` : ''}
-              <button class="btn btn-light btn-sm" onclick="editNav(${nav.id})">编辑</button>
-              <button class="btn btn-red-subtle btn-sm" onclick="deleteNav(${nav.id})">删除</button>
+              <button class="btn btn-light" onclick="directJumpToPageEditor('${nav.pageKey}')">进入装修画布</button>
+              <button class="btn btn-light" onclick="editNav(${nav.id})">编辑</button>
+              <button class="btn btn-red-subtle" onclick="deleteNav(${nav.id})">删除</button>
             </div>
           </td>
         `;
@@ -2379,7 +2879,7 @@
               <span style="font-size:11px; color:var(--text-label);">${m.size}</span>
             </div>
             <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px; border-top:1px solid #f8fafc; padding-top:6px;">
-              <button class="btn btn-red-subtle btn-sm" onclick="deleteMedia('${m.id}')">删除</button>
+              <button class="btn btn-red-subtle" onclick="deleteMedia('${m.id}')">删除</button>
             </div>
           </div>
         `;
@@ -2387,8 +2887,54 @@
       });
     }
 
+    function toggleMediaUploadAccept(type) {
+      const input = document.getElementById('upload-media-file-input');
+      input.accept = type === '视频' ? 'video/mp4,video/*' : 'image/*';
+    }
+
     function openUploadMediaModal() {
+      document.getElementById('upload-media-title').value = '';
+      document.getElementById('upload-media-type').value = '图片';
+      document.getElementById('upload-media-url').value = '';
+      document.getElementById('upload-media-file-input').value = '';
+      document.getElementById('upload-media-preview-box').style.display = 'none';
+      toggleMediaUploadAccept('图片');
       openModal('modal-upload-media');
+    }
+
+    function handleMediaLocalUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const type = document.getElementById('upload-media-type').value;
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const base64Url = e.target.result;
+        document.getElementById('upload-media-url').value = base64Url;
+
+        const previewBox = document.getElementById('upload-media-preview-box');
+        const previewThumb = document.getElementById('upload-media-preview-thumb');
+        const previewText = document.getElementById('upload-media-preview-text');
+
+        if (type === '视频') {
+          previewThumb.innerHTML = `<video src="${base64Url}" style="width:70px; height:42px; object-fit:cover; border-radius:4px; background:#000;"></video>`;
+        } else {
+          previewThumb.innerHTML = `<img src="${base64Url}" style="width:70px; height:42px; object-fit:cover; border-radius:4px;" />`;
+        }
+
+        const sizeStr = (file.size > 1024 * 1024) 
+          ? (file.size / (1024 * 1024)).toFixed(1) + ' MB'
+          : (file.size / 1024).toFixed(1) + ' KB';
+
+        previewText.innerText = `已读取本地文件: ${file.name} (${sizeStr})`;
+        previewBox.style.display = 'flex';
+
+        if (!document.getElementById('upload-media-title').value.trim()) {
+          document.getElementById('upload-media-title').value = file.name.replace(/\.[^/.]+$/, "");
+        }
+      };
+      reader.readAsDataURL(file);
     }
 
     function confirmUploadMedia() {
@@ -2396,7 +2942,7 @@
       const type = document.getElementById('upload-media-type').value;
       const url = document.getElementById('upload-media-url').value.trim();
 
-      if (!name || !url) return alert('请完整填写素材名称与 URL！');
+      if (!name || !url) return alert('请完整填写素材名称并提供有效素材资源！');
 
       store.mediaList.unshift({
         id: 'm_' + Date.now(),
@@ -2466,8 +3012,8 @@
           </td>
           <td style="text-align:right;">
             <div class="table-actions-cell">
-              <button class="btn btn-light btn-sm" onclick="editField('${f.id}')">编辑</button>
-              <button class="btn btn-red-subtle btn-sm" onclick="deleteField('${f.id}')">删除</button>
+              <button class="btn btn-light" onclick="editField('${f.id}')">编辑</button>
+              <button class="btn btn-red-subtle" onclick="deleteField('${f.id}')">删除</button>
             </div>
           </td>
         `;
@@ -2606,7 +3152,7 @@
             <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${p.remark}" placeholder="跟进记录..." onchange="p.remark = this.value; logEvent('LEAD_UPDATE', '更新渠道商跟进备注')" /></td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-red-subtle btn-sm" onclick="deletePartner('${p.id}')">删除</button>
+                <button class="btn btn-red-subtle" onclick="deletePartner('${p.id}')">删除</button>
               </div>
             </td>
           </tr>
@@ -2628,7 +3174,7 @@
             <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${s.remark}" placeholder="对接备注..." onchange="s.remark = this.value; logEvent('LEAD_UPDATE', '更新供应商对接备注')" /></td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-red-subtle btn-sm" onclick="deleteSupplier('${s.id}')">删除</button>
+                <button class="btn btn-red-subtle" onclick="deleteSupplier('${s.id}')">删除</button>
               </div>
             </td>
           </tr>
@@ -2652,22 +3198,25 @@
       }
     }
 
-    // ================= 6. 资讯发布 =================
+    // ================= 6. 资讯与公告全新实现 =================
     function renderArticles() {
       const tbody = document.getElementById('article-tbody');
       tbody.innerHTML = '';
       store.articles.forEach(a => {
         tbody.innerHTML += `
           <tr>
-            <td><img src="${a.cover}" style="width:70px; height:42px; object-fit:cover; border-radius:6px;" /></td>
-            <td><strong style="font-size:13px;">${a.title}</strong></td>
+            <td><img src="${a.cover}" style="width:70px; height:42px; object-fit:cover; border-radius:6px; cursor:pointer;" onclick="viewArticleDetail(${a.id})" title="点击查看详情" /></td>
+            <td>
+              <strong style="font-size:13px; color:var(--text-title); cursor:pointer;" onclick="viewArticleDetail(${a.id})" title="点击查看详情">${a.title}</strong>
+            </td>
             <td><span class="status-capsule blue">${a.category}</span></td>
             <td><span class="status-capsule">${a.status}</span></td>
             <td style="color:var(--text-placeholder); font-size:12px;">${a.date}</td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-light btn-sm" onclick="alert('进入资讯编辑')">编辑</button>
-                <button class="btn btn-red-subtle btn-sm" onclick="deleteArticle(${a.id})">删除</button>
+                <button class="btn btn-light" onclick="viewArticleDetail(${a.id})">查看</button>
+                <button class="btn btn-light" onclick="editArticle(${a.id})">编辑</button>
+                <button class="btn btn-red-subtle" onclick="deleteArticle(${a.id})">删除</button>
               </div>
             </td>
           </tr>
@@ -2675,39 +3224,142 @@
       });
     }
 
+    function handleArticleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Url = e.target.result;
+        document.getElementById('article-cover').value = base64Url;
+        
+        const previewBox = document.getElementById('article-cover-preview-box');
+        const previewImg = document.getElementById('article-cover-preview-img');
+        const previewName = document.getElementById('article-cover-preview-name');
+        
+        previewImg.src = base64Url;
+        previewName.innerText = `已加载本地主图: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+        previewBox.style.display = 'flex';
+      };
+      reader.readAsDataURL(file);
+    }
+
     function openArticleModal() {
+      document.getElementById('modal-article-title').innerText = '发布企业资讯/公告';
       document.getElementById('article-id').value = '';
       document.getElementById('article-title').value = '';
-      document.getElementById('article-cover').value = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&auto=format&fit=crop&q=80';
+      document.getElementById('article-category').value = '企业动态';
+      document.getElementById('article-status').value = '已发布';
+      document.getElementById('article-cover').value = 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80';
       document.getElementById('article-content').value = '';
+      document.getElementById('article-cover-file').value = '';
+      
+      const previewBox = document.getElementById('article-cover-preview-box');
+      previewBox.style.display = 'none';
+
       openModal('modal-article');
     }
 
+    function editArticle(id) {
+      const a = store.articles.find(item => item.id === id);
+      if (!a) return;
+
+      document.getElementById('modal-article-title').innerText = '编辑企业资讯/公告';
+      document.getElementById('article-id').value = a.id;
+      document.getElementById('article-title').value = a.title;
+      document.getElementById('article-category').value = a.category;
+      document.getElementById('article-status').value = a.status;
+      document.getElementById('article-cover').value = a.cover;
+      document.getElementById('article-content').value = a.content || '';
+      document.getElementById('article-cover-file').value = '';
+
+      const previewBox = document.getElementById('article-cover-preview-box');
+      const previewImg = document.getElementById('article-cover-preview-img');
+      const previewName = document.getElementById('article-cover-preview-name');
+      previewImg.src = a.cover;
+      previewName.innerText = '当前主图已载入 (可重新选择替换)';
+      previewBox.style.display = 'flex';
+
+      openModal('modal-article');
+    }
+
+    function viewArticleDetail(id) {
+      const a = store.articles.find(item => item.id === id);
+      if (!a) return;
+
+      store.currentViewingArticleId = a.id;
+
+      document.getElementById('article-subview-list').style.display = 'none';
+      document.getElementById('article-subview-detail').style.display = 'block';
+
+      document.getElementById('detail-title').innerText = a.title;
+      document.getElementById('detail-category').innerText = a.category;
+      document.getElementById('detail-date').innerText = `发布日期: ${a.date}`;
+      document.getElementById('detail-cover').src = a.cover;
+      document.getElementById('detail-content').innerText = a.content || '暂无详细正文内容。';
+
+      logEvent('ARTICLE_VIEW', `查看资讯详情《${a.title}》`);
+    }
+
+    function exitArticleDetail() {
+      document.getElementById('article-subview-list').style.display = 'block';
+      document.getElementById('article-subview-detail').style.display = 'none';
+      store.currentViewingArticleId = null;
+      renderArticles();
+    }
+
+    function editFromCurrentDetail() {
+      if (store.currentViewingArticleId) {
+        editArticle(store.currentViewingArticleId);
+      }
+    }
+
     function saveArticle() {
+      const id = document.getElementById('article-id').value;
       const title = document.getElementById('article-title').value.trim();
       const category = document.getElementById('article-category').value;
       const status = document.getElementById('article-status').value;
       const cover = document.getElementById('article-cover').value.trim();
+      const content = document.getElementById('article-content').value.trim();
 
       if (!title) return alert('请输入文章标题！');
 
-      store.articles.unshift({
-        id: Date.now(),
-        title,
-        category,
-        status,
-        cover,
-        date: new Date().toISOString().split('T')[0]
-      });
+      if (id) {
+        const a = store.articles.find(item => item.id == id);
+        if (a) {
+          a.title = title;
+          a.category = category;
+          a.status = status;
+          a.cover = cover || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80';
+          a.content = content;
+          logEvent('ARTICLE_UPDATE', `更新修改资讯《${title}》`);
+        }
+      } else {
+        store.articles.unshift({
+          id: Date.now(),
+          title,
+          category,
+          status,
+          cover: cover || 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&auto=format&fit=crop&q=80',
+          content,
+          date: new Date().toISOString().split('T')[0]
+        });
+        logEvent('ARTICLE_CREATE', `发布新资讯《${title}》`);
+      }
 
       closeModal('modal-article');
-      renderArticles();
-      logEvent('ARTICLE_CREATE', `发布资讯《${title}》`);
+      
+      if (store.currentViewingArticleId && store.currentViewingArticleId == id) {
+        viewArticleDetail(Number(id));
+      } else {
+        exitArticleDetail();
+      }
     }
 
     function deleteArticle(id) {
       if (confirm('确定删除此文章？')) {
         store.articles = store.articles.filter(a => a.id !== id);
+        exitArticleDetail();
         renderArticles();
         logEvent('ARTICLE_DELETE', '删除文章资讯');
       }
@@ -2730,8 +3382,8 @@
             </td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-light btn-sm" onclick="replyFeedback(${f.id})">答复</button>
-                <button class="btn btn-red-subtle btn-sm" onclick="deleteFeedback(${f.id})">删除</button>
+                <button class="btn btn-light" onclick="replyFeedback(${f.id})">答复</button>
+                <button class="btn btn-red-subtle" onclick="deleteFeedback(${f.id})">删除</button>
               </div>
             </td>
           </tr>
@@ -2800,7 +3452,7 @@
             <td style="font-size:12px; color:var(--text-label);">${b.size}</td>
             <td style="font-size:12px; color:var(--text-placeholder);">${b.time}</td>
             <td style="text-align:right;">
-              <button class="btn btn-light btn-sm" onclick="restoreBackup('${b.id}')">还原此版本</button>
+              <button class="btn btn-light" onclick="restoreBackup('${b.id}')">还原此版本</button>
             </td>
           </tr>
         `;
@@ -2907,6 +3559,38 @@
 
       document.getElementById('preview-active-slug').innerText = `当前访问: /${pageKey === 'home' ? '' : pageKey} (${page.name})`;
 
+      // 渲染前台右侧悬浮快捷直达导航 (根据开关状态严格判定)
+      const floatingNav = document.getElementById('preview-floating-nav');
+      const floatingItemsBox = document.getElementById('preview-floating-nav-items');
+      floatingItemsBox.innerHTML = '';
+
+      if (page.quickNavEnabled && page.quickNavItems && page.quickNavItems.length > 0 && previewState.device === 'desktop') {
+        floatingNav.style.display = 'flex';
+
+        page.quickNavItems.forEach((qn, qIdx) => {
+          const btn = document.createElement('button');
+          btn.className = `quicknav-btn ${qIdx === 0 ? 'active' : ''}`;
+          btn.title = qn.name;
+
+          if (qn.customImg) {
+            btn.innerHTML = `<img src="${qn.customImg}" style="width:18px; height:18px; object-fit:contain;" />`;
+          } else {
+            btn.innerHTML = QUICK_NAV_ICONS[qn.iconType] || QUICK_NAV_ICONS.gear;
+          }
+
+          btn.onclick = function() {
+            floatingItemsBox.querySelectorAll('.quicknav-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            alert(`点击快捷直达: 【${qn.name}】\n跳转目标: ${qn.link}`);
+          };
+
+          floatingItemsBox.appendChild(btn);
+        });
+      } else {
+        floatingNav.style.display = 'none';
+      }
+
+      // 渲染页面积木组件
       if (!page.widgets || page.widgets.length === 0) {
         container.innerHTML = '<div style="padding:60px 20px; text-align:center; color:#94a3b8;">该页面暂未配置任何可见积木组件</div>';
         return;
