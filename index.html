@@ -174,7 +174,6 @@
       display: none;
     }
 
-    /* 纯 Icon 收起按键 (不带冗余文字) */
     .sidebar-collapse-btn {
       display: flex;
       align-items: center;
@@ -323,6 +322,7 @@
     .welcome-title { font-size: 16px; font-weight: 700; color: var(--text-title); margin-bottom: 4px; }
     .welcome-desc { font-size: 12px; color: var(--text-label); }
 
+    /* 上一版优雅白底指标网格卡片样式 */
     .metric-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -334,10 +334,10 @@
       border-radius: var(--radius-lg);
       border: 1px solid rgba(226, 232, 240, 0.6);
       box-shadow: var(--shadow-subtle);
-      padding: 22px 24px;
+      padding: 20px 22px;
       display: flex;
-      align-items: center;
-      gap: 20px;
+      flex-direction: column;
+      gap: 6px;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s;
     }
@@ -345,16 +345,120 @@
       transform: translateY(-2px);
       box-shadow: 0 8px 24px rgba(0,0,0,0.04);
     }
+    .metric-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .metric-name { font-size: 13px; font-weight: 600; color: var(--text-label); }
     .metric-val {
-      font-size: 34px;
+      font-size: 30px;
       font-weight: 800;
       letter-spacing: -1px;
-      line-height: 1;
+      line-height: 1.1;
+      color: var(--text-title);
     }
-    .metric-meta { display: flex; flex-direction: column; }
-    .metric-name { font-size: 14px; font-weight: 700; color: var(--text-title); }
-    .metric-subtitle { font-size: 11px; color: var(--text-label); margin-top: 3px; }
+    .metric-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-label);
+      margin-top: 4px;
+      border-top: 1px dashed #f1f5f9;
+      padding-top: 8px;
+    }
+    .metric-growth {
+      font-weight: 700;
+      color: #15803d;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
 
+    /* ================= 重点重构：纯正用户行为转化漏斗图 (Funnel Chart) ================= */
+    .funnel-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px 0;
+      align-items: center;
+      width: 100%;
+    }
+    .funnel-step-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 8px;
+      padding: 10px 18px;
+      transition: transform 0.15s ease;
+      position: relative;
+    }
+    .funnel-step-row:hover {
+      transform: scale(1.01);
+    }
+    .funnel-step-1 {
+      width: 100%;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+    }
+    .funnel-step-2 {
+      width: 86%;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      color: #065f46;
+    }
+    .funnel-step-3 {
+      width: 72%;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+    }
+    .funnel-step-4 {
+      width: 58%;
+      background: #faf5ff;
+      border: 1px solid #e9d5ff;
+      color: #6b21a8;
+    }
+
+    .funnel-label-col {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .funnel-step-badge {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .funnel-data-col {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+    .funnel-metric-num {
+      font-size: 16px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+    .funnel-rate-tag {
+      font-size: 11px;
+      font-weight: 600;
+      background: rgba(255,255,255,0.7);
+      padding: 2px 8px;
+      border-radius: 12px;
+    }
+
+    /* 快捷操作卡片 */
     .quick-actions-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -389,6 +493,7 @@
     .quick-title { font-size: 12px; font-weight: 700; color: var(--text-title); }
     .quick-desc { font-size: 11px; color: var(--text-label); margin-top: 1px; }
 
+    /* 全局 Tab 规范 */
     .tabs-bar {
       display: flex;
       align-items: center;
@@ -398,6 +503,7 @@
       margin-bottom: 20px;
       overflow-x: auto;
       white-space: nowrap;
+      position: relative;
     }
     .tab-btn {
       font-size: 14px;
@@ -891,7 +997,6 @@
 </head>
 <body>
 
-  <!-- 移动端侧边栏遮罩 -->
   <div class="sidebar-mask" id="sidebar-mask" onclick="toggleMobileSidebar(false)"></div>
 
   <!-- ================= 1. 侧边栏 ================= -->
@@ -905,7 +1010,7 @@
     </div>
 
     <div class="menu-wrap">
-      <button class="menu-item active" data-view="panel-dashboard" data-title="首页" title="首页大盘">
+      <button class="menu-item active" data-view="panel-dashboard" data-title="首页大盘" title="首页大盘">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         <span>首页大盘</span>
       </button>
@@ -974,7 +1079,6 @@
       </button>
     </div>
 
-    <!-- 侧边栏底部折叠按键 (只保留收起 Icon，不带文字) -->
     <button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="收起 / 展开侧边栏">
       <svg id="collapse-icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
@@ -993,7 +1097,7 @@
         <div class="title-icon-box" id="header-icon-box">
           <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
         </div>
-        <h1 class="main-page-title" id="header-title">首页</h1>
+        <h1 class="main-page-title" id="header-title">首页大盘</h1>
         <span class="version-tag">Beta 1.0</span>
       </div>
 
@@ -1002,49 +1106,161 @@
       </div>
     </div>
 
-    <!-- 视图 1: 首页大盘 -->
+    <!-- ================= 视图 1: 首页大盘 (恢复优雅上一版样式 + 升级漏斗图) ================= -->
     <section id="panel-dashboard" class="view-panel">
       <div class="card-panel welcome-card">
         <div class="welcome-title">欢迎使用 泊川科技 运营管理中台！</div>
         <div class="welcome-desc">覆盖开发、调试、仿真等部署全流程，轻松管理页面多组件、内容发布与合作申请。</div>
       </div>
 
+      <!-- 四大核心指标卡片 (完全恢复上一版纯白微圆角卡片) -->
       <div class="metric-row">
-        <div class="metric-card" onclick="jumpToMenu('panel-navigations')">
-          <div class="metric-val" style="color:var(--primary-blue);">4</div>
-          <div class="metric-meta">
-            <span class="metric-name">主导航项</span>
-            <span class="metric-subtitle">前台显示数量</span>
+        <div class="metric-card" onclick="alert('今日访问量统计:\n总浏览量(PV): 28,492\n独立访客(UV): 12,840')">
+          <div class="metric-top-bar">
+            <span class="metric-name">今日浏览总量 (PV / UV)</span>
+            <span class="status-capsule blue">实时监测</span>
+          </div>
+          <div class="metric-val">28,492 <span style="font-size:13px; font-weight:600; color:var(--text-label);">/ 1.28w UV</span></div>
+          <div class="metric-footer">
+            <span>较昨日同时段</span>
+            <span class="metric-growth">↑ 14.8%</span>
           </div>
         </div>
 
-        <div class="metric-card" onclick="jumpToMenu('panel-page-builder')">
-          <div class="metric-val" style="color:#10b981;">2</div>
-          <div class="metric-meta">
-            <span class="metric-name">装修页面</span>
-            <span class="metric-subtitle">独立组件总计</span>
+        <div class="metric-card" onclick="alert('今日全站交互点击: 19,340 次\n高频点击: 解决方案矩阵、Banner宣讲')">
+          <div class="metric-top-bar">
+            <span class="metric-name">前台交互点击 (Clicks)</span>
+            <span class="status-capsule">点击率 68.2%</span>
+          </div>
+          <div class="metric-val">19,340 <span style="font-size:13px; font-weight:600; color:var(--text-label);">次</span></div>
+          <div class="metric-footer">
+            <span>人均点击频次</span>
+            <span class="metric-growth">1.51 次 / 人</span>
           </div>
         </div>
 
         <div class="metric-card" onclick="jumpToMenu('panel-partners')">
-          <div class="metric-val" style="color:#f59e0b;">2</div>
-          <div class="metric-meta">
-            <span class="metric-name">渠道商申请</span>
-            <span class="metric-subtitle">待审核/签约</span>
+          <div class="metric-top-bar">
+            <span class="metric-name">线索转化总量 (Leads)</span>
+            <span class="status-capsule orange">综合转化 2.58%</span>
+          </div>
+          <div class="metric-val" style="color:var(--primary-blue);">328 <span style="font-size:13px; font-weight:600; color:var(--text-label);">份留资</span></div>
+          <div class="metric-footer">
+            <span>渠道 + 供应 + 留言</span>
+            <span class="metric-growth">↑ 22 份新入库</span>
           </div>
         </div>
 
         <div class="metric-card" onclick="jumpToMenu('panel-suppliers')">
-          <div class="metric-val" style="color:#8b5cf6;">2</div>
-          <div class="metric-meta">
-            <span class="metric-name">供应商入驻</span>
-            <span class="metric-subtitle">有效资质数量</span>
+          <div class="metric-top-bar">
+            <span class="metric-name">意向合作规模 (估值)</span>
+            <span class="status-capsule blue">商机流转</span>
+          </div>
+          <div class="metric-val">¥ 3,280 <span style="font-size:13px; font-weight:600; color:var(--text-label);">万元</span></div>
+          <div class="metric-footer">
+            <span>待评估大客户意向</span>
+            <span style="font-weight:700; color:var(--primary-blue);">4 家待初审</span>
           </div>
         </div>
       </div>
 
+      <!-- 核心漏斗图区 + 访问终端分布 -->
+      <div style="display:grid; grid-template-columns: 2fr 1fr; gap:16px; margin-bottom:20px;">
+        <div class="card-panel" style="margin-bottom:0;">
+          <div class="card-header-bar" style="margin-bottom:12px;">
+            <div class="card-header-title-box">
+              <div class="card-header-title">前台全站用户行为转化漏斗图</div>
+              <div class="card-header-desc">清晰展现访客从全站浏览、深度交互、方案直达到留资入驻的逐层流转与留存</div>
+            </div>
+            <span class="status-capsule blue">实时转化漏斗</span>
+          </div>
+
+          <!-- 重点：梯形渐缩层级漏斗图 -->
+          <div class="funnel-container">
+            <div class="funnel-step-row funnel-step-1">
+              <div class="funnel-label-col">
+                <span class="funnel-step-badge">1</span>
+                <span>全站访问浏览 (PV / UV)</span>
+              </div>
+              <div class="funnel-data-col">
+                <span class="funnel-metric-num">28,492 次</span>
+                <span class="funnel-rate-tag">基准流量 100%</span>
+              </div>
+            </div>
+
+            <div class="funnel-step-row funnel-step-2">
+              <div class="funnel-label-col">
+                <span class="funnel-step-badge">2</span>
+                <span>核心页面深度点击 (Clicks)</span>
+              </div>
+              <div class="funnel-data-col">
+                <span class="funnel-metric-num">19,340 次</span>
+                <span class="funnel-rate-tag">互动率 67.8%</span>
+              </div>
+            </div>
+
+            <div class="funnel-step-row funnel-step-3">
+              <div class="funnel-label-col">
+                <span class="funnel-step-badge">3</span>
+                <span>方案直达与在线咨询</span>
+              </div>
+              <div class="funnel-data-col">
+                <span class="funnel-metric-num">2,840 次</span>
+                <span class="funnel-rate-tag">意向率 14.7%</span>
+              </div>
+            </div>
+
+            <div class="funnel-step-row funnel-step-4">
+              <div class="funnel-label-col">
+                <span class="funnel-step-badge">4</span>
+                <span>招商 / 供应有效线索沉淀</span>
+              </div>
+              <div class="funnel-data-col">
+                <span class="funnel-metric-num">328 份</span>
+                <span class="funnel-rate-tag">最终转化率 2.58%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-panel" style="margin-bottom:0; display:flex; flex-direction:column; justify-content:space-between;">
+          <div>
+            <div class="card-header-bar" style="margin-bottom:12px;">
+              <div class="card-header-title-box">
+                <div class="card-header-title">用户访问终端画像</div>
+                <div class="card-header-desc">多端自适应表现</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+                <span>🖥️ PC 桌面大屏</span>
+                <strong style="color:var(--text-title);">62.4%</strong>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+                <span>📱 智能手机终端</span>
+                <strong style="color:var(--text-title);">34.8%</strong>
+              </div>
+              <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
+                <span>📟 平板与其他设备</span>
+                <strong style="color:var(--text-title);">2.8%</strong>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-top:1px dashed #f1f5f9; padding-top:12px; margin-top:12px;">
+            <div style="font-size:12px; font-weight:700; color:var(--text-title); margin-bottom:8px;">实时访客动态 (Live)</div>
+            <div style="font-size:11px; color:var(--text-label); line-height:1.7;">
+              <div>● <span style="color:#10b981;">1分钟前</span>: 来自【北京】的访客查看了解决方案</div>
+              <div>● <span style="color:#2563eb;">3分钟前</span>: 来自【深圳】的供应商提交了资质单</div>
+              <div>● <span style="color:#f59e0b;">5分钟前</span>: 来自【上海】的渠道商点击了方案直达</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部常用快捷操作 -->
       <div class="card-panel">
-        <div style="font-size:13px; font-weight:700; color:var(--text-title); margin-bottom:12px;">快速操作</div>
+        <div style="font-size:13px; font-weight:700; color:var(--text-title); margin-bottom:12px;">常用中台管理操作</div>
         <div class="quick-actions-grid">
           <div class="quick-action-item" onclick="jumpToMenu('panel-page-builder')">
             <div class="quick-icon-circle" style="background:#eff6ff; color:var(--primary-blue);">
@@ -1179,7 +1395,7 @@
           </div>
         </div>
 
-        <!-- 侧边悬浮快捷导航（方案直达）配置卡片 -->
+        <!-- 侧边悬浮快捷导航配置卡片 -->
         <div class="card-panel">
           <div class="card-header-bar">
             <div class="card-header-title-box">
@@ -1358,9 +1574,9 @@
     <section id="panel-partners" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="tabs-bar">
-          <button class="tab-btn active">全部申请 (2)</button>
-          <button class="tab-btn">待审核</button>
-          <button class="tab-btn">已签约</button>
+          <button class="tab-btn active" id="tab-partner-all" onclick="switchPartnerTab('all')">全部申请 (<span id="partner-count-all">2</span>)</button>
+          <button class="tab-btn" id="tab-partner-pending" onclick="switchPartnerTab('待审核')">待审核 (<span id="partner-count-pending">1</span>)</button>
+          <button class="tab-btn" id="tab-partner-signed" onclick="switchPartnerTab('已签约')">已签约 (<span id="partner-count-signed">1</span>)</button>
         </div>
 
         <div class="table-responsive">
@@ -1388,9 +1604,9 @@
     <section id="panel-suppliers" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="tabs-bar">
-          <button class="tab-btn active">全部供应商申请 (2)</button>
-          <button class="tab-btn">待审核</button>
-          <button class="tab-btn">审核通过</button>
+          <button class="tab-btn active" id="tab-supplier-all" onclick="switchSupplierTab('all')">全部供应商申请 (<span id="supplier-count-all">2</span>)</button>
+          <button class="tab-btn" id="tab-supplier-pending" onclick="switchSupplierTab('待审核')">待审核 (<span id="supplier-count-pending">1</span>)</button>
+          <button class="tab-btn" id="tab-supplier-passed" onclick="switchSupplierTab('审核通过')">审核通过 (<span id="supplier-count-passed">1</span>)</button>
         </div>
 
         <div class="table-responsive">
@@ -1417,10 +1633,15 @@
     <!-- 视图 9: 表单项配置引擎 -->
     <section id="panel-form-schema" class="view-panel" style="display:none;">
       <div class="card-panel">
+        <div class="tabs-bar">
+          <button class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
+          <button class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
+        </div>
+
         <div class="card-header-bar" style="margin-bottom:16px;">
-          <div class="tabs-bar" style="border:none; margin-bottom:0; padding-bottom:0;">
-            <button class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
-            <button class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
+          <div class="card-header-title-box">
+            <div class="card-header-title" id="schema-current-title">渠道商申请表单字段引擎</div>
+            <div class="card-header-desc">维护表单动态字段 Schema，支持调序、启停及必填控制，右侧实时联动预览</div>
           </div>
           <div class="card-header-actions">
             <button class="btn btn-blue" onclick="openFieldModal()">+ 新增收集字段</button>
@@ -1943,6 +2164,7 @@
 
       <div class="preview-viewport-box" id="preview-viewport-box-id">
         <div id="preview-frame" class="viewport-desktop">
+          <!-- 官网前台仿真 Header -->
           <div id="preview-site-header" style="height:54px; border-bottom:1px solid #f1f5f9; display:flex; align-items:center; justify-content:space-between; padding:0 24px; background:#fff; flex-shrink:0;">
             <div style="font-weight:800; font-size:15px; color:#1e3a8a; display:flex; align-items:center; gap:8px;">
               <span style="width:12px; height:12px; background:#1e3a8a; border-radius:50%;"></span>
@@ -2102,10 +2324,13 @@
         ]
       },
 
+      currentPartnerTab: 'all',
       partners: [
         { id: 'QD-01', company: '苏州鼎盛数智科技有限公司', code: '91320500MA1WXXXX1A', contact: '王总 (13812345678)', region: '华东区域', demand: '代理私有化中台系统', status: '待审核', remark: '' },
         { id: 'QD-02', company: '成都华夏天成网络技术有限公司', code: '91510100MA6XXXXX8B', contact: '李经理 (18698765432)', region: '西南区域', demand: '独家渠道服务商资格', status: '已签约', remark: '已完成签约' }
       ],
+
+      currentSupplierTab: 'all',
       suppliers: [
         { id: 'GY-01', company: '深圳立讯智能传感器制造有限公司', code: '91440300MA5EXXXX2C', contact: '张总 (13922223333)', category: '智能硬件/传感器', capacity: '月产能 50 万套', status: '待审核', remark: '' },
         { id: 'GY-02', company: '武汉云端光电科技股份有限公司', code: '91420100MA4KXXXX7D', contact: '刘总工 (18677778888)', category: '机房定制机柜', capacity: '年供应量 2 万套', status: '审核通过', remark: '列入年度名录' }
@@ -2178,32 +2403,50 @@
       }
     }
 
-    document.querySelectorAll('.menu-item').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-        this.classList.add('active');
+    // 视图切换驱动
+    function switchView(targetViewId, viewTitle) {
+      document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
+      const targetPanel = document.getElementById(targetViewId);
+      if (targetPanel) {
+        targetPanel.style.display = 'block';
+      }
 
-        const targetId = this.getAttribute('data-view');
-        document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
-        document.getElementById(targetId).style.display = 'block';
+      if (targetViewId === 'panel-page-builder') {
+        exitPageEditor();
+      } else if (targetViewId === 'panel-articles') {
+        exitArticleDetail();
+      }
 
-        if (targetId === 'panel-page-builder') {
-          exitPageEditor();
-        } else if (targetId === 'panel-articles') {
-          exitArticleDetail();
+      document.querySelectorAll('.menu-item').forEach(m => {
+        if (m.getAttribute('data-view') === targetViewId) {
+          m.classList.add('active');
+        } else {
+          m.classList.remove('active');
         }
+      });
 
-        const titleText = this.getAttribute('data-title') || this.querySelector('span').innerText;
-        document.getElementById('header-title').innerText = titleText;
+      if (viewTitle) {
+        document.getElementById('header-title').innerText = viewTitle;
+      }
 
-        toggleMobileSidebar(false);
+      toggleMobileSidebar(false);
+    }
+
+    document.querySelectorAll('.menu-item').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetView = this.getAttribute('data-view');
+        const targetTitle = this.getAttribute('data-title') || '控制台';
+        if (targetView) {
+          switchView(targetView, targetTitle);
+        }
       });
     });
 
     function jumpToMenu(viewId) {
-      document.querySelectorAll('.menu-item').forEach(m => {
-        if (m.getAttribute('data-view') === viewId) m.click();
-      });
+      const menuBtn = document.querySelector(`.menu-item[data-view="${viewId}"]`);
+      const title = menuBtn ? menuBtn.getAttribute('data-title') : '';
+      switchView(viewId, title);
     }
 
     // ================= 1. 页面装修与侧边悬浮快捷直达导航 =================
@@ -2579,7 +2822,7 @@
         document.getElementById('widget-text-body').value = w.body;
       } else if (w.type === 'image_text') {
         document.getElementById('widget-imgtext-url').value = w.url;
-        document.getElementById('widget-imgtext-title').value = w.textTitle;
+        document.getElementById('widget-text-title').value = w.textTitle;
         document.getElementById('widget-imgtext-desc').value = w.desc;
       }
 
@@ -2946,12 +3189,18 @@
     // ================= 4. 双表单 Schema 引擎 =================
     function switchSchemaTab(type) {
       store.currentSchemaType = type;
+      
+      const tabPartner = document.getElementById('tab-schema-partner');
+      const tabSupplier = document.getElementById('tab-schema-supplier');
+
       if (type === 'partner') {
-        document.getElementById('tab-schema-partner').classList.add('active');
-        document.getElementById('tab-schema-supplier').classList.remove('active');
+        tabPartner.classList.add('active');
+        tabSupplier.classList.remove('active');
+        document.getElementById('schema-current-title').innerText = '渠道商申请表单字段引擎';
       } else {
-        document.getElementById('tab-schema-partner').classList.remove('active');
-        document.getElementById('tab-schema-supplier').classList.add('active');
+        tabPartner.classList.remove('active');
+        tabSupplier.classList.add('active');
+        document.getElementById('schema-current-title').innerText = '供应商申请表单字段引擎';
       }
       renderFormFields();
     }
@@ -3114,50 +3363,98 @@
     }
 
     // ================= 5. 渠道商与供应商申请 =================
+    function switchPartnerTab(status) {
+      store.currentPartnerTab = status;
+      document.querySelectorAll('#panel-partners .tab-btn').forEach(b => b.classList.remove('active'));
+      if (status === 'all') document.getElementById('tab-partner-all').classList.add('active');
+      else if (status === '待审核') document.getElementById('tab-partner-pending').classList.add('active');
+      else if (status === '已签约') document.getElementById('tab-partner-signed').classList.add('active');
+      renderSubmissions();
+    }
+
+    function switchSupplierTab(status) {
+      store.currentSupplierTab = status;
+      document.querySelectorAll('#panel-suppliers .tab-btn').forEach(b => b.classList.remove('active'));
+      if (status === 'all') document.getElementById('tab-supplier-all').classList.add('active');
+      else if (status === '待审核') document.getElementById('tab-supplier-pending').classList.add('active');
+      else if (status === '审核通过') document.getElementById('tab-supplier-passed').classList.add('active');
+      renderSubmissions();
+    }
+
     function renderSubmissions() {
+      // 渠道商筛选渲染
       const pBody = document.getElementById('partner-tbody');
       pBody.innerHTML = '';
-      store.partners.forEach(p => {
-        pBody.innerHTML += `
-          <tr>
-            <td><strong>${p.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${p.code}</span></td>
-            <td>${p.contact}</td>
-            <td><span class="status-capsule blue">${p.region}</span></td>
-            <td>${p.demand}</td>
-            <td>
-              <span class="status-capsule ${p.status === '已签约' ? '' : 'orange'}">${p.status}</span>
-            </td>
-            <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${p.remark}" placeholder="跟进记录..." onchange="p.remark = this.value; logEvent('LEAD_UPDATE', '更新渠道商跟进备注')" /></td>
-            <td style="text-align:right;">
-              <div class="table-actions-cell">
-                <button class="btn btn-red-subtle" onclick="deletePartner('${p.id}')">删除</button>
-              </div>
-            </td>
-          </tr>
-        `;
+      
+      const filteredPartners = store.partners.filter(p => {
+        if (store.currentPartnerTab === 'all') return true;
+        return p.status === store.currentPartnerTab;
       });
 
+      document.getElementById('partner-count-all').innerText = store.partners.length;
+      document.getElementById('partner-count-pending').innerText = store.partners.filter(p => p.status === '待审核').length;
+      document.getElementById('partner-count-signed').innerText = store.partners.filter(p => p.status === '已签约').length;
+
+      if (filteredPartners.length === 0) {
+        pBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8; padding:24px;">当前分类暂无数据</td></tr>';
+      } else {
+        filteredPartners.forEach(p => {
+          pBody.innerHTML += `
+            <tr>
+              <td><strong>${p.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${p.code}</span></td>
+              <td>${p.contact}</td>
+              <td><span class="status-capsule blue">${p.region}</span></td>
+              <td>${p.demand}</td>
+              <td>
+                <span class="status-capsule ${p.status === '已签约' ? '' : 'orange'}">${p.status}</span>
+              </td>
+              <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${p.remark}" placeholder="跟进记录..." onchange="p.remark = this.value; logEvent('LEAD_UPDATE', '更新渠道商跟进备注')" /></td>
+              <td style="text-align:right;">
+                <div class="table-actions-cell">
+                  <button class="btn btn-red-subtle" onclick="deletePartner('${p.id}')">删除</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      // 供应商筛选渲染
       const sBody = document.getElementById('supplier-tbody');
       sBody.innerHTML = '';
-      store.suppliers.forEach(s => {
-        sBody.innerHTML += `
-          <tr>
-            <td><strong>${s.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${s.code}</span></td>
-            <td>${s.contact}</td>
-            <td><span class="status-capsule blue">${s.category}</span></td>
-            <td>${s.capacity}</td>
-            <td>
-              <span class="status-capsule ${s.status === '审核通过' ? '' : 'orange'}">${s.status}</span>
-            </td>
-            <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${s.remark}" placeholder="对接备注..." onchange="s.remark = this.value; logEvent('LEAD_UPDATE', '更新供应商对接备注')" /></td>
-            <td style="text-align:right;">
-              <div class="table-actions-cell">
-                <button class="btn btn-red-subtle" onclick="deleteSupplier('${s.id}')">删除</button>
-              </div>
-            </td>
-          </tr>
-        `;
+
+      const filteredSuppliers = store.suppliers.filter(s => {
+        if (store.currentSupplierTab === 'all') return true;
+        return s.status === store.currentSupplierTab;
       });
+
+      document.getElementById('supplier-count-all').innerText = store.suppliers.length;
+      document.getElementById('supplier-count-pending').innerText = store.suppliers.filter(s => s.status === '待审核').length;
+      document.getElementById('supplier-count-passed').innerText = store.suppliers.filter(s => s.status === '审核通过').length;
+
+      if (filteredSuppliers.length === 0) {
+        sBody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#94a3b8; padding:24px;">当前分类暂无数据</td></tr>';
+      } else {
+        filteredSuppliers.forEach(s => {
+          sBody.innerHTML += `
+            <tr>
+              <td><strong>${s.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${s.code}</span></td>
+              <td>${s.contact}</td>
+              <td><span class="status-capsule blue">${s.category}</span></td>
+              <td>${s.capacity}</td>
+              <td>
+                <span class="status-capsule ${s.status === '审核通过' ? '' : 'orange'}">${s.status}</span>
+              </td>
+              <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${s.remark}" placeholder="对接备注..." onchange="s.remark = this.value; logEvent('LEAD_UPDATE', '更新供应商对接备注')" /></td>
+              <td style="text-align:right;">
+                <div class="table-actions-cell">
+                  <button class="btn btn-red-subtle" onclick="deleteSupplier('${s.id}')">删除</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        });
+      }
     }
 
     function deletePartner(id) {
@@ -3176,7 +3473,7 @@
       }
     }
 
-    // ================= 6. 资讯与公告全新实现 =================
+    // ================= 6. 资讯与公告 =================
     function renderArticles() {
       const tbody = document.getElementById('article-tbody');
       tbody.innerHTML = '';
@@ -3537,7 +3834,7 @@
 
       document.getElementById('preview-active-slug').innerText = `当前访问: /${pageKey === 'home' ? '' : pageKey} (${page.name})`;
 
-      // 1. 渲染前台右侧悬浮快捷直达导航
+      // 渲染前台右侧悬浮快捷直达导航
       const floatingNav = document.getElementById('preview-floating-nav');
       const floatingItemsBox = document.getElementById('preview-floating-nav-items');
       floatingItemsBox.innerHTML = '';
@@ -3568,7 +3865,7 @@
         floatingNav.style.display = 'none';
       }
 
-      // 2. 渲染页面积木组件
+      // 渲染页面积木组件
       if (!page.widgets || page.widgets.length === 0) {
         container.innerHTML = '<div style="padding:60px 20px; text-align:center; color:#94a3b8;">该页面暂未配置任何可见积木组件</div>';
         return;
