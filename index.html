@@ -147,6 +147,8 @@
       transition: all 0.15s ease;
       white-space: nowrap;
       overflow: hidden;
+      width: 100%;
+      cursor: pointer;
     }
     #sidebar.collapsed .menu-item {
       justify-content: center;
@@ -169,6 +171,10 @@
       stroke: currentColor;
       fill: none;
       flex-shrink: 0;
+      pointer-events: none;
+    }
+    .menu-item span {
+      pointer-events: none;
     }
     #sidebar.collapsed .menu-item span {
       display: none;
@@ -201,6 +207,7 @@
       fill: none;
       flex-shrink: 0;
       transition: transform 0.25s ease;
+      pointer-events: none;
     }
 
     .sidebar-mask {
@@ -245,7 +252,7 @@
       justify-content: center;
       color: var(--text-main);
     }
-    .btn-mobile-menu svg { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; }
+    .btn-mobile-menu svg { width: 18px; height: 18px; stroke-width: 2; stroke: currentColor; fill: none; pointer-events: none; }
 
     .title-icon-box {
       width: 36px;
@@ -516,7 +523,7 @@
     .tabs-bar {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 24px;
       border-bottom: 1px solid var(--border-control);
       padding-bottom: 12px;
       margin-bottom: 20px;
@@ -548,6 +555,46 @@
       background: var(--primary-navy);
       border-radius: 2px;
     }
+
+    /* 基础SEO - 二级子导航 (胶囊按钮样式，与一级下划线导航区分) */
+    .seo-sub-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 14px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid #f1f5f9;
+      overflow-x: auto;
+      white-space: nowrap;
+      position: relative;
+    }
+    .seo-sub-tab {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-label);
+      background: #ffffff;
+      border: 1px solid var(--border-control);
+      border-radius: 999px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      flex-shrink: 0;
+    }
+    .seo-sub-tab:hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+      background: #f8fafc;
+    }
+    .seo-sub-tab.active {
+      background: var(--primary-blue);
+      border-color: var(--primary-blue);
+      color: #ffffff;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+    .seo-basic-sub { display: none; }
+    .seo-basic-sub.active { display: block; }
+    .seo-empty { text-align:center; color:#94a3b8; padding:24px; }
 
     /* 4. 全局一二级按钮规格严格统一 (高度 32px，字号 13px) */
     .btn {
@@ -658,6 +705,7 @@
     table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; min-width: 600px; }
     th {
       color: var(--text-label);
+      background: #f8fafc;
       padding: 14px 16px;
       font-weight: 600;
       font-size: 12px;
@@ -763,6 +811,90 @@
       line-height: 1.6;
     }
 
+    /* SEO 帮助说明提示框样式 */
+    .seo-help-box {
+      background: #f0f7ff;
+      border: 1px solid #bae0ff;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 22px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .seo-help-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--primary-blue);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .seo-help-content {
+      font-size: 12px;
+      color: var(--text-main);
+      line-height: 1.8;
+    }
+    .seo-help-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-title);
+      margin-bottom: 4px;
+    }
+
+    /* SEO 修改弹窗 - 优化布局 */
+    .seo-field-card {
+      background: #fafcff;
+      border: 1px solid #eef2f8;
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 14px;
+      transition: border-color 0.15s;
+    }
+    .seo-field-card:focus-within {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.06);
+    }
+    .seo-field-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .seo-field-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+    .seo-score-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 12px;
+      white-space: nowrap;
+    }
+    .seo-score-pill.good { background: #f0fdf4; color: #15803d; }
+    .seo-score-pill.mid { background: #fff7ed; color: #c2410c; }
+    .seo-score-pill.bad { background: #fef2f2; color: #b91c1c; }
+    .seo-hint {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-label);
+      margin-top: 8px;
+    }
+    .seo-hint b { color: #c2410c; font-weight: 600; }
+
     /* 弹窗系统 */
     .modal-mask {
       position: fixed; top: 0; left: 0; right: 0; bottom: 0;
@@ -798,6 +930,7 @@
       color: #94a3b8;
       font-size: 20px;
       transition: color 0.15s;
+      cursor: pointer;
     }
     .modal-close:hover { color: #475569; }
 
@@ -1007,6 +1140,7 @@
       #main-content { padding: 16px 18px; }
       .card-panel { padding: 18px; }
       .schema-grid-container { grid-template-columns: 1fr !important; }
+      .seo-modal-grid { grid-template-columns: 1fr !important; }
     }
 
     @media (max-width: 768px) {
@@ -1032,6 +1166,17 @@
         width: 100%;
         justify-content: space-between;
       }
+      .seo-basic-sub .form-item {
+        max-width: 100% !important;
+      }
+      .seo-basic-sub .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .seo-basic-sub .table-responsive table {
+        min-width: 480px;
+      }
+      .seo-sub-nav { gap: 14px; }
     }
 
     @media (max-width: 640px) {
@@ -1047,13 +1192,71 @@
         padding: 12px;
       }
     }
+    /* ===== 用户访问终端画像 - 可切换样式 ===== */
+    .term-view-toggle {
+      display: flex;
+      gap: 6px;
+      background: #f1f5f9;
+      border-radius: 8px;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+    .term-view-toggle button {
+      border: none;
+      background: transparent;
+      padding: 5px 12px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-label);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .term-view-toggle button.active {
+      background: #fff;
+      color: var(--primary-blue);
+      font-weight: 600;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+    }
+    .term-panel { display: none; }
+    .term-panel.active { display: block; }
+
+    /* 进度条样式 */
+    .term-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 13px; }
+    .term-progress-row:last-child { margin-bottom: 0; }
+    .term-progress-label { width: 118px; font-size: 13px; color: var(--text-label); white-space: nowrap; }
+    .term-progress-track { flex: 1; height: 9px; background: #eef2f7; border-radius: 5px; overflow: hidden; }
+    .term-progress-fill {
+      height: 100%;
+      border-radius: 5px;
+      background: linear-gradient(90deg, var(--primary-blue), #60a5fa);
+      width: 0;
+      transition: width 0.7s ease;
+    }
+    .term-progress-val { width: 52px; text-align: right; font-size: 13px; font-weight: 700; color: var(--text-title); }
+
+    /* 地图分布样式 */
+    .term-map-wrap { position: relative; border-radius: 10px; background: linear-gradient(180deg,#f8fbff,#eef4fb); border:1px solid #e2ebf5; padding: 10px 12px; }
+    .term-map-head { display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--text-label); margin-bottom:6px; }
+    .term-map-legend { display:flex; gap:6px; align-items:center; font-size:11px; }
+    .term-map-legend i { width:10px; height:10px; border-radius:3px; display:inline-block; }
+    .term-map-region { display:flex; align-items:center; justify-content:space-between; font-size:12px; padding:6px 8px; border-radius:6px; margin-bottom:6px; }
+    .term-map-region:last-child { margin-bottom:0; }
+    .term-map-region .r-name { color:var(--text-title); font-weight:600; display:flex; align-items:center; gap:6px; }
+    .term-map-region .r-bar { flex:1; margin:0 8px; height:6px; background:#eef2f7; border-radius:3px; overflow:hidden; }
+    .term-map-region .r-bar span { display:block; height:100%; border-radius:3px; }
+    .term-map-region .r-val { width:44px; text-align:right; font-weight:700; color:var(--text-title); }
+    .term-map-mini { margin-top:10px; padding-top:10px; border-top:1px dashed #e2ebf5; font-size:11px; color:var(--text-label); line-height:1.7; }
   </style>
+  <script src="echarts.min.js"></script>
+  <script src="china_map.js"></script>
 </head>
 <body>
 
   <div class="sidebar-mask" id="sidebar-mask" onclick="toggleMobileSidebar(false)"></div>
 
-  <!-- ================= 1. 侧边栏 ================= -->
+  <!-- ================= 1. 侧边栏 (双保险绑定：原生 onclick + 委托监听) ================= -->
   <aside id="sidebar">
     <div class="brand-box">
       <div class="brand-dot-logo"></div>
@@ -1063,77 +1266,83 @@
       </div>
     </div>
 
-    <div class="menu-wrap">
-      <button class="menu-item active" data-view="panel-dashboard" data-title="首页数据大屏" title="首页大屏">
+    <div class="menu-wrap" id="sidebar-menu-wrap">
+      <button type="button" class="menu-item active" data-view="panel-dashboard" data-title="首页数据大屏" title="首页大屏" onclick="switchView('panel-dashboard', '首页数据大屏')">
         <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
         <span>数据大屏</span>
       </button>
 
       <div class="menu-group-caption">内容与页面</div>
-      <button class="menu-item" data-view="panel-navigations" data-title="网页主导航管理" title="导航管理">
+      <button type="button" class="menu-item" data-view="panel-navigations" data-title="网页主导航管理" title="导航管理" onclick="switchView('panel-navigations', '网页主导航管理')">
         <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         <span>导航管理</span>
       </button>
 
-      <button class="menu-item" data-view="panel-page-builder" data-title="页面装修列表" title="页面装修">
+      <button type="button" class="menu-item" data-view="panel-page-builder" data-title="页面装修列表" title="页面装修" onclick="switchView('panel-page-builder', '页面装修列表')">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
         <span>页面装修</span>
       </button>
 
-      <button class="menu-item" data-view="panel-articles" data-title="企业资讯与公告" title="资讯公告">
+      <button type="button" class="menu-item" data-view="panel-articles" data-title="企业资讯与公告" title="资讯公告" onclick="switchView('panel-articles', '企业资讯与公告')">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
         <span>资讯公告</span>
       </button>
 
-      <button class="menu-item" data-view="panel-media-library" data-title="素材资源库" title="素材图库">
+      <button type="button" class="menu-item" data-view="panel-media-library" data-title="素材资源库" title="素材图库" onclick="switchView('panel-media-library', '素材资源库')">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
         <span>素材图库</span>
       </button>
 
-      <button class="menu-item" data-view="panel-audits" data-title="内容合规审核中心" title="审核中心">
+      <button type="button" class="menu-item" data-view="panel-audits" data-title="内容合规审核中心" title="审核中心" onclick="switchView('panel-audits', '内容合规审核中心')">
         <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
         <span>审核中心</span>
       </button>
 
+      <div class="menu-group-caption">SEO 优化中心</div>
+      <button type="button" class="menu-item" data-view="panel-seo-manager" data-title="SEO 综合管理" title="SEO管理" onclick="switchView('panel-seo-manager', 'SEO 综合管理')">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <span>SEO 管理</span>
+      </button>
+
       <div class="menu-group-caption">合作与互动</div>
-      <button class="menu-item" data-view="panel-partners" data-title="渠道商申请管理" title="渠道商申请">
+      <button type="button" class="menu-item" data-view="panel-partners" data-title="渠道商申请管理" title="渠道商申请" onclick="switchView('panel-partners', '渠道商申请管理')">
         <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
         <span>渠道商申请</span>
       </button>
 
-      <button class="menu-item" data-view="panel-suppliers" data-title="供应商申请管理" title="供应商申请">
+      <button type="button" class="menu-item" data-view="panel-suppliers" data-title="供应商申请管理" title="供应商申请" onclick="switchView('panel-suppliers', '供应商申请管理')">
         <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
         <span>供应商申请</span>
       </button>
 
-      <button class="menu-item" data-view="panel-form-schema" data-title="表单项配置引擎" title="表单项配置">
+      <button type="button" class="menu-item" data-view="panel-form-schema" data-title="表单项配置引擎" title="表单项配置" onclick="switchView('panel-form-schema', '表单项配置引擎')">
         <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
         <span>表单项配置</span>
       </button>
 
-      <button class="menu-item" data-view="panel-feedback" data-title="在线留言互动" title="留言互动">
+      <button type="button" class="menu-item" data-view="panel-feedback" data-title="在线留言互动" title="留言互动" onclick="switchView('panel-feedback', '在线留言互动')">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
         <span>留言互动</span>
       </button>
 
       <div class="menu-group-caption">系统与运维</div>
-      <button class="menu-item" data-view="panel-system-settings" data-title="全局基础参数设置" title="系统设置">
+      <button type="button" class="menu-item" data-view="panel-system-settings" data-title="全局基础参数设置" title="系统设置" onclick="switchView('panel-system-settings', '全局基础参数设置')">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         <span>系统设置</span>
       </button>
 
-      <button class="menu-item" data-view="panel-system-logs" data-title="操作日志审计" title="操作日志">
+      <button type="button" class="menu-item" data-view="panel-system-logs" data-title="操作日志审计" title="操作日志" onclick="switchView('panel-system-logs', '操作日志审计')">
         <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
         <span>操作日志</span>
       </button>
 
-      <button class="menu-item" data-view="panel-backup" data-title="数据灾备与回滚" title="数据备份">
+      <button type="button" class="menu-item" data-view="panel-backup" data-title="数据灾备与回滚" title="数据备份" onclick="switchView('panel-backup', '数据灾备与回滚')">
         <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
         <span>数据备份</span>
       </button>
     </div>
 
-    <button class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="收起 / 展开侧边栏">
+    <button type="button" class="sidebar-collapse-btn" onclick="toggleSidebarCollapse()" title="收起 / 展开侧边栏">
       <svg id="collapse-icon" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
     </button>
   </aside>
@@ -1144,7 +1353,7 @@
     <!-- 顶部状态栏 -->
     <div class="top-header">
       <div class="title-flex">
-        <button class="btn-mobile-menu" onclick="toggleMobileSidebar(true)">
+        <button type="button" class="btn-mobile-menu" onclick="toggleMobileSidebar(true)">
           <svg viewBox="0 0 24 24"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
         </button>
 
@@ -1160,7 +1369,7 @@
       </div>
     </div>
 
-    <!-- ================= 视图 1: 首页数据大屏 (已完全恢复纯白经典配色，并升级为自适应漏斗图) ================= -->
+    <!-- ================= 视图 1: 首页数据大屏 ================= -->
     <section id="panel-dashboard" class="view-panel">
       <div class="card-panel welcome-card">
         <div>
@@ -1168,8 +1377,8 @@
           <div class="welcome-desc">覆盖开发、调试、仿真等部署全流程，轻松管理页面多组件、内容发布与合作申请。</div>
         </div>
         <div style="display:flex; gap:10px;">
-          <button class="btn btn-light" onclick="jumpToMenu('panel-page-builder')">页面装修</button>
-          <button class="btn btn-blue" onclick="openGlobalSitePreview()">全局整站预览</button>
+          <button type="button" class="btn btn-light" onclick="jumpToMenu('panel-page-builder')">页面装修</button>
+          <button type="button" class="btn btn-blue" onclick="openGlobalSitePreview()">全局整站预览</button>
         </div>
       </div>
 
@@ -1224,7 +1433,7 @@
         </div>
       </div>
 
-      <!-- 核心漏斗图区 + 访问终端分布 (完美自适应) -->
+      <!-- 核心漏斗图区 + 访问终端分布 -->
       <div class="dashboard-main-grid">
         <div class="card-panel" style="margin-bottom:0;">
           <div class="card-header-bar" style="margin-bottom:12px;">
@@ -1289,19 +1498,112 @@
                 <div class="card-header-title">用户访问终端画像</div>
                 <div class="card-header-desc">多端自适应表现</div>
               </div>
+              <div class="term-view-toggle" style="margin-left:auto;">
+                <button type="button" class="active" data-term-view="bar">▥ 进度条</button>
+                <button type="button" data-term-view="map">◉ 地图分布</button>
+              </div>
             </div>
-            <div style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
-              <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
-                <span>🖥️ PC 桌面大屏</span>
-                <strong style="color:var(--text-title);">62.4%</strong>
+
+            <!-- 视图一：进度条样式 -->
+            <div id="term-view-bar" class="term-panel active" style="margin-top:8px;">
+              <div class="term-progress-row">
+                <span class="term-progress-label">🖥️ PC 桌面大屏</span>
+                <div class="term-progress-track"><div class="term-progress-fill" data-pct="62.4"></div></div>
+                <span class="term-progress-val">62.4%</span>
               </div>
-              <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
-                <span>📱 智能手机终端</span>
-                <strong style="color:var(--text-title);">34.8%</strong>
+              <div class="term-progress-row">
+                <span class="term-progress-label">📱 智能手机终端</span>
+                <div class="term-progress-track"><div class="term-progress-fill" data-pct="34.8" style="background:linear-gradient(90deg,#10b981,#4ade80);"></div></div>
+                <span class="term-progress-val">34.8%</span>
               </div>
-              <div style="display:flex; align-items:center; justify-content:space-between; font-size:13px;">
-                <span>📟 平板与其他设备</span>
-                <strong style="color:var(--text-title);">2.8%</strong>
+              <div class="term-progress-row">
+                <span class="term-progress-label">📟 平板与其他设备</span>
+                <div class="term-progress-track"><div class="term-progress-fill" data-pct="2.8" style="background:linear-gradient(90deg,#f59e0b,#fbbf24);"></div></div>
+                <span class="term-progress-val">2.8%</span>
+              </div>
+            </div>
+
+            <!-- 视图二：地图分布样式 -->
+            <div id="term-view-map" class="term-panel" style="margin-top:8px;">
+              <div class="term-map-wrap">
+                <div class="term-map-head">
+                  <span>访客地域分布 · 实时</span>
+                  <span class="term-map-legend">
+                    <span style="display:flex;align-items:center;gap:4px;"><i style="background:#2563eb;"></i>高</span>
+                    <span style="display:flex;align-items:center;gap:4px;"><i style="background:#93c5fd;"></i>中</span>
+                    <span style="display:flex;align-items:center;gap:4px;"><i style="background:#e2e8f0;"></i>低</span>
+                  </span>
+                </div>
+                <!-- 真实中国地图（ECharts 渲染） -->
+                <div id="term-map-chart" style="width:100%; height:250px;"></div>
+                <!-- 省份分布明细 -->
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0 14px; margin-top:10px;">
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#1d4ed8;display:inline-block;"></i>广东</span>
+                    <div class="r-bar"><span style="width:100%; background:#1d4ed8;"></span></div>
+                    <span class="r-val">14.8%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#1d4ed8;display:inline-block;"></i>浙江</span>
+                    <div class="r-bar"><span style="width:88%; background:#1d4ed8;"></span></div>
+                    <span class="r-val">13.1%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#1d4ed8;display:inline-block;"></i>江苏</span>
+                    <div class="r-bar"><span style="width:80%; background:#1d4ed8;"></span></div>
+                    <span class="r-val">11.9%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#2563eb;display:inline-block;"></i>北京</span>
+                    <div class="r-bar"><span style="width:76%; background:#2563eb;"></span></div>
+                    <span class="r-val">11.3%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#3b82f6;display:inline-block;"></i>山东</span>
+                    <div class="r-bar"><span style="width:60%; background:#3b82f6;"></span></div>
+                    <span class="r-val">8.9%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#60a5fa;display:inline-block;"></i>四川</span>
+                    <div class="r-bar"><span style="width:52%; background:#60a5fa;"></span></div>
+                    <span class="r-val">7.7%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#60a5fa;display:inline-block;"></i>河南</span>
+                    <div class="r-bar"><span style="width:44%; background:#60a5fa;"></span></div>
+                    <span class="r-val">6.5%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#93c5fd;display:inline-block;"></i>湖北</span>
+                    <div class="r-bar"><span style="width:34%; background:#93c5fd;"></span></div>
+                    <span class="r-val">4.6%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#93c5fd;display:inline-block;"></i>上海</span>
+                    <div class="r-bar"><span style="width:32%; background:#93c5fd;"></span></div>
+                    <span class="r-val">4.3%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#93c5fd;display:inline-block;"></i>福建</span>
+                    <div class="r-bar"><span style="width:28%; background:#93c5fd;"></span></div>
+                    <span class="r-val">3.9%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#bfdbfe;display:inline-block;"></i>湖南</span>
+                    <div class="r-bar"><span style="width:26%; background:#bfdbfe;"></span></div>
+                    <span class="r-val">3.5%</span>
+                  </div>
+                  <div class="term-map-region">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#bfdbfe;display:inline-block;"></i>安徽</span>
+                    <div class="r-bar"><span style="width:22%; background:#bfdbfe;"></span></div>
+                    <span class="r-val">2.8%</span>
+                  </div>
+                  <div class="term-map-region" style="grid-column:1 / -1;">
+                    <span class="r-name"><i style="width:8px;height:8px;border-radius:2px;background:#e2e8f0;display:inline-block;"></i>其他地区</span>
+                    <div class="r-bar"><span style="width:12%; background:#cbd5e1;"></span></div>
+                    <span class="r-val">6.7%</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1341,13 +1643,13 @@
             </div>
           </div>
 
-          <div class="quick-action-item" onclick="jumpToMenu('panel-articles')">
+          <div class="quick-action-item" onclick="jumpToMenu('panel-seo-manager')">
             <div class="quick-icon-circle" style="background:#faf5ff; color:#7e22ce;">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path></svg>
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
             </div>
             <div>
-              <div class="quick-title">发布资讯</div>
-              <div class="quick-desc">新建动态与公告</div>
+              <div class="quick-title">SEO 管理</div>
+              <div class="quick-desc">配置TDK与站点推送</div>
             </div>
           </div>
 
@@ -1373,7 +1675,7 @@
             <div class="card-header-desc">配置前台菜单、绑定多组件装修页面与显示开关</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-blue" onclick="openNavModal()">+ 添加导航</button>
+            <button type="button" class="btn btn-blue" onclick="openNavModal()">+ 添加导航</button>
           </div>
         </div>
 
@@ -1407,11 +1709,11 @@
             <div class="card-header-desc">支持单页面独立预览与前台整站全局联动预览</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-light" onclick="openGlobalSitePreview()">
+            <button type="button" class="btn btn-light" onclick="openGlobalSitePreview()">
               <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
               全局整站预览
             </button>
-            <button class="btn btn-blue" onclick="openCreatePageModal()">+ 新建独立页面</button>
+            <button type="button" class="btn btn-blue" onclick="openCreatePageModal()">+ 新建独立页面</button>
           </div>
         </div>
 
@@ -1437,7 +1739,7 @@
       <div id="builder-subview-editor" style="display:none;">
         <div class="card-panel" style="display:flex; justify-content:space-between; align-items:center; padding:18px 24px; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap:16px;">
-            <button class="btn btn-light" onclick="exitPageEditor()">
+            <button type="button" class="btn btn-light" onclick="exitPageEditor()">
               <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
               返回页面列表
             </button>
@@ -1448,9 +1750,9 @@
             </div>
           </div>
           <div style="display:flex; gap:10px;">
-            <button class="btn btn-light" onclick="openSinglePagePreview(store.currentEditingPageKey)">预览当前页面</button>
-            <button class="btn btn-red-subtle" id="btn-delete-active-page" onclick="deleteActivePage()">删除此页面</button>
-            <button class="btn btn-blue" onclick="savePageWidgets()">保存整页配置</button>
+            <button type="button" class="btn btn-light" onclick="openSinglePagePreview(store.currentEditingPageKey)">预览当前页面</button>
+            <button type="button" class="btn btn-red-subtle" id="btn-delete-active-page" onclick="deleteActivePage()">删除此页面</button>
+            <button type="button" class="btn btn-blue" onclick="savePageWidgets()">保存整页配置</button>
           </div>
         </div>
 
@@ -1468,7 +1770,7 @@
                   <span class="switch-slider"></span>
                 </label>
               </label>
-              <button class="btn btn-light" id="btn-add-quicknav-item" onclick="openQuickNavModal()">+ 添加快捷导航项</button>
+              <button type="button" class="btn btn-light" id="btn-add-quicknav-item" onclick="openQuickNavModal()">+ 添加快捷导航项</button>
             </div>
           </div>
 
@@ -1503,9 +1805,9 @@
               <div class="card-header-desc">支持自由增删 Banner (图片/视频)、文字介绍、图文展示并调整展示排序</div>
             </div>
             <div class="card-header-actions">
-              <button class="btn btn-light" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
-              <button class="btn btn-light" onclick="openAddWidgetModal('text')">+ 添加 文字组件</button>
-              <button class="btn btn-light" onclick="openAddWidgetModal('image_text')">+ 添加 图文展示</button>
+              <button type="button" class="btn btn-light" onclick="openAddWidgetModal('banner')">+ 添加 Banner组件</button>
+              <button type="button" class="btn btn-light" onclick="openAddWidgetModal('text')">+ 添加 文字组件</button>
+              <button type="button" class="btn btn-light" onclick="openAddWidgetModal('image_text')">+ 添加 图文展示</button>
             </div>
           </div>
 
@@ -1525,7 +1827,7 @@
             <div class="card-header-desc">支持本地主图上传、点击跳转详情页查看与完整内容编辑</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
+            <button type="button" class="btn btn-blue" onclick="openArticleModal()">+ 发布新内容</button>
           </div>
         </div>
 
@@ -1551,13 +1853,13 @@
       <div id="article-subview-detail" class="card-panel" style="display:none;">
         <div class="card-header-bar" style="border-bottom:1px solid var(--border-control); padding-bottom:14px;">
           <div class="card-header-title-box">
-            <button class="btn btn-light" onclick="exitArticleDetail()">
+            <button type="button" class="btn btn-light" onclick="exitArticleDetail()">
               <svg style="width:14px; height:14px; stroke-width:2; stroke:currentColor; fill:none;" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
               返回资讯列表
             </button>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-light" id="btn-edit-from-detail" onclick="editFromCurrentDetail()">编辑此篇资讯</button>
+            <button type="button" class="btn btn-light" id="btn-edit-from-detail" onclick="editFromCurrentDetail()">编辑此篇资讯</button>
           </div>
         </div>
 
@@ -1586,7 +1888,7 @@
             <div class="card-header-desc">统一管理官网图片与 MP4 视频资源，支持输入外链或选择本地文件直接上传</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
+            <button type="button" class="btn btn-blue" onclick="openUploadMediaModal()">+ 上传新素材</button>
           </div>
         </div>
 
@@ -1627,13 +1929,417 @@
       </div>
     </section>
 
+    <!-- ================= 视图 6.5: SEO 综合管理 (完全对齐 Word 文档截图规范) ================= -->
+    <section id="panel-seo-manager" class="view-panel" style="display:none;">
+      <div class="card-panel">
+        <!-- 10大二级子导航 -->
+        <div class="tabs-bar">
+          <button type="button" class="tab-btn active" id="tab-seo-basic" onclick="switchSeoTab('basic')">基础SEO</button>
+          <button type="button" class="tab-btn" id="tab-seo-404" onclick="switchSeoTab('404')">404 & 301</button>
+          <button type="button" class="tab-btn" id="tab-seo-redirect" onclick="switchSeoTab('redirect')">域名重定向</button>
+          <button type="button" class="tab-btn" id="tab-seo-robots" onclick="switchSeoTab('robots')">Robots文件</button>
+          <button type="button" class="tab-btn" id="tab-seo-sitemap" onclick="switchSeoTab('sitemap')">Sitemap文件</button>
+          <button type="button" class="tab-btn" id="tab-seo-baidu" onclick="switchSeoTab('baidu')">百度推送</button>
+          <button type="button" class="tab-btn" id="tab-seo-google" onclick="switchSeoTab('google')">谷歌推送</button>
+          <button type="button" class="tab-btn" id="tab-seo-gsc" onclick="switchSeoTab('gsc')">GSC数据</button>
+          <button type="button" class="tab-btn" id="tab-seo-pseudo" onclick="switchSeoTab('pseudo')">伪静态设置</button>
+          <button type="button" class="tab-btn" id="tab-seo-links" onclick="switchSeoTab('links')">友情链接</button>
+        </div>
+
+        <!-- 子面板 1: 基础SEO (针对已有的每个页面进行设置) -->
+        <div id="seo-subpanel-basic" class="seo-subpanel">
+          <!-- 二级子导航 -->
+          <div class="seo-sub-nav">
+            <button type="button" class="seo-sub-tab active" id="seo-basic-nav" onclick="switchSeoBasicSub('nav')">导航</button>
+            <button type="button" class="seo-sub-tab" id="seo-basic-batch" onclick="switchSeoBasicSub('batch')">批量设置</button>
+            <button type="button" class="seo-sub-tab" id="seo-basic-product" onclick="switchSeoBasicSub('product')">产品</button>
+            <button type="button" class="seo-sub-tab" id="seo-basic-article" onclick="switchSeoBasicSub('article')">文章</button>
+            <button type="button" class="seo-sub-tab" id="seo-basic-productcat" onclick="switchSeoBasicSub('productcat')">产品分类</button>
+            <button type="button" class="seo-sub-tab" id="seo-basic-articlecat" onclick="switchSeoBasicSub('articlecat')">文章分类</button>
+          </div>
+
+          <!-- 二级内容 1: 导航 -->
+          <div id="seo-basic-sub-nav" class="seo-basic-sub active">
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width:40%;">页面名称</th>
+                    <th style="width:45%;">标题</th>
+                    <th style="text-align:right;">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="seo-pages-tbody">
+                  <!-- 动态渲染每个页面的 SEO 列表 -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 二级内容 2: 批量设置 -->
+          <div id="seo-basic-sub-batch" class="seo-basic-sub">
+            <div class="seo-help-box">
+              <div class="seo-help-icon">i</div>
+              <div class="seo-help-content">
+                <div class="seo-help-title">帮助说明</div>
+                <div>可对指定范围的页面统一套用模板化 TDK 规则，或一键清空所选页面的 SEO 设置，提升整站维护效率。</div>
+              </div>
+            </div>
+            <div class="form-item" style="max-width:460px;">
+              <label class="form-lbl">批量范围：</label>
+              <select id="seo-batch-scope" class="form-ctrl">
+                <option value="all">全部页面</option>
+                <option value="article">全部文章</option>
+                <option value="product">全部产品</option>
+                <option value="cat">全部分类</option>
+              </select>
+            </div>
+            <div class="form-item" style="max-width:460px;">
+              <label class="form-lbl">标题模板：</label>
+              <input type="text" id="seo-batch-title" class="form-ctrl" value="{页面名} - 泊川科技一站式智能集成开发平台" />
+            </div>
+            <div class="form-item" style="max-width:460px;">
+              <label class="form-lbl">关键词模板：</label>
+              <input type="text" id="seo-batch-kw" class="form-ctrl" value="泊川科技,{页面名},OS操作系统,具身智能机器人" />
+            </div>
+            <div class="form-item" style="max-width:460px;">
+              <label class="form-lbl">描述模板：</label>
+              <textarea id="seo-batch-desc" class="form-ctrl" rows="3">泊川科技（BoChuan）{页面名}，致力于提供高可靠工业级OS操作系统、具身机器人控制算法与航天航空全流程开发调试仿真部署平台。</textarea>
+            </div>
+            <div style="display:flex; gap:10px; margin-top:4px;">
+              <button type="button" class="btn btn-blue" onclick="applySeoBatch()">应用模板</button>
+              <button type="button" class="btn btn-light" onclick="resetSeoBatch()">重置</button>
+            </div>
+          </div>
+
+          <!-- 二级内容 3: 产品 -->
+          <div id="seo-basic-sub-product" class="seo-basic-sub">
+            <div class="seo-help-box">
+              <div class="seo-help-icon">i</div>
+              <div class="seo-help-content">
+                <div class="seo-help-title">帮助说明</div>
+                <div>针对产品解决方案独立页逐一配置标题、关键词与描述，提升产品关键词的搜索引擎排名与点击率。</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr><th style="width:36%;">产品名称</th><th style="width:46%;">标题</th><th style="text-align:right;">操作</th></tr>
+                </thead>
+                <tbody id="seo-product-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 二级内容 4: 文章 -->
+          <div id="seo-basic-sub-article" class="seo-basic-sub">
+            <div class="seo-help-box">
+              <div class="seo-help-icon">i</div>
+              <div class="seo-help-content">
+                <div class="seo-help-title">帮助说明</div>
+                <div>为站内每篇文章单独配置 TDK，结合文章标题优化可显著提升长尾关键词的自然收录表现。</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr><th style="width:36%;">文章标题</th><th style="width:46%;">标题</th><th style="text-align:right;">操作</th></tr>
+                </thead>
+                <tbody id="seo-article-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 二级内容 5: 产品分类 -->
+          <div id="seo-basic-sub-productcat" class="seo-basic-sub">
+            <div class="seo-help-box">
+              <div class="seo-help-icon">i</div>
+              <div class="seo-help-content">
+                <div class="seo-help-title">帮助说明</div>
+                <div>为产品分类聚合页配置 TDK，让分类关键词获得更好的收录与展示。</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr><th style="width:36%;">分类名称</th><th style="width:46%;">标题</th><th style="text-align:right;">操作</th></tr>
+                </thead>
+                <tbody id="seo-productcat-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 二级内容 6: 文章分类 -->
+          <div id="seo-basic-sub-articlecat" class="seo-basic-sub">
+            <div class="seo-help-box">
+              <div class="seo-help-icon">i</div>
+              <div class="seo-help-content">
+                <div class="seo-help-title">帮助说明</div>
+                <div>为文章分类聚合页配置 TDK，提升栏目页在搜索引擎中的曝光与权重聚合。</div>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr><th style="width:36%;">分类名称</th><th style="width:46%;">标题</th><th style="text-align:right;">操作</th></tr>
+                </thead>
+                <tbody id="seo-articlecat-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 子面板 2: 404 & 301 -->
+        <div id="seo-subpanel-404" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>1、启用自定义 404 页面可有效降低死链跳出率，引导访客返回官网首页；</div>
+              <div>2、301 永久重定向可将旧页面权重平滑转移至新路由地址。</div>
+            </div>
+          </div>
+          <div class="form-item" style="display:flex; align-items:center; gap:16px;">
+            <label class="form-lbl" style="margin-bottom:0; width:130px;">启用自定义 404 页：</label>
+            <label class="switch-ui"><input type="checkbox" checked onchange="logEvent('SEO_404', '切换404页面状态')"><span class="switch-slider"></span></label>
+          </div>
+          <div class="form-item" style="max-width:560px;">
+            <label class="form-lbl">301 重定向规则列表 (原路径 -> 目标路径)</label>
+            <div style="display:flex; gap:10px; margin-bottom:10px;">
+              <input type="text" id="seo-301-old" class="form-ctrl" placeholder="原路径 如 /old-news.html" />
+              <input type="text" id="seo-301-new" class="form-ctrl" placeholder="新路径 如 /articles" />
+              <button type="button" class="btn btn-blue" onclick="addSeo301Rule()">+ 添加规则</button>
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>原失效/旧路径</th><th>301 跳转目标路径</th><th>状态</th><th style="text-align:right;">操作</th></tr></thead>
+              <tbody id="seo-301-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 子面板 3: 域名重定向 -->
+        <div id="seo-subpanel-redirect" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>将不带 www 的根域名或其他备用域名统一 301 重定向至主域名，集中全站 SEO 权重。</div>
+            </div>
+          </div>
+          <div class="form-item" style="max-width:460px;">
+            <label class="form-lbl">首选主域名 (Preferred Domain)：</label>
+            <input type="text" class="form-ctrl" value="https://www.bochuan.com" />
+          </div>
+          <div class="form-item" style="display:flex; align-items:center; gap:16px;">
+            <label class="form-lbl" style="margin-bottom:0;">强制 HTTPS 加密跳转：</label>
+            <label class="switch-ui"><input type="checkbox" checked><span class="switch-slider"></span></label>
+          </div>
+          <button type="button" class="btn btn-blue" onclick="alert('域名重定向配置已保存生效！')">保存配置</button>
+        </div>
+
+        <!-- 子面板 4: Robots文件 -->
+        <div id="seo-subpanel-robots" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>Robots.txt 是搜索引擎爬虫访问网站时查看的第一个文件，用于声明允许或禁止抓取的目录。</div>
+            </div>
+          </div>
+          <div class="form-item" style="max-width:680px;">
+            <label class="form-lbl">Robots.txt 文件内容编辑：</label>
+            <textarea id="seo-robots-content" class="form-ctrl" rows="8" style="font-family:monospace;">User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Sitemap: https://u265397.yz168.cc/sitemap.xml</textarea>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <button type="button" class="btn btn-blue" onclick="alert('Robots.txt 文件已成功更新发布！')">保存并生成文件</button>
+            <button type="button" class="btn btn-light" onclick="resetRobotsDefault()">恢复默认模板</button>
+          </div>
+        </div>
+
+        <!-- 子面板 5: Sitemap文件 (严格对齐 Word 截图 3) -->
+        <div id="seo-subpanel-sitemap" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>1、为了保障搜索引擎收录顺利与质量，请尽量不要在网站没有成型的时候打开该功能；</div>
+              <div>2、网站主动向百度、头条、谷歌搜索推送最新的Sitemap数据，可缩短爬虫发现网站链接时间，加快爬虫抓取速度；</div>
+              <div>3、百度(通用)sitemap地址，http(s)://域名/sitemap.xml；</div>
+              <div>4、头条sitemap地址，http(s)://域名/sitemap-toutiao.xml；</div>
+              <div>5、谷歌sitemap地址，http(s)://域名/sitemap-google.xml；</div>
+              <div>6、关闭sitemap时，默认屏蔽sitemap代码，不让搜索引擎抓取。</div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px; margin-bottom:18px; padding-left:12px;">
+            <span style="font-size:13px; color:var(--text-main); width:118px; text-align:right; flex-shrink:0; white-space:nowrap;">sitemap生成开关：</span>
+            <label class="switch-ui">
+              <input type="checkbox" id="seo-sitemap-switch" checked onchange="toggleSitemapSwitch(this.checked)">
+              <span class="switch-slider"></span>
+            </label>
+          </div>
+
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:12px 16px; margin-bottom:22px; padding-left:12px;">
+            <span style="font-size:13px; color:var(--text-main); width:118px; text-align:right; flex-shrink:0; white-space:nowrap;">链接生成：</span>
+            <select id="seo-sitemap-domain" class="form-ctrl" style="max-width:240px;" onchange="updateSitemapLinks()">
+              <option value="u265397.yz168.cc">u265397.yz168.cc</option>
+              <option value="www.bochuan.com">www.bochuan.com</option>
+            </select>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:120px;">类型</th>
+                  <th>链接</th>
+                  <th style="text-align:right; width:170px;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="seo-sitemap-tbody">
+                <!-- 动态渲染百度、头条、谷歌链接 -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 子面板 6: 百度推送 (严格对齐 Word 截图 4) -->
+        <div id="seo-subpanel-baidu" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>1、开启后，系统自动推送链接到百度搜索引擎；</div>
+              <div>2、请确保推送域名与填写Token相匹配，<a href="https://ziyuan.baidu.com" target="_blank" style="color:var(--primary-blue); text-decoration:none; font-weight:600;">点击前往获取Token</a>。</div>
+            </div>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:18px; max-width:600px; padding-left:20px;">
+            <div style="display:flex; align-items:center; gap:16px;">
+              <span style="font-size:13px; color:var(--text-main); width:100px; text-align:right;">百度推送开关：</span>
+              <label class="switch-ui">
+                <input type="checkbox" id="seo-baidu-switch" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:16px;">
+              <span style="font-size:13px; color:var(--text-main); width:100px; text-align:right;"><span style="color:#ef4444;">*</span> 推送域名：</span>
+              <select id="seo-baidu-domain" class="form-ctrl" style="max-width:240px;">
+                <option value="">-请选择推送域名-</option>
+                <option value="u265397.yz168.cc" selected>u265397.yz168.cc</option>
+                <option value="www.bochuan.com">www.bochuan.com</option>
+              </select>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span style="font-size:13px; color:var(--text-main); width:100px; text-align:right;"><span style="color:#ef4444;">*</span> Token：</span>
+              <input type="text" id="seo-baidu-token" class="form-ctrl" placeholder="请输入Token" value="bChuan2026BaiduPushToken88" style="max-width:300px;" />
+              <button type="button" class="btn btn-blue" onclick="testBaiduPush()">测试推送</button>
+            </div>
+
+            <div style="padding-left:116px; margin-top:6px;">
+              <button type="button" class="btn btn-blue" onclick="saveBaiduPushConfig()">保存</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 子面板 7: 谷歌推送 -->
+        <div id="seo-subpanel-google" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>通过 Google Indexing API 自动向谷歌推送新增或更新的网页 URL，加速 Googlebot 索引收录。</div>
+            </div>
+          </div>
+          <div style="max-width:560px;">
+            <div class="form-item" style="display:flex; align-items:center; gap:16px;">
+              <label class="form-lbl" style="margin-bottom:0;">谷歌 Indexing 推送开关：</label>
+              <label class="switch-ui"><input type="checkbox" checked><span class="switch-slider"></span></label>
+            </div>
+            <div class="form-item">
+              <label class="form-lbl">Google API Service Account JSON 密钥：</label>
+              <textarea class="form-ctrl" rows="4" placeholder='{"type": "service_account", "project_id": "bochuan-seo", ...}'></textarea>
+            </div>
+            <button type="button" class="btn btn-blue" onclick="alert('谷歌推送 API 密钥配置已保存！')">保存配置</button>
+          </div>
+        </div>
+
+        <!-- 子面板 8: GSC数据 -->
+        <div id="seo-subpanel-gsc" class="seo-subpanel" style="display:none;">
+          <div class="card-header-bar">
+            <div class="card-header-title-box">
+              <div class="card-header-title">Google Search Console (GSC) 搜索表现</div>
+              <div class="card-header-desc">监控自然搜索点击量、展示次数、平均点击率 (CTR) 与平均排名</div>
+            </div>
+            <span class="status-capsule blue">数据已同步</span>
+          </div>
+          <div class="metric-row" style="margin-bottom:16px;">
+            <div class="metric-card"><span class="metric-name">总点击次数</span><div class="metric-val" style="font-size:24px;">4,820</div></div>
+            <div class="metric-card"><span class="metric-name">总展示次数</span><div class="metric-val" style="font-size:24px;">128,400</div></div>
+            <div class="metric-card"><span class="metric-name">平均点击率 (CTR)</span><div class="metric-val" style="font-size:24px; color:var(--primary-blue);">3.75%</div></div>
+            <div class="metric-card"><span class="metric-name">平均排名位置</span><div class="metric-val" style="font-size:24px;">8.4</div></div>
+          </div>
+        </div>
+
+        <!-- 子面板 9: 伪静态设置 -->
+        <div id="seo-subpanel-pseudo" class="seo-subpanel" style="display:none;">
+          <div class="seo-help-box">
+            <div class="seo-help-icon">i</div>
+            <div class="seo-help-content">
+              <div class="seo-help-title">帮助说明</div>
+              <div>开启伪静态可将动态参数 URL 转换为更利于搜索引擎抓取的 .html 静态路径格式。</div>
+            </div>
+          </div>
+          <div class="form-item" style="display:flex; align-items:center; gap:16px;">
+            <label class="form-lbl" style="margin-bottom:0;">全站伪静态开关：</label>
+            <label class="switch-ui"><input type="checkbox" checked><span class="switch-slider"></span></label>
+          </div>
+          <div class="form-item" style="max-width:460px;">
+            <label class="form-lbl">文章详情页 URL 规则：</label>
+            <input type="text" class="form-ctrl" value="/news/{id}.html" />
+          </div>
+          <div class="form-item" style="max-width:460px;">
+            <label class="form-lbl">产品解决方案页 URL 规则：</label>
+            <input type="text" class="form-ctrl" value="/solutions/{key}.html" />
+          </div>
+          <button type="button" class="btn btn-blue" onclick="alert('伪静态路由规则已保存生效！')">保存伪静态规则</button>
+        </div>
+
+        <!-- 子面板 10: 友情链接 -->
+        <div id="seo-subpanel-links" class="seo-subpanel" style="display:none;">
+          <div class="card-header-bar">
+            <div class="card-header-title-box">
+              <div class="card-header-title">外部友情链接交换管理</div>
+              <div class="card-header-desc">管理首页底部友情链接，提升外链权重传递</div>
+            </div>
+            <button type="button" class="btn btn-blue" onclick="addFriendLinkPrompt()">+ 添加友情链接</button>
+          </div>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>链接名称</th><th>跳转网址 (URL)</th><th>权重传递 (rel)</th><th style="text-align:right;">操作</th></tr></thead>
+              <tbody id="seo-friendlinks-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- 视图 7: 渠道商入驻申请 -->
     <section id="panel-partners" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="tabs-bar">
-          <button class="tab-btn active" id="tab-partner-all" onclick="switchPartnerTab('all')">全部申请 (<span id="partner-count-all">2</span>)</button>
-          <button class="tab-btn" id="tab-partner-pending" onclick="switchPartnerTab('待审核')">待审核 (<span id="partner-count-pending">1</span>)</button>
-          <button class="tab-btn" id="tab-partner-signed" onclick="switchPartnerTab('已签约')">已签约 (<span id="partner-count-signed">1</span>)</button>
+          <button type="button" class="tab-btn active" id="tab-partner-all" onclick="switchPartnerTab('all')">全部申请 (<span id="partner-count-all">2</span>)</button>
+          <button type="button" class="tab-btn" id="tab-partner-pending" onclick="switchPartnerTab('待审核')">待审核 (<span id="partner-count-pending">1</span>)</button>
+          <button type="button" class="tab-btn" id="tab-partner-signed" onclick="switchPartnerTab('已签约')">已签约 (<span id="partner-count-signed">1</span>)</button>
         </div>
 
         <div class="table-responsive">
@@ -1661,9 +2367,9 @@
     <section id="panel-suppliers" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="tabs-bar">
-          <button class="tab-btn active" id="tab-supplier-all" onclick="switchSupplierTab('all')">全部供应商申请 (<span id="supplier-count-all">2</span>)</button>
-          <button class="tab-btn" id="tab-supplier-pending" onclick="switchSupplierTab('待审核')">待审核 (<span id="supplier-count-pending">1</span>)</button>
-          <button class="tab-btn" id="tab-supplier-passed" onclick="switchSupplierTab('审核通过')">审核通过 (<span id="supplier-count-passed">1</span>)</button>
+          <button type="button" class="tab-btn active" id="tab-supplier-all" onclick="switchSupplierTab('all')">全部供应商申请 (<span id="supplier-count-all">2</span>)</button>
+          <button type="button" class="tab-btn" id="tab-supplier-pending" onclick="switchSupplierTab('待审核')">待审核 (<span id="supplier-count-pending">1</span>)</button>
+          <button type="button" class="tab-btn" id="tab-supplier-passed" onclick="switchSupplierTab('审核通过')">审核通过 (<span id="supplier-count-passed">1</span>)</button>
         </div>
 
         <div class="table-responsive">
@@ -1691,8 +2397,8 @@
     <section id="panel-form-schema" class="view-panel" style="display:none;">
       <div class="card-panel">
         <div class="tabs-bar">
-          <button class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
-          <button class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
+          <button type="button" class="tab-btn active" id="tab-schema-partner" onclick="switchSchemaTab('partner')">渠道商申请表单字段</button>
+          <button type="button" class="tab-btn" id="tab-schema-supplier" onclick="switchSchemaTab('supplier')">供应商申请表单字段</button>
         </div>
 
         <div class="card-header-bar" style="margin-bottom:16px;">
@@ -1701,7 +2407,7 @@
             <div class="card-header-desc">维护表单动态字段 Schema，支持调序、启停及必填控制，右侧实时联动预览</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-blue" onclick="openFieldModal()">+ 新增收集字段</button>
+            <button type="button" class="btn btn-blue" onclick="openFieldModal()">+ 新增收集字段</button>
           </div>
         </div>
 
@@ -1735,7 +2441,7 @@
             <div id="live-preview-box" style="display:flex; flex-direction:column; gap:12px; pointer-events:none; opacity:0.9;">
               <!-- 动态沙盒 -->
             </div>
-            <button class="btn btn-blue" style="width:100%; margin-top:16px;" disabled>立即提交申请 (官网模拟)</button>
+            <button type="button" class="btn btn-blue" style="width:100%; margin-top:16px;" disabled>立即提交申请 (官网模拟)</button>
           </div>
         </div>
       </div>
@@ -1750,7 +2456,7 @@
             <div class="card-header-desc">接收官网访客留言与预约信息</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-light" onclick="markAllFeedbackRead()">全部标记已读</button>
+            <button type="button" class="btn btn-light" onclick="markAllFeedbackRead()">全部标记已读</button>
           </div>
         </div>
 
@@ -1781,7 +2487,7 @@
             <div class="card-header-desc">配置企业全称、ICP备案、联系电话与官网全局页脚声明</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
+            <button type="button" class="btn btn-blue" onclick="saveSystemSettings()">保存全局配置</button>
           </div>
         </div>
         
@@ -1833,7 +2539,7 @@
             <div class="card-header-desc">全流程操作留痕，记录登录、修改、删除与审核行为</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-light" onclick="clearLogs()">清空演示日志</button>
+            <button type="button" class="btn btn-light" onclick="clearLogs()">清空演示日志</button>
           </div>
         </div>
 
@@ -1864,7 +2570,7 @@
             <div class="card-header-desc">支持手动创建全量快照，防范数据丢失与意外篡改</div>
           </div>
           <div class="card-header-actions">
-            <button class="btn btn-blue" onclick="createBackupSnapshot()">+ 立即创建全量快照</button>
+            <button type="button" class="btn btn-blue" onclick="createBackupSnapshot()">+ 立即创建全量快照</button>
           </div>
         </div>
 
@@ -1890,6 +2596,82 @@
   </main>
 
   <!-- ================= 模态弹窗系统 ================= -->
+
+  <!-- 弹窗 9: SEO修改弹窗 (严格对齐 Word 截图 2) -->
+  <div class="modal-mask" id="modal-seo-edit">
+    <div class="modal-panel" style="max-width:740px;">
+      <div class="modal-head">
+        <strong class="modal-title">SEO修改</strong>
+        <span class="modal-close" onclick="closeModal('modal-seo-edit')">&times;</span>
+      </div>
+      <input type="hidden" id="seo-edit-index" />
+      <input type="hidden" id="seo-edit-source" />
+
+      <div class="seo-modal-grid" style="display:grid; grid-template-columns: 1.15fr 1fr; gap:24px;">
+        <!-- 左侧：TDK 表单与实时评分 -->
+        <div>
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; padding:10px 14px; background:#f0f7ff; border:1px solid #bae0ff; border-radius:12px;">
+            <span style="font-size:13px; font-weight:600; color:var(--text-main);">🤖 AI智能生成TDK</span>
+            <button type="button" class="btn btn-blue" style="height:28px; font-size:12px;" onclick="aiGenerateTDK()">点击生成</button>
+          </div>
+
+          <div class="seo-field-card">
+            <div class="seo-field-head">
+              <span class="seo-field-title">标题</span>
+              <span id="seo-score-title" class="seo-score-pill bad">测评 70分</span>
+            </div>
+            <input type="text" id="seo-modal-title" class="form-ctrl" oninput="evaluateSeoScore()" />
+            <div class="seo-hint"><span style="color:#f59e0b;">⚠️</span><b>20-35 字</b>呈现最佳（45分）</div>
+          </div>
+
+          <div class="seo-field-card">
+            <div class="seo-field-head">
+              <span class="seo-field-title">关键词</span>
+              <span id="seo-score-kw" class="seo-score-pill bad">测评 0分</span>
+            </div>
+            <textarea id="seo-modal-keywords" class="form-ctrl" rows="3" oninput="evaluateSeoScore()"></textarea>
+            <div class="seo-hint"><span style="color:#f59e0b;">⚠️</span><b>20-30 字</b>呈现最佳</div>
+          </div>
+
+          <div class="seo-field-card" style="margin-bottom:0;">
+            <div class="seo-field-head">
+              <span class="seo-field-title">描述</span>
+              <span id="seo-score-desc" class="seo-score-pill bad">测评 60分</span>
+            </div>
+            <textarea id="seo-modal-desc" class="form-ctrl" rows="3" oninput="evaluateSeoScore()"></textarea>
+            <div class="seo-hint"><span style="color:#f59e0b;">⚠️</span><b>80-120 字</b>呈现最佳</div>
+          </div>
+        </div>
+
+        <!-- 右侧：搜索引擎效果预览 (双卡片还原截图) -->
+        <div style="border-left:1px solid #f1f5f9; padding-left:20px;">
+          <div style="font-size:13px; font-weight:700; color:var(--text-title); margin-bottom:12px;">效果预览</div>
+          
+          <!-- 预览卡片 1 (带缩略图) -->
+          <div style="border:1px solid var(--border-control); border-radius:10px; padding:13px 14px; margin-bottom:12px; background:#ffffff; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+            <div id="seo-preview-title-1" style="font-size:14px; font-weight:700; color:#dc2626; text-decoration:underline; margin-bottom:8px; word-break:break-all;">首页-1</div>
+            <div style="display:flex; gap:10px; align-items:flex-start;">
+              <div style="width:56px; height:46px; background:#f1f5f9; border-radius:4px; display:flex; align-items:center; justify-content:center; color:#94a3b8; font-size:18px; flex-shrink:0;">🖼️</div>
+              <div id="seo-preview-desc-1" style="font-size:12px; color:var(--text-main); line-height:1.5; word-break:break-all;">首页,1</div>
+            </div>
+            <div style="font-size:11px; color:#16a34a; margin-top:8px;">u265397.yz168.cc</div>
+          </div>
+
+          <!-- 预览卡片 2 (纯文本) -->
+          <div style="border:1px solid var(--border-control); border-radius:10px; padding:13px 14px; background:#ffffff; box-shadow:0 2px 6px rgba(0,0,0,0.02);">
+            <div id="seo-preview-title-2" style="font-size:14px; font-weight:700; color:#dc2626; text-decoration:underline; margin-bottom:6px; word-break:break-all;">首页-1</div>
+            <div id="seo-preview-desc-2" style="font-size:12px; color:var(--text-main); line-height:1.5; word-break:break-all;">首页,1</div>
+            <div style="font-size:11px; color:#16a34a; margin-top:8px;">u265397.yz168.cc</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:right; margin-top:24px; padding-top:16px; border-top:1px solid var(--border-subtle); display:flex; justify-content:flex-end; gap:10px;">
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-seo-edit')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="saveSeoModal()">确定</button>
+      </div>
+    </div>
+  </div>
 
   <!-- 弹窗 1: 导航分类设置 -->
   <div class="modal-mask" id="modal-nav">
@@ -1920,8 +2702,8 @@
         </div>
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-nav')">取消</button>
-        <button class="btn btn-blue" onclick="saveNav()">保存导航</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-nav')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="saveNav()">保存导航</button>
       </div>
     </div>
   </div>
@@ -1942,8 +2724,8 @@
         <input type="text" id="new-page-key" class="form-ctrl" placeholder="如：about / recruit" />
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-create-page')">取消</button>
-        <button class="btn btn-blue" onclick="createPage()">确认创建</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-create-page')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="createPage()">确认创建</button>
       </div>
     </div>
   </div>
@@ -1975,7 +2757,7 @@
           <label class="form-lbl">媒体文件 URL</label>
           <div style="display:flex; gap:8px;">
             <input type="text" id="widget-banner-url" class="form-ctrl" placeholder="https://..." />
-            <button class="btn btn-light" type="button" onclick="fillMockMedia()">填测试素材</button>
+            <button type="button" class="btn btn-light" onclick="fillMockMedia()">填测试素材</button>
           </div>
         </div>
         <div class="form-item">
@@ -2012,8 +2794,8 @@
       </div>
 
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-widget')">取消</button>
-        <button class="btn btn-blue" onclick="saveWidget()">保存组件</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-widget')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="saveWidget()">保存组件</button>
       </div>
     </div>
   </div>
@@ -2053,8 +2835,8 @@
         </label>
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-field')">取消</button>
-        <button class="btn btn-blue" onclick="saveField()">保存字段</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-field')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="saveField()">保存字段</button>
       </div>
     </div>
   </div>
@@ -2093,7 +2875,7 @@
         <label class="form-lbl">新闻主图 (支持输入链接或本地上传)</label>
         <div style="display:flex; gap:8px; margin-bottom:8px;">
           <input type="text" id="article-cover" class="form-ctrl" placeholder="https://..." />
-          <button class="btn btn-light" type="button" onclick="document.getElementById('article-cover-file').click()">本地上传主图</button>
+          <button type="button" class="btn btn-light" onclick="document.getElementById('article-cover-file').click()">本地上传主图</button>
           <input type="file" id="article-cover-file" accept="image/*" style="display:none;" onchange="handleArticleImageUpload(event)" />
         </div>
         <div id="article-cover-preview-box" style="display:none; align-items:center; gap:10px; background:#f8fafc; padding:8px 12px; border-radius:8px; border:1px solid var(--border-control);">
@@ -2107,8 +2889,8 @@
         <textarea id="article-content" class="form-ctrl" rows="5" placeholder="在此输入文章正文详细内容..."></textarea>
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-article')">取消</button>
-        <button class="btn btn-blue" onclick="saveArticle()">保存文章</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-article')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="saveArticle()">保存文章</button>
       </div>
     </div>
   </div>
@@ -2135,7 +2917,7 @@
         <label class="form-lbl">资源方式 (支持直接输入链接或本地选择上传)</label>
         <div style="display:flex; gap:8px; margin-bottom:8px;">
           <input type="text" id="upload-media-url" class="form-ctrl" placeholder="https://..." />
-          <button class="btn btn-light" type="button" onclick="document.getElementById('upload-media-file-input').click()">选择本地文件</button>
+          <button type="button" class="btn btn-light" onclick="document.getElementById('upload-media-file-input').click()">选择本地文件</button>
           <input type="file" id="upload-media-file-input" accept="image/*" style="display:none;" onchange="handleMediaLocalUpload(event)" />
         </div>
         <div id="upload-media-preview-box" style="display:none; align-items:center; gap:10px; background:#f8fafc; padding:8px 12px; border-radius:8px; border:1px solid var(--border-control);">
@@ -2144,8 +2926,8 @@
         </div>
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-upload-media')">取消</button>
-        <button class="btn btn-blue" onclick="confirmUploadMedia()">确认入库</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-upload-media')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="confirmUploadMedia()">确认入库</button>
       </div>
     </div>
   </div>
@@ -2179,7 +2961,7 @@
         <label class="form-lbl">自定义 Icon 图片 (选填，支持输入外链或本地上传，优先展示)</label>
         <div style="display:flex; gap:8px; margin-bottom:8px;">
           <input type="text" id="quicknav-custom-img" class="form-ctrl" placeholder="https://... 或留空使用内置矢量Icon" />
-          <button class="btn btn-light" type="button" onclick="document.getElementById('quicknav-local-icon-file').click()">选择本地Icon</button>
+          <button type="button" class="btn btn-light" onclick="document.getElementById('quicknav-local-icon-file').click()">选择本地Icon</button>
           <input type="file" id="quicknav-local-icon-file" accept="image/*" style="display:none;" onchange="handleQuickNavIconUpload(event)" />
         </div>
         <div id="quicknav-icon-preview-box" style="display:none; align-items:center; gap:10px; background:#f8fafc; padding:6px 12px; border-radius:8px; border:1px solid var(--border-control);">
@@ -2193,8 +2975,8 @@
         <input type="text" id="quicknav-link" class="form-ctrl" placeholder="如：#solution-1 或 /solutions 或 https://..." />
       </div>
       <div style="text-align:right; margin-top:24px; display:flex; justify-content:flex-end; gap:10px;">
-        <button class="btn btn-light" onclick="closeModal('modal-quicknav')">取消</button>
-        <button class="btn btn-blue" onclick="saveQuickNavItem()">保存导航项</button>
+        <button type="button" class="btn btn-light" onclick="closeModal('modal-quicknav')">取消</button>
+        <button type="button" class="btn btn-blue" onclick="saveQuickNavItem()">保存导航项</button>
       </div>
     </div>
   </div>
@@ -2209,13 +2991,13 @@
         </div>
         
         <div style="display:flex; align-items:center; gap:8px;">
-          <button class="btn btn-light" id="btn-vp-desktop" onclick="setPreviewDevice('desktop')">
+          <button type="button" class="btn btn-light" id="btn-vp-desktop" onclick="setPreviewDevice('desktop')">
             🖥️ 桌面端
           </button>
-          <button class="btn btn-light" id="btn-vp-mobile" onclick="setPreviewDevice('mobile')">
+          <button type="button" class="btn btn-light" id="btn-vp-mobile" onclick="setPreviewDevice('mobile')">
             📱 手机端
           </button>
-          <button class="btn btn-light" onclick="closeModal('modal-preview')" style="margin-left:4px;">关闭</button>
+          <button type="button" class="btn btn-light" onclick="closeModal('modal-preview')" style="margin-left:4px;">关闭</button>
         </div>
       </div>
 
@@ -2237,7 +3019,7 @@
               <!-- 动态渲染快捷导航按键 -->
             </div>
             <div class="quicknav-divider"></div>
-            <button class="quicknav-btn" onclick="document.getElementById('preview-viewport-box-id').scrollTop = 0" title="返回顶部">
+            <button type="button" class="quicknav-btn" onclick="document.getElementById('preview-viewport-box-id').scrollTop = 0" title="返回顶部">
               <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
             </button>
           </div>
@@ -2252,6 +3034,115 @@
 
   <!-- ================= 纯原生高可靠业务 JS ================= -->
   <script>
+    /* 用户访问终端画像 - 进度条 / 地图分布 样式切换 */
+    var termMapChart = null;
+    var termMapLoaded = false;
+    function initTermMap(forceResize) {
+      var el = document.getElementById('term-map-chart');
+      if (!el || !window.echarts) return;
+      var doInit = function (geo) {
+        if (!termMapChart) termMapChart = echarts.init(el);
+        echarts.registerMap('china', geo);
+        var data = [
+          { name: '广东省', value: 14.8 },
+          { name: '浙江省', value: 13.1 },
+          { name: '江苏省', value: 11.9 },
+          { name: '北京市', value: 11.3 },
+          { name: '山东省', value: 8.9 },
+          { name: '四川省', value: 7.7 },
+          { name: '河南省', value: 6.5 },
+          { name: '湖北省', value: 4.6 },
+          { name: '上海市', value: 4.3 },
+          { name: '福建省', value: 3.9 },
+          { name: '湖南省', value: 3.5 },
+          { name: '安徽省', value: 2.8 }
+        ];
+        termMapChart.setOption({
+          backgroundColor: 'transparent',
+          tooltip: {
+            trigger: 'item',
+            formatter: function (p) {
+              return p.name + '<br/>访客占比：' + (p.value ? p.value + '%' : '—');
+            }
+          },
+          visualMap: {
+            min: 2,
+            max: 15,
+            left: 4,
+            bottom: 4,
+            orient: 'vertical',
+            text: ['高', '低'],
+            textStyle: { color: '#94a3b8', fontSize: 10 },
+            inRange: { color: ['#bfdbfe', '#93c5fd', '#3b82f6', '#2563eb', '#1d4ed8'] },
+            seriesIndex: 0,
+            itemWidth: 10,
+            itemHeight: 70,
+            show: true
+          },
+          series: [{
+            name: '访客分布',
+            type: 'map',
+            map: 'china',
+            roam: true,
+            zoom: 1.0,
+            selectedMode: false,
+            label: { show: false },
+            itemStyle: {
+              areaColor: '#e2e8f0',
+              borderColor: '#c9d8ec',
+              borderWidth: 0.6
+            },
+            emphasis: {
+              label: { show: true, color: '#1e293b', fontSize: 10 },
+              itemStyle: { areaColor: '#60a5fa' }
+            },
+            data: data
+          }]
+        }, true);
+        if (forceResize) termMapChart.resize();
+      };
+      if (termMapLoaded) {
+        doInit(null);
+        if (forceResize && termMapChart) termMapChart.resize();
+        return;
+      }
+      // 地图数据已通过 <script src="china_map.js"> 注入 window.CHINA_GEO（file:// 下可用）
+      if (window.CHINA_GEO) {
+        termMapLoaded = true;
+        doInit(window.CHINA_GEO);
+      }
+    }
+
+    function initTermViewToggle() {
+      const toggles = document.querySelectorAll('.term-view-toggle');
+      toggles.forEach(function (group) {
+        group.querySelectorAll('button').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            group.querySelectorAll('button').forEach(function (b) { b.classList.remove('active'); });
+            btn.classList.add('active');
+            var viewId = btn.getAttribute('data-term-view');
+            var card = group.closest('.card-panel');
+            card.querySelectorAll('.term-panel').forEach(function (p) { p.classList.remove('active'); });
+            var target = card.querySelector('#' + (viewId === 'bar' ? 'term-view-bar' : 'term-view-map'));
+            if (target) target.classList.add('active');
+            if (viewId === 'bar') {
+              target.querySelectorAll('.term-progress-fill').forEach(function (f) {
+                f.style.width = f.getAttribute('data-pct') + '%';
+              });
+            } else {
+              // 延迟到面板可见后再初始化/刷新地图，保证容器尺寸正确
+              setTimeout(function () { initTermMap(true); }, 60);
+            }
+          });
+        });
+      });
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initTermViewToggle);
+    } else {
+      initTermViewToggle();
+    }
+
     const ICONS = {
       chevronUp: `<svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>`,
       chevronDown: `<svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>`
@@ -2353,6 +3244,57 @@
         { id: 'm_1', name: '首屏数字化 Banner', type: '图片', size: '1.2 MB', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&auto=format&fit=crop&q=80' },
         { id: 'm_2', name: '芯片硬件芯片图', type: '图片', size: '890 KB', url: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80' },
         { id: 'm_3', name: '产品 4K 宣传演示片', type: '视频', size: '14.5 MB', url: 'https://www.w3schools.com/html/mov_bbb.mp4' }
+      ],
+
+      audits: [
+        { id: 'AUD-20260922-01', title: '2026秋季智能传感器新品发布会通稿', module: '企业资讯', author: '张编辑', status: '待审核', reason: '' },
+        { id: 'AUD-20260921-02', title: '首页首屏通栏宣传视频替换', module: '页面装修', author: '李运营', status: '已通过', reason: '符合品牌规范' }
+      ],
+
+      // SEO 模块数据 (严格对齐 Word 截图)
+      seoPages: [
+        { pageName: '首页', title: '首页-1', keywords: '首页,1', desc: '首页,1' },
+        { pageName: '首页', title: '首页-1', keywords: '首页,1', desc: '首页,1' },
+        { pageName: '首页', title: '首页-1', keywords: '首页,1', desc: '首页,1' },
+        { pageName: '首页', title: '首页-1', keywords: '首页,1', desc: '首页,1' },
+        { pageName: '首页', title: '首页-1', keywords: '首页,1', desc: '首页,1' },
+        { pageName: '文章首页', title: '文章首页-1', keywords: '文章首页,泊川科技', desc: '泊川科技企业资讯与行业动态文章首页' },
+        { pageName: '产品首页', title: '产品首页-1', keywords: '产品首页,OS系统,机器人', desc: '泊川科技核心产品与解决方案矩阵展示' },
+        { pageName: '下载首页', title: '下载首页-1', keywords: '下载首页,开发套件', desc: '泊川科技SDK开发包与仿真工具下载中心' },
+        { pageName: '下载分类页', title: '下载分类页-1', keywords: '下载分类,技术文档', desc: '按分类检索下载泊川科技产品手册与驱动' },
+        { pageName: '会员中心', title: '会员中心-1', keywords: '会员中心,开发者', desc: '泊川科技开发者与合作伙伴会员管理中心' },
+        { pageName: '会员登录', title: '会员登录-1', keywords: '会员登录,控制台', desc: '登录泊川科技通行证账号' },
+        { pageName: '会员注册', title: '会员注册-1', keywords: '会员注册,入驻', desc: '注册成为泊川科技认证会员' },
+        { pageName: '后台统一登录页', title: '后台统一登录页-1', keywords: '后台登录,CMS管理', desc: '泊川科技CMS运营中台统一安全登录入口' }
+      ],
+      seoProducts: [
+        { pageName: '工业级OS操作系统', title: '工业级OS操作系统 - 泊川科技', keywords: '工业OS,实时操作系统,嵌入式', desc: '泊川科技工业级OS操作系统，面向实时控制与确定性调度的高可靠系统软件。' },
+        { pageName: '具身智能机器人解决方案', title: '具身智能机器人 - 泊川科技', keywords: '具身智能,机器人,控制算法', desc: '泊川科技具身智能机器人解决方案，融合感知、决策与运动控制一体化。' },
+        { pageName: '航天航空仿真平台', title: '航天航空仿真平台 - 泊川科技', keywords: '航天仿真,航空仿真,开发调试', desc: '泊川科技航天航空全流程开发调试仿真部署平台，覆盖建模仿真到在轨验证。' },
+        { pageName: '企业数智化中台', title: '企业数智化中台 - 泊川科技', keywords: '中台,数智化,集成开发', desc: '泊川科技一站式企业数智化集成开发平台，助力业务快速迭代升级。' }
+      ],
+      seoArticles: [
+        { pageName: '重磅！公司通过 CMMI5 认证', title: '泊川科技通过CMMI5认证 - 泊川科技', keywords: 'CMMI5,软件认证,研发能力', desc: '泊川科技正式通过CMMI-DEV 5级认证，研发流程成熟度达国际先进水平。' },
+        { pageName: '国庆期间官网业务系统维护窗口', title: '国庆官网系统维护公告 - 泊川科技', keywords: '官网维护,系统升级,公告', desc: '泊川科技国庆期间官网业务系统维护窗口期安排与影响说明。' },
+        { pageName: 'OS操作系统最佳实践分享', title: 'OS操作系统最佳实践 - 泊川科技', keywords: 'OS,实时性,最佳实践', desc: '泊川科技工业级OS操作系统的实时性与可靠性最佳实践分享。' }
+      ],
+      seoProductCats: [
+        { pageName: '操作系统', title: '操作系统产品分类 - 泊川科技', keywords: '操作系统,产品分类', desc: '泊川科技操作系统产品分类聚合页。' },
+        { pageName: '机器人方案', title: '机器人方案分类 - 泊川科技', keywords: '机器人,解决方案', desc: '泊川科技机器人解决方案产品分类聚合页。' },
+        { pageName: '仿真工具', title: '仿真工具分类 - 泊川科技', keywords: '仿真,开发工具', desc: '泊川科技仿真与开发工具产品分类聚合页。' }
+      ],
+      seoArticleCats: [
+        { pageName: '企业动态', title: '企业动态文章分类 - 泊川科技', keywords: '企业动态,新闻', desc: '泊川科技企业动态与官方新闻文章分类聚合页。' },
+        { pageName: '官方公告', title: '官方公告文章分类 - 泊川科技', keywords: '官方公告,通知', desc: '泊川科技官方公告与通知文章分类聚合页。' },
+        { pageName: '技术分享', title: '技术分享文章分类 - 泊川科技', keywords: '技术分享,开发实践', desc: '泊川科技技术分享与开发实践文章分类聚合页。' }
+      ],
+      seo301Rules: [
+        { id: 1, oldPath: '/old-home.html', newPath: '/' },
+        { id: 2, oldPath: '/product_list.php', newPath: '/solutions' }
+      ],
+      seoFriendLinks: [
+        { id: 1, name: '中国工业互联网研究院', url: 'https://www.china-aii.com', rel: 'dofollow' },
+        { id: 2, name: '开源机器人基金会 (OSRF)', url: 'https://www.openrobotics.org', rel: 'dofollow' }
       ],
 
       currentSchemaType: 'partner',
@@ -2457,8 +3399,11 @@
       }
     }
 
-    function switchView(targetViewId, viewTitle) {
-      document.querySelectorAll('.view-panel').forEach(p => p.style.display = 'none');
+    // 核心导航切换函数
+    window.switchView = function(targetViewId, viewTitle) {
+      document.querySelectorAll('.view-panel').forEach(p => {
+        p.style.display = 'none';
+      });
       const targetPanel = document.getElementById(targetViewId);
       if (targetPanel) {
         targetPanel.style.display = 'block';
@@ -2468,6 +3413,11 @@
         exitPageEditor();
       } else if (targetViewId === 'panel-articles') {
         exitArticleDetail();
+      } else if (targetViewId === 'panel-seo-manager') {
+        renderSeoAllLists();
+        updateSitemapLinks();
+        renderSeo301Table();
+        renderSeoFriendLinks();
       }
 
       document.querySelectorAll('.menu-item').forEach(m => {
@@ -2482,29 +3432,305 @@
         document.getElementById('header-title').innerText = viewTitle;
       }
 
+      const mainEl = document.getElementById('main-content');
+      if (mainEl) mainEl.scrollTop = 0;
+
       toggleMobileSidebar(false);
-    }
+    };
 
-    document.querySelectorAll('.menu-item').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetView = this.getAttribute('data-view');
-        const targetTitle = this.getAttribute('data-title') || '控制台';
-        if (targetView) {
-          switchView(targetView, targetTitle);
-        }
-      });
-    });
-
-    function jumpToMenu(viewId) {
+    window.jumpToMenu = function(viewId) {
       const menuBtn = document.querySelector(`.menu-item[data-view="${viewId}"]`);
       const title = menuBtn ? menuBtn.getAttribute('data-title') : '';
       switchView(viewId, title);
+    };
+
+    // ================= 0. SEO 综合管理模块逻辑 (10大子Tab与智能评测) =================
+    function switchSeoTab(tabKey) {
+      document.querySelectorAll('#panel-seo-manager .tab-btn').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('tab-seo-' + tabKey);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      document.querySelectorAll('#panel-seo-manager .seo-subpanel').forEach(panel => {
+        panel.style.display = 'none';
+      });
+      const targetSub = document.getElementById('seo-subpanel-' + tabKey);
+      if (targetSub) targetSub.style.display = 'block';
+    }
+
+    // 基础SEO - 二级子导航切换与渲染
+    function switchSeoBasicSub(subKey) {
+      const map = { nav: 'nav', batch: 'batch', product: 'product', article: 'article', productcat: 'productcat', articlecat: 'articlecat' };
+      document.querySelectorAll('#panel-seo-manager .seo-sub-tab').forEach(b => b.classList.remove('active'));
+      const tabBtn = document.getElementById('seo-basic-' + subKey);
+      if (tabBtn) tabBtn.classList.add('active');
+      document.querySelectorAll('#panel-seo-manager .seo-basic-sub').forEach(p => p.classList.remove('active'));
+      const sub = document.getElementById('seo-basic-sub-' + (map[subKey] || subKey));
+      if (sub) sub.classList.add('active');
+    }
+
+    function renderSeoList(tbodyId, list, nameField) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+      if (!list || list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="3" class="seo-empty">当前分类暂无数据</td></tr>';
+        return;
+      }
+      tbody.innerHTML = '';
+      list.forEach((item, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td><span style="color:var(--primary-blue); font-weight:700; cursor:pointer;" onclick="openSeoEditModal(${idx}, '${nameField}')">${item.pageName}</span></td>
+            <td style="color:var(--text-main);">${item.title}</td>
+            <td style="text-align:right;"><button type="button" class="btn btn-light" onclick="openSeoEditModal(${idx}, '${nameField}')">SEO</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function renderSeoAllLists() {
+      renderSeoPagesTable();
+      renderSeoList('seo-product-tbody', store.seoProducts, 'seoProducts');
+      renderSeoList('seo-article-tbody', store.seoArticles, 'seoArticles');
+      renderSeoList('seo-productcat-tbody', store.seoProductCats, 'seoProductCats');
+      renderSeoList('seo-articlecat-tbody', store.seoArticleCats, 'seoArticleCats');
+    }
+
+    function applySeoBatch() {
+      const scope = document.getElementById('seo-batch-scope').value;
+      const t = document.getElementById('seo-batch-title').value;
+      const k = document.getElementById('seo-batch-kw').value;
+      const d = document.getElementById('seo-batch-desc').value;
+      let list;
+      if (scope === 'all') list = store.seoPages;
+      else if (scope === 'article') list = store.seoArticles;
+      else if (scope === 'product') list = store.seoProducts;
+      else list = store.seoProductCats.concat(store.seoArticleCats);
+      (list || []).forEach(item => {
+        item.title = t.replace(/\{页面名\}/g, item.pageName);
+        item.keywords = k.replace(/\{页面名\}/g, item.pageName);
+        item.desc = d.replace(/\{页面名\}/g, item.pageName);
+      });
+      renderSeoAllLists();
+      logEvent('SEO_BATCH', '批量应用 TDK 模板，范围：' + scope);
+      alert('批量 TDK 已成功应用到所选范围！');
+    }
+
+    function resetSeoBatch() {
+      document.getElementById('seo-batch-title').value = '{页面名} - 泊川科技一站式智能集成开发平台';
+      document.getElementById('seo-batch-kw').value = '泊川科技,{页面名},OS操作系统,具身智能机器人';
+      document.getElementById('seo-batch-desc').value = '泊川科技（BoChuan）{页面名}，致力于提供高可靠工业级OS操作系统、具身机器人控制算法与航天航空全流程开发调试仿真部署平台。';
+    }
+
+    function renderSeoPagesTable() {
+      const tbody = document.getElementById('seo-pages-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      store.seoPages.forEach((item, idx) => {
+        tbody.innerHTML += `
+          <tr>
+            <td><span style="color:var(--primary-blue); font-weight:700; cursor:pointer;" onclick="openSeoEditModal(${idx})">${item.pageName}</span></td>
+            <td style="color:var(--text-main);">${item.title}</td>
+            <td style="text-align:right;">
+              <button type="button" class="btn btn-light" onclick="openSeoEditModal(${idx})">SEO</button>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function openSeoEditModal(idx, source) {
+      source = source || 'seoPages';
+      const list = store[source] || [];
+      const item = list[idx];
+      if (!item) return;
+      document.getElementById('seo-edit-index').value = idx;
+      document.getElementById('seo-edit-source').value = source;
+      document.getElementById('seo-modal-title').value = item.title;
+      document.getElementById('seo-modal-keywords').value = item.keywords;
+      document.getElementById('seo-modal-desc').value = item.desc;
+      evaluateSeoScore();
+      openModal('modal-seo-edit');
+    }
+
+    function evaluateSeoScore() {
+      const title = document.getElementById('seo-modal-title').value.trim();
+      const kw = document.getElementById('seo-modal-keywords').value.trim();
+      const desc = document.getElementById('seo-modal-desc').value.trim();
+
+      // 实时同步右侧双预览卡片
+      document.getElementById('seo-preview-title-1').innerText = title || '未设置标题';
+      document.getElementById('seo-preview-title-2').innerText = title || '未设置标题';
+      document.getElementById('seo-preview-desc-1').innerText = desc || kw || '暂无页面描述信息';
+      document.getElementById('seo-preview-desc-2').innerText = desc || kw || '暂无页面描述信息';
+
+      // 动态评分计算
+      const titleScore = (title.length >= 10 && title.length <= 35) ? 95 : (title.length > 0 ? 70 : 0);
+      const kwScore = (kw.length >= 10 && kw.length <= 30) ? 90 : (kw.length > 6 ? 60 : 0);
+      const descScore = (desc.length >= 40 && desc.length <= 120) ? 95 : (desc.length > 0 ? 60 : 0);
+
+      // 根据分数设置胶囊徽章样式
+      const setPill = (id, score) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.className = 'seo-score-pill ' + (score >= 85 ? 'good' : (score >= 60 ? 'mid' : 'bad'));
+        el.innerText = '测评 ' + score + '分';
+      };
+      setPill('seo-score-title', titleScore);
+      setPill('seo-score-kw', kwScore);
+      setPill('seo-score-desc', descScore);
+    }
+
+    function aiGenerateTDK() {
+      const idx = document.getElementById('seo-edit-index').value;
+      const source = document.getElementById('seo-edit-source').value || 'seoPages';
+      const item = (store[source] || [])[idx] || { pageName: '官网首页' };
+      document.getElementById('seo-modal-title').value = `${item.pageName} - 泊川科技一站式智能集成开发平台与OS操作系统方案`;
+      document.getElementById('seo-modal-keywords').value = `泊川科技,${item.pageName},OS操作系统,具身智能机器人,航天航空仿真`;
+      document.getElementById('seo-modal-desc').value = `泊川科技（BoChuan）${item.pageName}，致力于提供高可靠工业级OS操作系统、具身机器人控制算法与航天航空全流程开发调试仿真部署平台，赋能企业数智化升级。`;
+      evaluateSeoScore();
+      logEvent('SEO_AI_TDK', `使用 AI 智能生成【${item.pageName}】TDK标签`);
+    }
+
+    function saveSeoModal() {
+      const idx = document.getElementById('seo-edit-index').value;
+      const source = document.getElementById('seo-edit-source').value || 'seoPages';
+      const item = (store[source] || [])[idx];
+      if (item) {
+        item.title = document.getElementById('seo-modal-title').value.trim();
+        item.keywords = document.getElementById('seo-modal-keywords').value.trim();
+        item.desc = document.getElementById('seo-modal-desc').value.trim();
+        renderSeoAllLists();
+        logEvent('SEO_UPDATE', `修改页面【${item.pageName}】的基础 SEO 配置`);
+      }
+      closeModal('modal-seo-edit');
+    }
+
+    function updateSitemapLinks() {
+      const domain = document.getElementById('seo-sitemap-domain')?.value || 'u265397.yz168.cc';
+      const tbody = document.getElementById('seo-sitemap-tbody');
+      if (!tbody) return;
+
+      const list = [
+        { type: '百度(通用)', file: 'sitemap.xml', url: `https://${domain}/sitemap.xml` },
+        { type: '头条', file: 'sitemap-toutiao.xml', url: `https://${domain}/sitemap-toutiao.xml` },
+        { type: '谷歌', file: 'sitemap-google.xml', url: `https://${domain}/sitemap-google.xml` }
+      ];
+
+      tbody.innerHTML = list.map(item => `
+        <tr>
+          <td>${item.type}</td>
+          <td style="word-break:break-all;"><a href="${item.url}" target="_blank" style="color:var(--primary-blue); text-decoration:none;">${item.url}</a></td>
+          <td style="text-align:right; white-space:nowrap;">
+            <button type="button" class="btn btn-light" onclick="copySitemapUrl('${item.url}')">复制链接</button>
+            <button type="button" class="btn btn-light" style="margin-left:8px;" onclick="downloadSitemapXml('${item.file}', '${item.url}')">下载文件</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function toggleSitemapSwitch(checked) {
+      logEvent('SEO_SITEMAP', `切换 Sitemap 生成开关为: ${checked ? '开启' : '关闭'}`);
+    }
+
+    function copySitemapUrl(url) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url);
+      }
+      alert('已成功复制 Sitemap 链接：\n' + url);
+    }
+
+    function downloadSitemapXml(filename, url) {
+      const xmlContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${url.replace(/\/sitemap.*\.xml$/, '/')}</loc>\n    <lastmod>2026-09-22</lastmod>\n    <changefreq>daily</changefreq>\n    <priority>1.0</priority>\n  </url>\n</urlset>`;
+      const blob = new Blob([xmlContent], { type: 'application/xml' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = filename;
+      a.click();
+      logEvent('SEO_SITEMAP_DL', `下载站点地图文件: ${filename}`);
+    }
+
+    function testBaiduPush() {
+      const domain = document.getElementById('seo-baidu-domain').value;
+      const token = document.getElementById('seo-baidu-token').value.trim();
+      if (!domain || !token) return alert('请先选择推送域名并填写百度 Token！');
+      logEvent('SEO_BAIDU_PUSH', `向百度搜索资源平台发起测试推送 (域名: ${domain})`);
+      alert(`【百度推送测试成功】\n目标域名：${domain}\n返回状态：{"remain":2998,"success":1}\n已成功向百度爬虫主动推送最新链接！`);
+    }
+
+    function saveBaiduPushConfig() {
+      const domain = document.getElementById('seo-baidu-domain').value;
+      const token = document.getElementById('seo-baidu-token').value.trim();
+      if (!domain || !token) return alert('请完整填写推送域名与 Token！');
+      logEvent('SEO_BAIDU_SAVE', `保存百度主动推送配置 (域名: ${domain})`);
+      alert('百度推送设置已保存成功！');
+    }
+
+    function renderSeo301Table() {
+      const tbody = document.getElementById('seo-301-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = store.seo301Rules.map(r => `
+        <tr>
+          <td style="font-family:monospace;">${r.oldPath}</td>
+          <td style="font-family:monospace; color:var(--primary-blue);">${r.newPath}</td>
+          <td><span class="status-capsule">生效中 (301)</span></td>
+          <td style="text-align:right;"><button type="button" class="btn btn-red-subtle" onclick="deleteSeo301Rule(${r.id})">删除</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function addSeo301Rule() {
+      const oldP = document.getElementById('seo-301-old').value.trim();
+      const newP = document.getElementById('seo-301-new').value.trim();
+      if (!oldP || !newP) return alert('请输入原路径与跳转目标路径！');
+      store.seo301Rules.push({ id: Date.now(), oldPath: oldP, newPath: newP });
+      document.getElementById('seo-301-old').value = '';
+      document.getElementById('seo-301-new').value = '';
+      renderSeo301Table();
+      logEvent('SEO_301_ADD', `新增301重定向: ${oldP} -> ${newP}`);
+    }
+
+    function deleteSeo301Rule(id) {
+      store.seo301Rules = store.seo301Rules.filter(r => r.id !== id);
+      renderSeo301Table();
+    }
+
+    function resetRobotsDefault() {
+      document.getElementById('seo-robots-content').value = `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\nSitemap: https://u265397.yz168.cc/sitemap.xml`;
+    }
+
+    function renderSeoFriendLinks() {
+      const tbody = document.getElementById('seo-friendlinks-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = store.seoFriendLinks.map(l => `
+        <tr>
+          <td style="font-weight:700;">${l.name}</td>
+          <td><a href="${l.url}" target="_blank" style="color:var(--primary-blue);">${l.url}</a></td>
+          <td><span class="status-capsule blue">${l.rel}</span></td>
+          <td style="text-align:right;"><button type="button" class="btn btn-red-subtle" onclick="deleteFriendLink(${l.id})">删除</button></td>
+        </tr>
+      `).join('');
+    }
+
+    function addFriendLinkPrompt() {
+      const name = prompt('请输入友情链接网站名称：');
+      if (!name) return;
+      const url = prompt('请输入友情链接网址 (https://...)：', 'https://');
+      if (!url) return;
+      store.seoFriendLinks.push({ id: Date.now(), name, url, rel: 'dofollow' });
+      renderSeoFriendLinks();
+      logEvent('SEO_LINK_ADD', `添加友情链接: ${name}`);
+    }
+
+    function deleteFriendLink(id) {
+      store.seoFriendLinks = store.seoFriendLinks.filter(l => l.id !== id);
+      renderSeoFriendLinks();
     }
 
     // ================= 1. 页面装修与侧边悬浮快捷直达导航 =================
     function renderPageListTable() {
       const tbody = document.getElementById('page-list-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       Object.keys(store.pages).forEach(key => {
@@ -2517,7 +3743,7 @@
             <div style="font-weight:700; color:var(--text-title); font-size:13px;">${p.name} ${isHome ? '<span class="status-capsule blue" style="margin-left:6px;">官网首页</span>' : ''}</div>
           </td>
           <td>
-            <span style="font-family:monospace; color:var(--text-label); font-size:12px;">/${isHome ? '' : key}</span>
+            <span style="font-family:monospace; color:var(--text-label); font-size:13px;">/${isHome ? '' : key}</span>
           </td>
           <td>
             <span class="status-capsule">${p.widgets.length} 个积木组件</span>
@@ -2525,12 +3751,12 @@
           <td>
             <span class="status-capsule ${p.quickNavEnabled ? 'blue' : 'orange'}">${p.quickNavEnabled ? '已启用 (' + (p.quickNavItems?.length || 0) + '项)' : '已停用'}</span>
           </td>
-          <td style="color:var(--text-label); font-size:12px;">${p.date || '2026-09-20'}</td>
+          <td style="color:var(--text-label); font-size:13px;">${p.date || '2026-09-20'}</td>
           <td style="text-align:right;">
             <div class="table-actions-cell">
-              <button class="btn btn-light" onclick="openSinglePagePreview('${key}')">预览</button>
-              <button class="btn btn-light" onclick="enterPageEditor('${key}')">装修画布</button>
-              ${!isHome ? `<button class="btn btn-red-subtle" onclick="deletePageFromList('${key}')">删除</button>` : ''}
+              <button type="button" class="btn btn-light" onclick="openSinglePagePreview('${key}')">预览</button>
+              <button type="button" class="btn btn-light" onclick="enterPageEditor('${key}')">装修画布</button>
+              ${!isHome ? `<button type="button" class="btn btn-red-subtle" onclick="deletePageFromList('${key}')">删除</button>` : ''}
             </div>
           </td>
         `;
@@ -2539,15 +3765,16 @@
     }
 
     function enterPageEditor(pageKey) {
-      store.currentEditingPageKey = pageKey;
-      const page = store.pages[pageKey];
+      store.currentEditingPageKey = pageKey || 'home';
+      const page = store.pages[store.currentEditingPageKey];
+      if (!page) return;
 
       document.getElementById('builder-subview-list').style.display = 'none';
       document.getElementById('builder-subview-editor').style.display = 'block';
 
       document.getElementById('current-editing-page-name').innerText = `正在装修：${page.name}`;
-      document.getElementById('current-editing-page-key').innerText = `路由路径: /${pageKey === 'home' ? '' : pageKey}`;
-      document.getElementById('btn-delete-active-page').style.display = pageKey === 'home' ? 'none' : 'inline-flex';
+      document.getElementById('current-editing-page-key').innerText = `路由路径: /${store.currentEditingPageKey === 'home' ? '' : store.currentEditingPageKey}`;
+      document.getElementById('btn-delete-active-page').style.display = store.currentEditingPageKey === 'home' ? 'none' : 'inline-flex';
 
       document.getElementById('page-quicknav-toggle').checked = !!page.quickNavEnabled;
       syncQuickNavUIState(!!page.quickNavEnabled);
@@ -2557,8 +3784,10 @@
     }
 
     function exitPageEditor() {
-      document.getElementById('builder-subview-list').style.display = 'block';
-      document.getElementById('builder-subview-editor').style.display = 'none';
+      const listEl = document.getElementById('builder-subview-list');
+      const editorEl = document.getElementById('builder-subview-editor');
+      if (listEl) listEl.style.display = 'block';
+      if (editorEl) editorEl.style.display = 'none';
       renderPageListTable();
     }
 
@@ -2588,6 +3817,7 @@
     function renderPageQuickNavTable() {
       const page = store.pages[store.currentEditingPageKey];
       const tbody = document.getElementById('page-quicknav-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       if (!page.quickNavItems || page.quickNavItems.length === 0) {
@@ -2595,7 +3825,7 @@
         return;
       }
 
-      page.quickNavItems.forEach((item, idx) => {
+      page.quickNavItems.forEach((item) => {
         const iconPreview = item.customImg 
           ? `<img src="${item.customImg}" style="width:20px; height:20px; object-fit:contain; border-radius:4px;" />`
           : `<div style="width:24px; height:24px; display:flex; align-items:center; justify-content:center; color:#1e3a8a;">${QUICK_NAV_ICONS[item.iconType] || QUICK_NAV_ICONS.gear}</div>`;
@@ -2604,11 +3834,11 @@
           <tr>
             <td>${iconPreview}</td>
             <td style="font-weight:600; color:var(--text-title);">${item.name}</td>
-            <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${item.link}</td>
+            <td style="font-family:monospace; color:var(--text-label); font-size:13px;">${item.link}</td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-light" onclick="editQuickNavItem('${item.id}')">编辑</button>
-                <button class="btn btn-red-subtle" onclick="deleteQuickNavItem('${item.id}')">删除</button>
+                <button type="button" class="btn btn-light" onclick="editQuickNavItem('${item.id}')">编辑</button>
+                <button type="button" class="btn btn-red-subtle" onclick="deleteQuickNavItem('${item.id}')">删除</button>
               </div>
             </td>
           </tr>
@@ -2721,6 +3951,7 @@
       if (!page) return;
 
       const container = document.getElementById('widgets-container');
+      if (!container) return;
       container.innerHTML = '';
 
       if (!page.widgets || page.widgets.length === 0) {
@@ -2785,16 +4016,16 @@
                 <span class="switch-slider"></span>
               </label>
               <div class="sort-control-group" style="margin-left:6px;">
-                <button ${idx === 0 ? 'disabled' : ''} onclick="moveWidget(${idx}, -1)" class="btn-sort-icon" title="上移">
+                <button type="button" ${idx === 0 ? 'disabled' : ''} onclick="moveWidget(${idx}, -1)" class="btn-sort-icon" title="上移">
                   ${ICONS.chevronUp}
                 </button>
-                <button ${idx === page.widgets.length - 1 ? 'disabled' : ''} onclick="moveWidget(${idx}, 1)" class="btn-sort-icon" title="下移">
+                <button type="button" ${idx === page.widgets.length - 1 ? 'disabled' : ''} onclick="moveWidget(${idx}, 1)" class="btn-sort-icon" title="下移">
                   ${ICONS.chevronDown}
                 </button>
               </div>
               <div class="table-actions-cell" style="margin-left:8px;">
-                <button class="btn btn-light" onclick="editWidget('${w.id}')">编辑</button>
-                <button class="btn btn-red-subtle" onclick="deleteWidget('${w.id}')">删除</button>
+                <button type="button" class="btn btn-light" onclick="editWidget('${w.id}')">编辑</button>
+                <button type="button" class="btn btn-red-subtle" onclick="deleteWidget('${w.id}')">删除</button>
               </div>
             </div>
           </div>
@@ -2875,7 +4106,7 @@
         document.getElementById('widget-text-body').value = w.body;
       } else if (w.type === 'image_text') {
         document.getElementById('widget-imgtext-url').value = w.url;
-        document.getElementById('widget-text-title').value = w.textTitle;
+        document.getElementById('widget-imgtext-title').value = w.textTitle;
         document.getElementById('widget-imgtext-desc').value = w.desc;
       }
 
@@ -3002,6 +4233,7 @@
     // ================= 2. 导航管理 =================
     function renderNavigations() {
       const tbody = document.getElementById('nav-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       store.navigations.forEach(nav => {
@@ -3011,12 +4243,12 @@
         tr.innerHTML = `
           <td class="sort-num-text">${nav.sort}</td>
           <td style="font-weight:700; color:var(--text-main); font-size:13px;">${nav.title}</td>
-          <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${nav.path}</td>
+          <td style="font-family:monospace; color:var(--text-label); font-size:13px;">${nav.path}</td>
           <td><span class="status-capsule ${nav.isExternal ? 'blue' : ''}">${nav.isExternal ? '外链' : '路由'}</span></td>
           <td>
             ${boundPage
-              ? `<span style="color:#15803d; font-weight:600; font-size:12px;">● 已关联: ${boundPage.name}</span>`
-              : `<span style="color:var(--text-placeholder); font-size:12px;">- 未关联 -</span>`}
+              ? `<span style="color:#15803d; font-weight:600; font-size:13px;">● 已关联: ${boundPage.name}</span>`
+              : `<span style="color:var(--text-placeholder); font-size:13px;">- 未关联 -</span>`}
           </td>
           <td>
             <label class="switch-ui">
@@ -3026,9 +4258,9 @@
           </td>
           <td style="text-align:right;">
             <div class="table-actions-cell">
-              <button class="btn btn-light" onclick="directJumpToPageEditor('${nav.pageKey}')">进入装修画布</button>
-              <button class="btn btn-light" onclick="editNav(${nav.id})">编辑</button>
-              <button class="btn btn-red-subtle" onclick="deleteNav(${nav.id})">删除</button>
+              <button type="button" class="btn btn-light" onclick="directJumpToPageEditor('${nav.pageKey}')">进入装修画布</button>
+              <button type="button" class="btn btn-light" onclick="editNav(${nav.id})">编辑</button>
+              <button type="button" class="btn btn-red-subtle" onclick="deleteNav(${nav.id})">删除</button>
             </div>
           </td>
         `;
@@ -3038,7 +4270,7 @@
 
     function directJumpToPageEditor(pageKey) {
       jumpToMenu('panel-page-builder');
-      enterPageEditor(pageKey);
+      enterPageEditor(pageKey || 'home');
     }
 
     function toggleNav(id) {
@@ -3130,6 +4362,7 @@
     // ================= 3. 素材库管理 =================
     function renderMediaLibrary() {
       const grid = document.getElementById('media-grid');
+      if (!grid) return;
       grid.innerHTML = '';
 
       store.mediaList.forEach(m => {
@@ -3153,7 +4386,7 @@
               <span style="font-size:11px; color:var(--text-label);">${m.size}</span>
             </div>
             <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:8px; border-top:1px solid #f8fafc; padding-top:6px;">
-              <button class="btn btn-red-subtle" onclick="deleteMedia('${m.id}')">删除</button>
+              <button type="button" class="btn btn-red-subtle" onclick="deleteMedia('${m.id}')">删除</button>
             </div>
           </div>
         `;
@@ -3239,6 +4472,46 @@
       }
     }
 
+    // ================= 3.5 审核中心 =================
+    function renderAudits() {
+      const tbody = document.getElementById('audit-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+      store.audits.forEach(item => {
+        tbody.innerHTML += `
+          <tr>
+            <td style="font-family:monospace; font-weight:700; color:var(--primary-navy);">${item.id}</td>
+            <td style="font-weight:700;">${item.title}</td>
+            <td><span class="status-capsule blue">${item.module}</span></td>
+            <td>${item.author}</td>
+            <td><span class="status-capsule ${item.status === '已通过' ? '' : (item.status === '已驳回' ? 'red' : 'orange')}">${item.status}</span></td>
+            <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:150px;" value="${item.reason}" placeholder="填写审核意见..." onchange="updateAuditReason('${item.id}', this.value)" /></td>
+            <td style="text-align:right;">
+              <div class="table-actions-cell">
+                <button type="button" class="btn btn-light" onclick="approveAudit('${item.id}')">通过</button>
+                <button type="button" class="btn btn-red-subtle" onclick="rejectAudit('${item.id}')">驳回</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+    }
+
+    function updateAuditReason(id, val) {
+      const a = store.audits.find(x => x.id === id);
+      if (a) a.reason = val;
+    }
+
+    function approveAudit(id) {
+      const a = store.audits.find(x => x.id === id);
+      if (a) { a.status = '已通过'; renderAudits(); logEvent('AUDIT_PASS', `审核通过单号: ${id}`); }
+    }
+
+    function rejectAudit(id) {
+      const a = store.audits.find(x => x.id === id);
+      if (a) { a.status = '已驳回'; renderAudits(); logEvent('AUDIT_REJECT', `驳回审核单号: ${id}`); }
+    }
+
     // ================= 4. 双表单 Schema 引擎 =================
     function switchSchemaTab(type) {
       store.currentSchemaType = type;
@@ -3261,6 +4534,7 @@
     function renderFormFields() {
       const list = store.formSchemas[store.currentSchemaType];
       const tbody = document.getElementById('field-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
 
       list.forEach((f, idx) => {
@@ -3268,16 +4542,16 @@
         tr.innerHTML = `
           <td>
             <div class="sort-control-group">
-              <button ${idx === 0 ? 'disabled' : ''} onclick="moveFieldItem(${idx}, -1)" class="btn-sort-icon" title="上移">
+              <button type="button" ${idx === 0 ? 'disabled' : ''} onclick="moveFieldItem(${idx}, -1)" class="btn-sort-icon" title="上移">
                 ${ICONS.chevronUp}
               </button>
-              <button ${idx === list.length - 1 ? 'disabled' : ''} onclick="moveFieldItem(${idx}, 1)" class="btn-sort-icon" title="下移">
+              <button type="button" ${idx === list.length - 1 ? 'disabled' : ''} onclick="moveFieldItem(${idx}, 1)" class="btn-sort-icon" title="下移">
                 ${ICONS.chevronDown}
               </button>
             </div>
           </td>
           <td style="font-weight:700; color:var(--text-main); font-size:13px;">${f.label}</td>
-          <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${f.key}</td>
+          <td style="font-family:monospace; color:var(--text-label); font-size:13px;">${f.key}</td>
           <td><span class="status-capsule blue">${getFieldTypeName(f.type)}</span></td>
           <td style="text-align:center;">
             <span class="status-capsule ${f.required ? 'red' : 'blue'}" style="cursor:pointer;" onclick="toggleFieldReq('${f.id}')">
@@ -3292,8 +4566,8 @@
           </td>
           <td style="text-align:right;">
             <div class="table-actions-cell">
-              <button class="btn btn-light" onclick="editField('${f.id}')">编辑</button>
-              <button class="btn btn-red-subtle" onclick="deleteField('${f.id}')">删除</button>
+              <button type="button" class="btn btn-light" onclick="editField('${f.id}')">编辑</button>
+              <button type="button" class="btn btn-red-subtle" onclick="deleteField('${f.id}')">删除</button>
             </div>
           </td>
         `;
@@ -3306,6 +4580,7 @@
     function renderLivePreview() {
       const list = store.formSchemas[store.currentSchemaType];
       const box = document.getElementById('live-preview-box');
+      if (!box) return;
       box.innerHTML = '';
 
       list.forEach(f => {
@@ -3436,6 +4711,7 @@
 
     function renderSubmissions() {
       const pBody = document.getElementById('partner-tbody');
+      if (!pBody) return;
       pBody.innerHTML = '';
       
       const filteredPartners = store.partners.filter(p => {
@@ -3453,17 +4729,17 @@
         filteredPartners.forEach(p => {
           pBody.innerHTML += `
             <tr>
-              <td><strong>${p.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${p.code}</span></td>
+              <td><strong>${p.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:13px;">${p.code}</span></td>
               <td>${p.contact}</td>
               <td><span class="status-capsule blue">${p.region}</span></td>
               <td>${p.demand}</td>
               <td>
                 <span class="status-capsule ${p.status === '已签约' ? '' : 'orange'}">${p.status}</span>
               </td>
-              <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${p.remark}" placeholder="跟进记录..." onchange="p.remark = this.value; logEvent('LEAD_UPDATE', '更新渠道商跟进备注')" /></td>
+              <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${p.remark}" placeholder="跟进记录..." onchange="updatePartnerRemark('${p.id}', this.value)" /></td>
               <td style="text-align:right;">
                 <div class="table-actions-cell">
-                  <button class="btn btn-red-subtle" onclick="deletePartner('${p.id}')">删除</button>
+                  <button type="button" class="btn btn-red-subtle" onclick="deletePartner('${p.id}')">删除</button>
                 </div>
               </td>
             </tr>
@@ -3472,6 +4748,7 @@
       }
 
       const sBody = document.getElementById('supplier-tbody');
+      if (!sBody) return;
       sBody.innerHTML = '';
 
       const filteredSuppliers = store.suppliers.filter(s => {
@@ -3489,23 +4766,33 @@
         filteredSuppliers.forEach(s => {
           sBody.innerHTML += `
             <tr>
-              <td><strong>${s.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:11px;">${s.code}</span></td>
+              <td><strong>${s.company}</strong><br><span style="font-family:monospace; color:#94a3b8; font-size:13px;">${s.code}</span></td>
               <td>${s.contact}</td>
               <td><span class="status-capsule blue">${s.category}</span></td>
               <td>${s.capacity}</td>
               <td>
                 <span class="status-capsule ${s.status === '审核通过' ? '' : 'orange'}">${s.status}</span>
               </td>
-              <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${s.remark}" placeholder="对接备注..." onchange="s.remark = this.value; logEvent('LEAD_UPDATE', '更新供应商对接备注')" /></td>
+              <td><input type="text" class="form-ctrl" style="padding:4px 8px; width:160px;" value="${s.remark}" placeholder="对接备注..." onchange="updateSupplierRemark('${s.id}', this.value)" /></td>
               <td style="text-align:right;">
                 <div class="table-actions-cell">
-                  <button class="btn btn-red-subtle" onclick="deleteSupplier('${s.id}')">删除</button>
+                  <button type="button" class="btn btn-red-subtle" onclick="deleteSupplier('${s.id}')">删除</button>
                 </div>
               </td>
             </tr>
           `;
         });
       }
+    }
+
+    function updatePartnerRemark(id, val) {
+      const p = store.partners.find(item => item.id === id);
+      if (p) { p.remark = val; logEvent('LEAD_UPDATE', '更新渠道商跟进备注'); }
+    }
+
+    function updateSupplierRemark(id, val) {
+      const s = store.suppliers.find(item => item.id === id);
+      if (s) { s.remark = val; logEvent('LEAD_UPDATE', '更新供应商对接备注'); }
     }
 
     function deletePartner(id) {
@@ -3527,22 +4814,23 @@
     // ================= 6. 资讯与公告 =================
     function renderArticles() {
       const tbody = document.getElementById('article-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
       store.articles.forEach(a => {
         tbody.innerHTML += `
           <tr>
             <td><img src="${a.cover}" style="width:70px; height:42px; object-fit:cover; border-radius:6px; cursor:pointer;" onclick="viewArticleDetail(${a.id})" title="点击查看详情" /></td>
             <td>
-              <strong style="font-size:13px; color:var(--text-title); cursor:pointer;" onclick="viewArticleDetail(${a.id})" title="点击查看详情">${a.title}</strong>
+              <strong style="font-size:13px; color:var(--primary-blue); cursor:pointer;" onclick="viewArticleDetail(${a.id})" title="点击查看详情">${a.title}</strong>
             </td>
             <td><span class="status-capsule blue">${a.category}</span></td>
             <td><span class="status-capsule">${a.status}</span></td>
-            <td style="color:var(--text-placeholder); font-size:12px;">${a.date}</td>
+            <td style="color:var(--text-placeholder); font-size:13px;">${a.date}</td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-light" onclick="viewArticleDetail(${a.id})">查看</button>
-                <button class="btn btn-light" onclick="editArticle(${a.id})">编辑</button>
-                <button class="btn btn-red-subtle" onclick="deleteArticle(${a.id})">删除</button>
+                <button type="button" class="btn btn-light" onclick="viewArticleDetail(${a.id})">查看</button>
+                <button type="button" class="btn btn-light" onclick="editArticle(${a.id})">编辑</button>
+                <button type="button" class="btn btn-red-subtle" onclick="deleteArticle(${a.id})">删除</button>
               </div>
             </td>
           </tr>
@@ -3628,8 +4916,10 @@
     }
 
     function exitArticleDetail() {
-      document.getElementById('article-subview-list').style.display = 'block';
-      document.getElementById('article-subview-detail').style.display = 'none';
+      const listEl = document.getElementById('article-subview-list');
+      const detailEl = document.getElementById('article-subview-detail');
+      if (listEl) listEl.style.display = 'block';
+      if (detailEl) detailEl.style.display = 'none';
       store.currentViewingArticleId = null;
       renderArticles();
     }
@@ -3694,6 +4984,7 @@
     // ================= 7. 在线留言 =================
     function renderFeedback() {
       const tbody = document.getElementById('feedback-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
       store.feedbacks.forEach(f => {
         tbody.innerHTML += `
@@ -3704,12 +4995,12 @@
             </td>
             <td style="font-size:13px;">${f.content}</td>
             <td>
-              ${f.reply ? `<span style="color:var(--primary-blue); font-size:12px;">答复: ${f.reply}</span>` : '<span style="color:var(--text-placeholder); font-size:12px;">未答复</span>'}
+              ${f.reply ? `<span style="color:var(--primary-blue); font-size:13px;">答复: ${f.reply}</span>` : '<span style="color:var(--text-placeholder); font-size:13px;">未答复</span>'}
             </td>
             <td style="text-align:right;">
               <div class="table-actions-cell">
-                <button class="btn btn-light" onclick="replyFeedback(${f.id})">答复</button>
-                <button class="btn btn-red-subtle" onclick="deleteFeedback(${f.id})">删除</button>
+                <button type="button" class="btn btn-light" onclick="replyFeedback(${f.id})">答复</button>
+                <button type="button" class="btn btn-red-subtle" onclick="deleteFeedback(${f.id})">删除</button>
               </div>
             </td>
           </tr>
@@ -3748,14 +5039,15 @@
 
     function renderLogs() {
       const tbody = document.getElementById('logs-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
       store.logs.forEach(l => {
         tbody.innerHTML += `
           <tr>
-            <td style="font-family:monospace; color:var(--text-label); font-size:12px;">${l.time}</td>
-            <td style="font-weight:600; font-size:12px;">${l.user}</td>
+            <td style="font-family:monospace; color:var(--text-label); font-size:13px;">${l.time}</td>
+            <td style="font-weight:600; font-size:13px;">${l.user}</td>
             <td><span class="status-capsule blue">${l.type}</span></td>
-            <td style="font-size:12px; color:var(--text-main);">${l.detail}</td>
+            <td style="font-size:13px; color:var(--text-main);">${l.detail}</td>
           </tr>
         `;
       });
@@ -3769,16 +5061,17 @@
 
     function renderBackups() {
       const tbody = document.getElementById('backup-tbody');
+      if (!tbody) return;
       tbody.innerHTML = '';
       store.backups.forEach(b => {
         tbody.innerHTML += `
           <tr>
             <td style="font-family:monospace; font-weight:700; color:var(--primary-navy);">${b.id}</td>
             <td style="font-size:13px;">${b.name}</td>
-            <td style="font-size:12px; color:var(--text-label);">${b.size}</td>
-            <td style="font-size:12px; color:var(--text-placeholder);">${b.time}</td>
+            <td style="font-size:13px; color:var(--text-label);">${b.size}</td>
+            <td style="font-size:13px; color:var(--text-placeholder);">${b.time}</td>
             <td style="text-align:right;">
-              <button class="btn btn-light" onclick="restoreBackup('${b.id}')">还原此版本</button>
+              <button type="button" class="btn btn-light" onclick="restoreBackup('${b.id}')">还原此版本</button>
             </td>
           </tr>
         `;
@@ -4005,6 +5298,11 @@
       renderPageListTable();
       renderNavigations();
       renderMediaLibrary();
+      renderAudits();
+      renderSeoPagesTable();
+      updateSitemapLinks();
+      renderSeo301Table();
+      renderSeoFriendLinks();
       renderFormFields();
       renderSubmissions();
       renderArticles();
